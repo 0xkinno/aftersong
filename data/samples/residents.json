@@ -1,0 +1,7 @@
+[
+  { "id": "sample-walter", "firstName": "Walter", "birthYear": 1940, "careCity": "San Antonio, Texas", "hometown": "Port Harcourt, Nigeria", "favourites": ["Sam Cooke", "Casablanca", "jollof rice"] },
+  { "id": "sample-ruth", "firstName": "Ruth", "birthYear": 1938, "careCity": "San Antonio, Texas", "hometown": "Birmingham, Alabama", "favourites": ["Ella Fitzgerald", "Gone with the Wind", "The Ed Sullivan Show"] },
+  { "id": "sample-hector", "firstName": "Hector", "birthYear": 1942, "careCity": "San Antonio, Texas", "hometown": "San Juan, Puerto Rico", "favourites": ["Tito Puente", "West Side Story", "Celia Cruz"] },
+  { "id": "sample-margaret", "firstName": "Margaret", "birthYear": 1936, "careCity": "San Antonio, Texas", "hometown": "Dublin, Ireland", "favourites": ["Bing Crosby", "The Quiet Man", "Judy Garland"] },
+  { "id": "sample-joseph", "firstName": "Joseph", "birthYear": 1939, "careCity": "San Antonio, Texas", "hometown": "Naples, Italy", "favourites": ["Dean Martin", "La Dolce Vita", "I Love Lucy"] }
+]

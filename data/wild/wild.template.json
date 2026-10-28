@@ -1,0 +1,12 @@
+[
+  {
+    "id": "w01",
+    "set": "wild",
+    "consent": true,
+    "firstName": "First name only",
+    "birthYear": 1940,
+    "careCity": "City of the home or family",
+    "hometown": "City or region they grew up in",
+    "favourites": ["Favourite one", "Favourite two", "Favourite three"]
+  }
+]

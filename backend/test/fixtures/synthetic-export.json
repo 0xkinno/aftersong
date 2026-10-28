@@ -1,0 +1,840 @@
+{
+ "synthetic": true,
+ "card": {
+  "id": "synthetic-card",
+  "residentId": "synthetic-resident",
+  "createdAt": "2026-10-28T00:00:00.000Z",
+  "window": {
+   "start": 1950,
+   "end": 1970
+  },
+  "widenedBy": 0,
+  "status": "ok",
+  "items": [
+   {
+    "entityId": "SYN-artist-0",
+    "name": "Synthetic artist 0",
+    "domain": "music",
+    "type": "urn:entity:artist",
+    "year": 1960,
+    "label": "personal",
+    "cohortUnknown": false,
+    "popularity": 0.2,
+    "personalAffinity": 0.9,
+    "cohortAffinity": 0.76,
+    "connectedTo": {
+     "id": "SYN-FAV-001",
+     "name": "Synthetic Singer",
+     "kind": "favourite"
+    },
+    "tags": [
+     {
+      "id": "urn:tag:era:1960s",
+      "name": "1960s",
+      "type": null
+     }
+    ],
+    "opener": {
+     "text": "Do you remember hearing Synthetic artist 0 around 1960?",
+     "source": "template"
+    },
+    "callIds": [
+     "q4",
+     "q5"
+    ]
+   },
+   {
+    "entityId": "SYN-artist-1",
+    "name": "Synthetic artist 1",
+    "domain": "music",
+    "type": "urn:entity:artist",
+    "year": 1960,
+    "label": "shared_era",
+    "cohortUnknown": false,
+    "popularity": 0.21000000000000002,
+    "personalAffinity": 0.8300000000000001,
+    "cohortAffinity": 0.8300000000000001,
+    "connectedTo": {
+     "id": "SYN-FAV-001",
+     "name": "Synthetic Singer",
+     "kind": "favourite"
+    },
+    "tags": [
+     {
+      "id": "urn:tag:era:1960s",
+      "name": "1960s",
+      "type": null
+     }
+    ],
+    "opener": {
+     "text": "Do you remember hearing Synthetic artist 1 around 1960?",
+     "source": "template"
+    },
+    "callIds": [
+     "q4",
+     "q5"
+    ]
+   },
+   {
+    "entityId": "SYN-artist-2",
+    "name": "Synthetic artist 2",
+    "domain": "music",
+    "type": "urn:entity:artist",
+    "year": 1960,
+    "label": "shared_era",
+    "cohortUnknown": false,
+    "popularity": 0.22,
+    "personalAffinity": 0.76,
+    "cohortAffinity": 0.9,
+    "connectedTo": {
+     "id": "SYN-FAV-001",
+     "name": "Synthetic Singer",
+     "kind": "favourite"
+    },
+    "tags": [
+     {
+      "id": "urn:tag:era:1960s",
+      "name": "1960s",
+      "type": null
+     }
+    ],
+    "opener": {
+     "text": "Do you remember hearing Synthetic artist 2 around 1960?",
+     "source": "template"
+    },
+    "callIds": [
+     "q4",
+     "q5"
+    ]
+   },
+   {
+    "entityId": "SYN-movie-0",
+    "name": "Synthetic movie 0",
+    "domain": "film",
+    "type": "urn:entity:movie",
+    "year": 1950,
+    "label": "personal",
+    "cohortUnknown": false,
+    "popularity": 0.2,
+    "personalAffinity": 0.9,
+    "cohortAffinity": 0.76,
+    "connectedTo": {
+     "id": "SYN-FAV-001",
+     "name": "Synthetic Singer",
+     "kind": "favourite"
+    },
+    "tags": [],
+    "opener": {
+     "text": "Do you remember seeing Synthetic movie 0, from 1950?",
+     "source": "template"
+    },
+    "callIds": [
+     "q6",
+     "q7"
+    ]
+   },
+   {
+    "entityId": "SYN-movie-1",
+    "name": "Synthetic movie 1",
+    "domain": "film",
+    "type": "urn:entity:movie",
+    "year": 1951,
+    "label": "shared_era",
+    "cohortUnknown": false,
+    "popularity": 0.21000000000000002,
+    "personalAffinity": 0.8300000000000001,
+    "cohortAffinity": 0.8300000000000001,
+    "connectedTo": {
+     "id": "SYN-FAV-001",
+     "name": "Synthetic Singer",
+     "kind": "favourite"
+    },
+    "tags": [],
+    "opener": {
+     "text": "Do you remember seeing Synthetic movie 1, from 1951?",
+     "source": "template"
+    },
+    "callIds": [
+     "q6",
+     "q7"
+    ]
+   },
+   {
+    "entityId": "SYN-tv_show-0",
+    "name": "Synthetic tv_show 0",
+    "domain": "tv",
+    "type": "urn:entity:tv_show",
+    "year": 1950,
+    "label": "personal",
+    "cohortUnknown": false,
+    "popularity": 0.2,
+    "personalAffinity": 0.9,
+    "cohortAffinity": 0.76,
+    "connectedTo": {
+     "id": "SYN-FAV-001",
+     "name": "Synthetic Singer",
+     "kind": "favourite"
+    },
+    "tags": [],
+    "opener": {
+     "text": "Did you ever watch Synthetic tv_show 0, which began in 1950?",
+     "source": "template"
+    },
+    "callIds": [
+     "q8",
+     "q9"
+    ]
+   },
+   {
+    "entityId": "SYN-place-0",
+    "name": "Synthetic place 0",
+    "domain": "food",
+    "type": "urn:entity:place",
+    "year": null,
+    "label": "personal",
+    "cohortUnknown": false,
+    "popularity": 0.2,
+    "personalAffinity": 0.9,
+    "cohortAffinity": 0.76,
+    "connectedTo": {
+     "id": "SYN-FAV-001",
+     "name": "Synthetic Singer",
+     "kind": "favourite"
+    },
+    "tags": [],
+    "opener": {
+     "text": "Does Synthetic place 0 remind you of food from home?",
+     "source": "template"
+    },
+    "callIds": [
+     "q10",
+     "q11"
+    ]
+   },
+   {
+    "entityId": "SYN-destination-0",
+    "name": "Synthetic destination 0",
+    "domain": "place",
+    "type": "urn:entity:destination",
+    "year": null,
+    "label": "personal",
+    "cohortUnknown": false,
+    "popularity": 0.2,
+    "personalAffinity": 0.9,
+    "cohortAffinity": 0.76,
+    "connectedTo": {
+     "id": "SYN-FAV-001",
+     "name": "Synthetic Singer",
+     "kind": "favourite"
+    },
+    "tags": [],
+    "opener": {
+     "text": "Have you ever been to Synthetic destination 0, or somewhere like it?",
+     "source": "template"
+    },
+    "callIds": [
+     "q12",
+     "q13"
+    ]
+   }
+  ],
+  "rejections": [],
+  "abstentions": [],
+  "model": null,
+  "trail": [
+   {
+    "at": "2026-10-28T11:50:32.016Z",
+    "tool": "agent",
+    "summary": "No model is configured. The card was built with template openers."
+   },
+   {
+    "at": "2026-10-28T11:50:32.080Z",
+    "tool": "resolve_favourites",
+    "summary": "1 confirmed favourite. Home city found, hometown found, 1 cuisine tag."
+   },
+   {
+    "at": "2026-10-28T11:50:32.091Z",
+    "tool": "find_era_items",
+    "summary": "music: 10 candidates from 2 Qloo calls. Qloo has no year filter for artists, so years are checked in code."
+   },
+   {
+    "at": "2026-10-28T11:50:32.093Z",
+    "tool": "find_era_items",
+    "summary": "film: 10 candidates from 2 Qloo calls."
+   },
+   {
+    "at": "2026-10-28T11:50:32.094Z",
+    "tool": "find_era_items",
+    "summary": "tv: 10 candidates from 2 Qloo calls."
+   },
+   {
+    "at": "2026-10-28T11:50:32.096Z",
+    "tool": "find_era_items",
+    "summary": "food: 10 candidates from 2 Qloo calls."
+   },
+   {
+    "at": "2026-10-28T11:50:32.097Z",
+    "tool": "find_era_items",
+    "summary": "place: 10 candidates from 2 Qloo calls."
+   },
+   {
+    "at": "2026-10-28T11:50:32.103Z",
+    "tool": "build_card",
+    "summary": "8 items placed, 0 candidates rejected under the rules."
+   }
+  ],
+  "calls": [
+   {
+    "id": "q1",
+    "path": "/search",
+    "cached": false,
+    "status": 200,
+    "ms": 14,
+    "resultCount": 1
+   },
+   {
+    "id": "q2",
+    "path": "/search",
+    "cached": false,
+    "status": 200,
+    "ms": 12,
+    "resultCount": 1
+   },
+   {
+    "id": "q3",
+    "path": "/v2/tags",
+    "cached": false,
+    "status": 200,
+    "ms": 1,
+    "resultCount": 1
+   },
+   {
+    "id": "q4",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 5,
+    "resultCount": 10
+   },
+   {
+    "id": "q5",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 1,
+    "resultCount": 10
+   },
+   {
+    "id": "q6",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 1,
+    "resultCount": 10
+   },
+   {
+    "id": "q7",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 0,
+    "resultCount": 10
+   },
+   {
+    "id": "q8",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 0,
+    "resultCount": 10
+   },
+   {
+    "id": "q9",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 0,
+    "resultCount": 10
+   },
+   {
+    "id": "q10",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 1,
+    "resultCount": 10
+   },
+   {
+    "id": "q11",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 0,
+    "resultCount": 10
+   },
+   {
+    "id": "q12",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 0,
+    "resultCount": 10
+   },
+   {
+    "id": "q13",
+    "path": "/v2/insights",
+    "cached": false,
+    "status": 200,
+    "ms": 1,
+    "resultCount": 10
+   }
+  ],
+  "version": 1
+ },
+ "evidence": {
+  "entities": {
+   "SYN-artist-0": {
+    "name": "Synthetic artist 0",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-1": {
+    "name": "Synthetic artist 1",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-2": {
+    "name": "Synthetic artist 2",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-3": {
+    "name": "Synthetic artist 3",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-4": {
+    "name": "Synthetic artist 4",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-5": {
+    "name": "Synthetic artist 5",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-6": {
+    "name": "Synthetic artist 6",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-7": {
+    "name": "Synthetic artist 7",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-8": {
+    "name": "Synthetic artist 8",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-artist-9": {
+    "name": "Synthetic artist 9",
+    "year": 1960,
+    "yearEnd": 1969
+   },
+   "SYN-movie-0": {
+    "name": "Synthetic movie 0",
+    "year": 1950,
+    "yearEnd": null
+   },
+   "SYN-movie-1": {
+    "name": "Synthetic movie 1",
+    "year": 1951,
+    "yearEnd": null
+   },
+   "SYN-movie-2": {
+    "name": "Synthetic movie 2",
+    "year": 1952,
+    "yearEnd": null
+   },
+   "SYN-movie-3": {
+    "name": "Synthetic movie 3",
+    "year": 1953,
+    "yearEnd": null
+   },
+   "SYN-movie-4": {
+    "name": "Synthetic movie 4",
+    "year": 1954,
+    "yearEnd": null
+   },
+   "SYN-movie-5": {
+    "name": "Synthetic movie 5",
+    "year": 1955,
+    "yearEnd": null
+   },
+   "SYN-movie-6": {
+    "name": "Synthetic movie 6",
+    "year": 1956,
+    "yearEnd": null
+   },
+   "SYN-movie-7": {
+    "name": "Synthetic movie 7",
+    "year": 1957,
+    "yearEnd": null
+   },
+   "SYN-movie-8": {
+    "name": "Synthetic movie 8",
+    "year": 1958,
+    "yearEnd": null
+   },
+   "SYN-movie-9": {
+    "name": "Synthetic movie 9",
+    "year": 1959,
+    "yearEnd": null
+   },
+   "SYN-tv_show-0": {
+    "name": "Synthetic tv_show 0",
+    "year": 1950,
+    "yearEnd": null
+   },
+   "SYN-tv_show-1": {
+    "name": "Synthetic tv_show 1",
+    "year": 1951,
+    "yearEnd": null
+   },
+   "SYN-tv_show-2": {
+    "name": "Synthetic tv_show 2",
+    "year": 1952,
+    "yearEnd": null
+   },
+   "SYN-tv_show-3": {
+    "name": "Synthetic tv_show 3",
+    "year": 1953,
+    "yearEnd": null
+   },
+   "SYN-tv_show-4": {
+    "name": "Synthetic tv_show 4",
+    "year": 1954,
+    "yearEnd": null
+   },
+   "SYN-tv_show-5": {
+    "name": "Synthetic tv_show 5",
+    "year": 1955,
+    "yearEnd": null
+   },
+   "SYN-tv_show-6": {
+    "name": "Synthetic tv_show 6",
+    "year": 1956,
+    "yearEnd": null
+   },
+   "SYN-tv_show-7": {
+    "name": "Synthetic tv_show 7",
+    "year": 1957,
+    "yearEnd": null
+   },
+   "SYN-tv_show-8": {
+    "name": "Synthetic tv_show 8",
+    "year": 1958,
+    "yearEnd": null
+   },
+   "SYN-tv_show-9": {
+    "name": "Synthetic tv_show 9",
+    "year": 1959,
+    "yearEnd": null
+   },
+   "SYN-place-0": {
+    "name": "Synthetic place 0",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-1": {
+    "name": "Synthetic place 1",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-2": {
+    "name": "Synthetic place 2",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-3": {
+    "name": "Synthetic place 3",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-4": {
+    "name": "Synthetic place 4",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-5": {
+    "name": "Synthetic place 5",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-6": {
+    "name": "Synthetic place 6",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-7": {
+    "name": "Synthetic place 7",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-8": {
+    "name": "Synthetic place 8",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-place-9": {
+    "name": "Synthetic place 9",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-0": {
+    "name": "Synthetic destination 0",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-1": {
+    "name": "Synthetic destination 1",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-2": {
+    "name": "Synthetic destination 2",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-3": {
+    "name": "Synthetic destination 3",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-4": {
+    "name": "Synthetic destination 4",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-5": {
+    "name": "Synthetic destination 5",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-6": {
+    "name": "Synthetic destination 6",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-7": {
+    "name": "Synthetic destination 7",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-8": {
+    "name": "Synthetic destination 8",
+    "year": null,
+    "yearEnd": null
+   },
+   "SYN-destination-9": {
+    "name": "Synthetic destination 9",
+    "year": null,
+    "yearEnd": null
+   }
+  },
+  "seenNames": [
+   "Synthetic artist 0",
+   "Synthetic artist 1",
+   "Synthetic artist 2",
+   "Synthetic artist 3",
+   "Synthetic artist 4",
+   "Synthetic artist 5",
+   "Synthetic artist 6",
+   "Synthetic artist 7",
+   "Synthetic artist 8",
+   "Synthetic artist 9",
+   "Synthetic movie 0",
+   "Synthetic movie 1",
+   "Synthetic movie 2",
+   "Synthetic movie 3",
+   "Synthetic movie 4",
+   "Synthetic movie 5",
+   "Synthetic movie 6",
+   "Synthetic movie 7",
+   "Synthetic movie 8",
+   "Synthetic movie 9",
+   "Synthetic tv_show 0",
+   "Synthetic tv_show 1",
+   "Synthetic tv_show 2",
+   "Synthetic tv_show 3",
+   "Synthetic tv_show 4",
+   "Synthetic tv_show 5",
+   "Synthetic tv_show 6",
+   "Synthetic tv_show 7",
+   "Synthetic tv_show 8",
+   "Synthetic tv_show 9",
+   "Synthetic place 0",
+   "Synthetic place 1",
+   "Synthetic place 2",
+   "Synthetic place 3",
+   "Synthetic place 4",
+   "Synthetic place 5",
+   "Synthetic place 6",
+   "Synthetic place 7",
+   "Synthetic place 8",
+   "Synthetic place 9",
+   "Synthetic destination 0",
+   "Synthetic destination 1",
+   "Synthetic destination 2",
+   "Synthetic destination 3",
+   "Synthetic destination 4",
+   "Synthetic destination 5",
+   "Synthetic destination 6",
+   "Synthetic destination 7",
+   "Synthetic destination 8",
+   "Synthetic destination 9"
+  ],
+  "requests": [
+   {
+    "path": "/search",
+    "params": {
+     "query": "Synthetic City",
+     "types": "urn:entity:locality",
+     "take": 3
+    }
+   },
+   {
+    "path": "/search",
+    "params": {
+     "query": "Synthetic Town",
+     "types": "urn:entity:locality",
+     "take": 3
+    }
+   },
+   {
+    "path": "/v2/tags",
+    "params": {
+     "filter.query": "Synthetic Town cuisine",
+     "feature.semantic_search": true,
+     "take": 10
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:artist",
+     "take": 30,
+     "signal.interests.entities": "SYN-FAV-001",
+     "feature.explainability": true
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:artist",
+     "take": 30,
+     "signal.demographics.age": "55_and_older"
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:movie",
+     "take": 30,
+     "filter.release_year.min": 1950,
+     "filter.release_year.max": 1970,
+     "signal.interests.entities": "SYN-FAV-001",
+     "feature.explainability": true
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:movie",
+     "take": 30,
+     "filter.release_year.min": 1950,
+     "filter.release_year.max": 1970,
+     "signal.demographics.age": "55_and_older"
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:tv_show",
+     "take": 30,
+     "filter.release_year.min": 1950,
+     "filter.release_year.max": 1970,
+     "signal.interests.entities": "SYN-FAV-001",
+     "feature.explainability": true
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:tv_show",
+     "take": 30,
+     "filter.release_year.min": 1950,
+     "filter.release_year.max": 1970,
+     "signal.demographics.age": "55_and_older"
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:place",
+     "take": 30,
+     "signal.location": "SYN-LOC-14",
+     "filter.tags": "urn:tag:cuisine:synthetic",
+     "signal.interests.entities": "SYN-FAV-001",
+     "feature.explainability": true
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:place",
+     "take": 30,
+     "signal.location": "SYN-LOC-14",
+     "filter.tags": "urn:tag:cuisine:synthetic",
+     "signal.demographics.age": "55_and_older"
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:destination",
+     "take": 30,
+     "signal.location": "SYN-LOC-14",
+     "signal.interests.entities": "SYN-FAV-001",
+     "feature.explainability": true
+    }
+   },
+   {
+    "path": "/v2/insights",
+    "params": {
+     "filter.type": "urn:entity:destination",
+     "take": 30,
+     "signal.location": "SYN-LOC-14",
+     "signal.demographics.age": "55_and_older"
+    }
+   }
+  ],
+  "confirmedIds": [
+   "SYN-FAV-001"
+  ],
+  "positiveIds": [],
+  "upsetIds": [],
+  "birthYear": 1940,
+  "offsets": {
+   "from": 10,
+   "to": 30
+  },
+  "currentYear": 2026,
+  "allowedNames": [
+   "Synthetic Town",
+   "Synthetic City"
+  ]
+ }
+}

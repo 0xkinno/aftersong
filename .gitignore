@@ -21,3 +21,11 @@ coverage/
 .DS_Store
 playwright-report/
 test-results/
+
+# private run data (contains Qloo-derived content), wild forms, local store
+data/store.json
+data/runs/
+data/probe/
+data/review/
+data/wild/*.json
+!data/wild/wild.template.json

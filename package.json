@@ -1,0 +1,21 @@
+{
+  "name": "aftersong",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "A reminiscence agent for memory care.",
+  "engines": { "node": ">=22.19" },
+  "scripts": {
+    "test": "npm --prefix backend test",
+    "typecheck": "npm --prefix backend run typecheck",
+    "check": "node scripts/check-clean.mjs && node scripts/house-style-test.mjs && node scripts/facts.mjs --check",
+    "verify": "node scripts/verify-card.mjs",
+    "verify:fixtures": "node scripts/verify-card.mjs backend/test/fixtures/synthetic-export.json && node scripts/verify-card.mjs backend/test/fixtures/synthetic-export-tampered.json --expect-fail",
+    "facts": "node scripts/facts.mjs",
+    "probe": "node scripts/probe.mjs",
+    "eval": "node scripts/eval.mjs",
+    "backend": "npm --prefix backend start",
+    "web": "npm --prefix web run dev",
+    "sabotage": "node scripts/sabotage-report.mjs"
+  }
+}

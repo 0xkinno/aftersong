@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { NeedsConfirmation, runCardAgent } from "../src/agent/agent.ts";
-import type { Model, Msg, ModelReply } from "../src/agent/model.ts";
+import type { Model } from "../src/agent/model.ts";
+import { scripted } from "./scripted-model.ts";
 import { QlooClient } from "../src/qloo/client.ts";
 import { verifyCard } from "../src/core/verify.ts";
 import type { Resident } from "../src/store/types.ts";
@@ -12,29 +13,6 @@ const resident: Resident = {
   favourites: [{ text: "Synthetic Singer", kind: "entity", id: "SYN-FAV-001", name: "Synthetic Singer", type: "urn:entity:artist", confirmed: true }],
   offsets: { from: 10, to: 30 }, consent: true, intakeBy: "family", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "",
 };
-
-function scripted(): Model {
-  let step = 0;
-  const domains = ["music", "film", "tv", "food", "place"];
-  return {
-    provider: "scripted", id: "test",
-    async complete(_s: string, messages: Msg[]): Promise<ModelReply> {
-      const usage = { inputTokens: 1, outputTokens: 1 };
-      const call = (name: string, args: Record<string, unknown>) => ({ text: "", toolCalls: [{ id: `c${step}`, name, args }], usage });
-      const s = step++;
-      if (s === 0) return call("resolve_favourites", {});
-      if (s >= 1 && s <= 5) return call("find_era_items", { domain: domains[s - 1] });
-      if (s === 6) return call("build_card", {});
-      if (s === 7) {
-        const last = [...messages].reverse().find((m) => m.role === "tool" && m.name === "build_card");
-        const lines = (last && last.role === "tool" ? last.text : "").split("\n").filter((l) => l.includes(" | "));
-        const openers = lines.map((l) => { const [id, , name] = l.split(" | "); return { entityId: id!, text: `Do you remember ${name}?` }; });
-        return call("write_openers", { openers });
-      }
-      return { text: "done", toolCalls: [], usage };
-    },
-  };
-}
 
 const client = () => new QlooClient({ key: "k", transport: mockQloo, spacingMs: 0 });
 

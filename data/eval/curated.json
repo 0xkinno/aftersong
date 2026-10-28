@@ -1,0 +1,17 @@
+[
+  { "id": "c01", "set": "curated", "firstName": "Alma", "birthYear": 1938, "careCity": "Chicago, Illinois", "hometown": "Chicago, Illinois", "favourites": ["Nat King Cole", "The Wizard of Oz", "I Love Lucy"] },
+  { "id": "c02", "set": "curated", "firstName": "Desmond", "birthYear": 1942, "careCity": "London, England", "hometown": "Kingston, Jamaica", "favourites": ["Harry Belafonte", "The Bridge on the River Kwai", "Louis Armstrong"] },
+  { "id": "c03", "set": "curated", "firstName": "Pearl", "birthYear": 1934, "careCity": "Atlanta, Georgia", "hometown": "Savannah, Georgia", "favourites": ["Mahalia Jackson", "Gone with the Wind", "The Honeymooners"] },
+  { "id": "c04", "set": "curated", "firstName": "Sean", "birthYear": 1936, "careCity": "Boston, Massachusetts", "hometown": "Cork, Ireland", "favourites": ["Bing Crosby", "The Quiet Man", "The Ed Sullivan Show"] },
+  { "id": "c05", "set": "curated", "firstName": "Rosa", "birthYear": 1944, "careCity": "Houston, Texas", "hometown": "Monterrey, Mexico", "favourites": ["Pedro Infante", "Casablanca", "Lucho Gatica"] },
+  { "id": "c06", "set": "curated", "firstName": "Vincent", "birthYear": 1939, "careCity": "Brooklyn, New York", "hometown": "Naples, Italy", "favourites": ["Dean Martin", "La Dolce Vita", "Frank Sinatra"] },
+  { "id": "c07", "set": "curated", "firstName": "Edith", "birthYear": 1930, "careCity": "Manchester, England", "hometown": "Liverpool, England", "favourites": ["Vera Lynn", "Brief Encounter", "Doctor Who"] },
+  { "id": "c08", "set": "curated", "firstName": "Chidi", "birthYear": 1945, "careCity": "Houston, Texas", "hometown": "Enugu, Nigeria", "favourites": ["Fela Kuti", "Lawrence of Arabia", "Miriam Makeba"] },
+  { "id": "c09", "set": "curated", "firstName": "Harold", "birthYear": 1927, "careCity": "Nashville, Tennessee", "hometown": "Memphis, Tennessee", "favourites": ["Hank Williams", "High Noon", "Bonanza"] },
+  { "id": "c10", "set": "curated", "firstName": "Lakshmi", "birthYear": 1941, "careCity": "Edison, New Jersey", "hometown": "Mumbai, India", "favourites": ["Lata Mangeshkar", "Mother India", "Mohammed Rafi"] },
+  { "id": "c11", "set": "curated", "firstName": "Gerald", "birthYear": 1947, "careCity": "Detroit, Michigan", "hometown": "Detroit, Michigan", "favourites": ["Marvin Gaye", "The Godfather", "The Temptations"] },
+  { "id": "c12", "set": "curated", "firstName": "Beatrix", "birthYear": 1932, "careCity": "Toronto, Ontario", "hometown": "Montreal, Quebec", "favourites": ["Edith Piaf", "Casablanca", "Charles Aznavour"] },
+  { "id": "c13", "set": "curated", "firstName": "Kwame", "birthYear": 1943, "careCity": "London, England", "hometown": "Accra, Ghana", "favourites": ["E. T. Mensah", "Sidney Poitier", "Louis Armstrong"] },
+  { "id": "c14", "set": "curated", "firstName": "Dorothy", "birthYear": 1935, "careCity": "Los Angeles, California", "hometown": "Tulsa, Oklahoma", "favourites": ["Patsy Cline", "Singin' in the Rain", "Gunsmoke"] },
+  { "id": "c15", "set": "curated", "firstName": "Marcus", "birthYear": 1949, "careCity": "Philadelphia, Pennsylvania", "hometown": "Philadelphia, Pennsylvania", "favourites": ["Aretha Franklin", "Guess Who's Coming to Dinner", "Sam Cooke"] }
+]

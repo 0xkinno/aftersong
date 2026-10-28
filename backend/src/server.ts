@@ -23,7 +23,7 @@ const env = process.env as Record<string, string | undefined>;
 
 const client = new QlooClient({ key: env.QLOO_API_KEY || undefined, host: env.QLOO_HOST || undefined, dailyCap: Number(env.DAILY_QLOO_CAP || 2000) });
 const model = modelFromEnv(env);
-const store = storeFromEnv(env, join(root, "data", "store.json"));
+const store = storeFromEnv(env, env.STORE_PATH || join(root, "data", "store.json"));
 const limiter = new Limiter(limitConfigFromEnv(env));
 const sabotage: Sabotage = env.AFTERSONG_SABOTAGE === "model_injects" ? "model_injects" : "none";
 const svc = new Service({ store, client, model, limiter, sabotage, samplesPath: join(root, "data", "samples", "residents.json") });
