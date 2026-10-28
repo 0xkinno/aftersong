@@ -11,6 +11,8 @@ export interface CardItem {
   cohortUnknown: boolean;
   popularity: number | null;
   connectedTo: { id: string; name: string; kind: "favourite" | "observation" };
+  connectedAll: Array<{ id: string; name: string }>;
+  connectionBasis: "explainability" | "all_signals";
   tags: Array<{ id: string; name: string }>;
   opener: { text: string; source: "model" | "template"; blocked?: string[] };
   walk?: { fromEntityId: string; fromName: string; fromObservation: ObservationValue };

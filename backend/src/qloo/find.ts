@@ -123,7 +123,26 @@ export async function findDomain(a: FindArgs): Promise<FindResult> {
     personalRank: pRank.get(e.id) ?? null,
     cohortRank: cRank.get(e.id) ?? null,
     signalIds: pRank.has(e.id) ? [...a.signalEntityIds] : [],
+    driverId: topDriver(byId.get(e.id)?.explainability, a.signalEntityIds),
     callIds: callsFor.get(e.id) ?? [],
   }));
   return { candidates, callIds, notes, returned: [...byId.values()] };
+}
+
+/** Best effort: finds the input entity whose score is highest inside Qloo's explainability block. */
+export function topDriver(explain: unknown, signalIds: string[]): string | null {
+  if (!explain || signalIds.length < 2) return signalIds.length === 1 ? (signalIds[0] as string) : null;
+  const SCORE = ["score", "weight", "affinity", "contribution", "influence", "value"];
+  let best: { id: string; score: number } | null = null;
+  const walk = (v: unknown) => {
+    if (Array.isArray(v)) return v.forEach(walk);
+    if (!v || typeof v !== "object") return;
+    const o = v as Record<string, unknown>;
+    const id = Object.values(o).find((x): x is string => typeof x === "string" && signalIds.includes(x));
+    const key = SCORE.find((k) => typeof o[k] === "number");
+    if (id && key && (best === null || (o[key] as number) > best.score)) best = { id, score: o[key] as number };
+    Object.values(o).forEach(walk);
+  };
+  walk(explain);
+  return best ? (best as { id: string }).id : null;
 }

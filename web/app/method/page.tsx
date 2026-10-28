@@ -30,13 +30,13 @@ export default function Method() {
       <p className="mt-3 max-w-2xl text-ink-2">The agent chooses which tools to call and in what order. It does not choose what goes on the card. Rules in code do, after Qloo answers, even when the same limit was sent as a filter.</p>
 
       <h2 className="text-28 mt-12">The rules</h2>
-      <div className="overflow-x-auto mt-4">
+      <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto mt-4">
         <table><thead><tr><th>Rule</th><th>In plain words</th><th>File</th></tr></thead>
           <tbody>{RULES.map((r) => <tr key={r[0]}><td>{r[0]}</td><td>{r[1]}</td><td className="mono text-12">{r[2]}</td></tr>)}</tbody></table>
       </div>
 
       <h2 className="text-28 mt-12">The Qloo calls</h2>
-      <div className="overflow-x-auto mt-4">
+      <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto mt-4">
         <table><thead><tr><th>Step</th><th>Endpoint</th><th>What is sent</th><th>What comes back</th></tr></thead>
           <tbody>{CALLS.map((r) => <tr key={r[0]}><td>{r[0]}</td><td className="mono text-12">{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>)}</tbody></table>
       </div>

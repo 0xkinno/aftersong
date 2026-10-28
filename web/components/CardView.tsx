@@ -61,7 +61,11 @@ export default function CardView({ card, sample = false, residentName, onWiden, 
               </div>
               <h3 className="text-28 mt-2">{it.name}</h3>
               <p className="text-14 text-ink-2 mt-2">
-                Qloo links this to <strong className="text-ink">{it.connectedTo.name}</strong> for people with similar taste.
+                {it.connectionBasis === "explainability" || (it.connectedAll ?? []).length < 2 ? (
+                  <>Qloo links this to <strong className="text-ink">{it.connectedTo.name}</strong> for people with similar taste.</>
+                ) : (
+                  <>Qloo scored this against {(it.connectedAll ?? []).map((c) => c.name).join(", ")} together, for people with similar taste.</>
+                )}
                 {it.connectedTo.kind === "observation" ? " The carer saw a good reaction to that earlier." : ""}
               </p>
               {it.walk && (
@@ -86,7 +90,7 @@ export default function CardView({ card, sample = false, residentName, onWiden, 
 
       <details className="mt-8 no-print">
         <summary className="cursor-pointer kicker">What the rules turned away ({card.rejections.length})</summary>
-        <div className="overflow-x-auto mt-3">
+        <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto mt-3">
           <table>
             <thead><tr><th>Item</th><th>Kind</th><th>Reason</th></tr></thead>
             <tbody>

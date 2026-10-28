@@ -23,7 +23,7 @@ export default function FactsPanel() {
     </tr>
   );
   return (
-    <div className="overflow-x-auto">
+    <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto">
       <table>
         <caption className="text-left kicker mb-2">Plain AI list, run through the same rules as the card. Numbers come from docs/FACTS.json.</caption>
         <thead><tr><th>Set</th><th>Aftersong</th><th>Plain AI passing</th><th>Outside the years</th><th>Not in Qloo</th><th>Personal items on the card</th></tr></thead>

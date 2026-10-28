@@ -83,6 +83,7 @@ export async function runPlainAi(deps: { client: QlooClient; model: Model }, res
         personalRank: affinity !== null ? 1 : null,
         cohortRank: null,
         signalIds: affinity !== null ? favIds : [],
+        driverId: null,
         callIds: [],
       };
       year = cand.year;

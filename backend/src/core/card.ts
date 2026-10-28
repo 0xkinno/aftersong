@@ -69,7 +69,8 @@ export function buildCard(input: BuildInput): SessionCard {
     if (picked.length === 0) abstentions.push({ domain, message: "Not enough from these years yet.", canWiden: true });
     for (const c of picked) {
       const { label, cohortUnknown } = labelFor(c);
-      const via = c.signalIds.find((s) => positiveIds.has(s)) ?? c.signalIds.find((s) => confirmedIds.has(s)) ?? c.signalIds[0];
+      const known = c.signalIds.filter((s) => positiveIds.has(s) || confirmedIds.has(s));
+      const via = (c.driverId && known.includes(c.driverId) ? c.driverId : undefined) ?? known.find((s) => positiveIds.has(s)) ?? known[0] ?? c.signalIds[0];
       const kind: "favourite" | "observation" = positiveIds.has(via) ? "observation" : "favourite";
       const obs = input.memory.positive.find((o) => o.entityId === via);
       const item: CardItem = {
@@ -84,6 +85,8 @@ export function buildCard(input: BuildInput): SessionCard {
         personalAffinity: c.personalAffinity,
         cohortAffinity: c.cohortAffinity,
         connectedTo: { id: via, name: nameOf.get(via) ?? via, kind },
+        connectedAll: known.map((s) => ({ id: s, name: nameOf.get(s) ?? s })),
+        connectionBasis: c.driverId && known.includes(c.driverId) ? "explainability" : "all_signals",
         tags: c.tags.slice(0, 6),
         opener: { text: "", source: "template" },
         callIds: c.callIds,

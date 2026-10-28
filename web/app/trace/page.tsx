@@ -31,7 +31,7 @@ export default async function TracePage() {
           <ol className="mt-3 grid gap-2" style={{ listStyle: "none", padding: 0 }}>
             {c.trail.map((e, i) => <li key={i}><span className="mono text-12 uppercase tracking-widest text-ember-text">{FRIENDLY_TOOL[e.tool] ?? e.tool}</span> <span className="text-14">{e.summary}</span></li>)}
           </ol>
-          <div className="overflow-x-auto mt-4">
+          <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto mt-4">
             <table><thead><tr><th>Call</th><th>Path</th><th>Status</th><th>Cached</th><th>Results</th><th>Milliseconds</th></tr></thead>
               <tbody>{c.calls.map((x) => <tr key={x.id}><td className="mono text-12">{x.id}</td><td className="mono text-12">{x.path}</td><td>{x.status ?? "none"}</td><td>{x.cached ? "yes" : "no"}</td><td>{x.resultCount ?? "none"}</td><td>{x.ms}</td></tr>)}</tbody></table>
           </div>

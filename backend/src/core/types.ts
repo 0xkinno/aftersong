@@ -33,6 +33,8 @@ export interface Candidate extends QlooEntity {
   cohortRank: number | null;
   /** Signals used by the calls that scored this item. */
   signalIds: string[];
+  /** The signal Qloo reports as the strongest driver, when explainability says. */
+  driverId: string | null;
   callIds: string[];
 }
 
@@ -66,6 +68,10 @@ export interface CardItem {
   personalAffinity: number | null;
   cohortAffinity: number | null;
   connectedTo: { id: string; name: string; kind: "favourite" | "observation" };
+  /** Every confirmed signal the item was scored against. */
+  connectedAll: Array<{ id: string; name: string }>;
+  /** explainability: Qloo named the driver. all_signals: Qloo scored against all of them and did not say which. */
+  connectionBasis: "explainability" | "all_signals";
   tags: Tag[];
   opener: Opener;
   walk?: { fromEntityId: string; fromName: string; fromObservation: ObservationValue };

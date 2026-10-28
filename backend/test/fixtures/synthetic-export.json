@@ -27,6 +27,13 @@
      "name": "Synthetic Singer",
      "kind": "favourite"
     },
+    "connectedAll": [
+     {
+      "id": "SYN-FAV-001",
+      "name": "Synthetic Singer"
+     }
+    ],
+    "connectionBasis": "explainability",
     "tags": [
      {
       "id": "urn:tag:era:1960s",
@@ -59,6 +66,13 @@
      "name": "Synthetic Singer",
      "kind": "favourite"
     },
+    "connectedAll": [
+     {
+      "id": "SYN-FAV-001",
+      "name": "Synthetic Singer"
+     }
+    ],
+    "connectionBasis": "explainability",
     "tags": [
      {
       "id": "urn:tag:era:1960s",
@@ -91,6 +105,13 @@
      "name": "Synthetic Singer",
      "kind": "favourite"
     },
+    "connectedAll": [
+     {
+      "id": "SYN-FAV-001",
+      "name": "Synthetic Singer"
+     }
+    ],
+    "connectionBasis": "explainability",
     "tags": [
      {
       "id": "urn:tag:era:1960s",
@@ -123,6 +144,13 @@
      "name": "Synthetic Singer",
      "kind": "favourite"
     },
+    "connectedAll": [
+     {
+      "id": "SYN-FAV-001",
+      "name": "Synthetic Singer"
+     }
+    ],
+    "connectionBasis": "explainability",
     "tags": [],
     "opener": {
      "text": "Do you remember seeing Synthetic movie 0, from 1950?",
@@ -149,6 +177,13 @@
      "name": "Synthetic Singer",
      "kind": "favourite"
     },
+    "connectedAll": [
+     {
+      "id": "SYN-FAV-001",
+      "name": "Synthetic Singer"
+     }
+    ],
+    "connectionBasis": "explainability",
     "tags": [],
     "opener": {
      "text": "Do you remember seeing Synthetic movie 1, from 1951?",
@@ -175,6 +210,13 @@
      "name": "Synthetic Singer",
      "kind": "favourite"
     },
+    "connectedAll": [
+     {
+      "id": "SYN-FAV-001",
+      "name": "Synthetic Singer"
+     }
+    ],
+    "connectionBasis": "explainability",
     "tags": [],
     "opener": {
      "text": "Did you ever watch Synthetic tv_show 0, which began in 1950?",
@@ -201,6 +243,13 @@
      "name": "Synthetic Singer",
      "kind": "favourite"
     },
+    "connectedAll": [
+     {
+      "id": "SYN-FAV-001",
+      "name": "Synthetic Singer"
+     }
+    ],
+    "connectionBasis": "explainability",
     "tags": [],
     "opener": {
      "text": "Does Synthetic place 0 remind you of food from home?",
@@ -227,6 +276,13 @@
      "name": "Synthetic Singer",
      "kind": "favourite"
     },
+    "connectedAll": [
+     {
+      "id": "SYN-FAV-001",
+      "name": "Synthetic Singer"
+     }
+    ],
+    "connectionBasis": "explainability",
     "tags": [],
     "opener": {
      "text": "Have you ever been to Synthetic destination 0, or somewhere like it?",
@@ -243,42 +299,42 @@
   "model": null,
   "trail": [
    {
-    "at": "2026-10-28T11:50:32.016Z",
+    "at": "2026-10-28T12:02:40.138Z",
     "tool": "agent",
     "summary": "No model is configured. The card was built with template openers."
    },
    {
-    "at": "2026-10-28T11:50:32.080Z",
+    "at": "2026-10-28T12:02:40.181Z",
     "tool": "resolve_favourites",
     "summary": "1 confirmed favourite. Home city found, hometown found, 1 cuisine tag."
    },
    {
-    "at": "2026-10-28T11:50:32.091Z",
+    "at": "2026-10-28T12:02:40.188Z",
     "tool": "find_era_items",
     "summary": "music: 10 candidates from 2 Qloo calls. Qloo has no year filter for artists, so years are checked in code."
    },
    {
-    "at": "2026-10-28T11:50:32.093Z",
+    "at": "2026-10-28T12:02:40.190Z",
     "tool": "find_era_items",
     "summary": "film: 10 candidates from 2 Qloo calls."
    },
    {
-    "at": "2026-10-28T11:50:32.094Z",
+    "at": "2026-10-28T12:02:40.191Z",
     "tool": "find_era_items",
     "summary": "tv: 10 candidates from 2 Qloo calls."
    },
    {
-    "at": "2026-10-28T11:50:32.096Z",
+    "at": "2026-10-28T12:02:40.193Z",
     "tool": "find_era_items",
     "summary": "food: 10 candidates from 2 Qloo calls."
    },
    {
-    "at": "2026-10-28T11:50:32.097Z",
+    "at": "2026-10-28T12:02:40.202Z",
     "tool": "find_era_items",
     "summary": "place: 10 candidates from 2 Qloo calls."
    },
    {
-    "at": "2026-10-28T11:50:32.103Z",
+    "at": "2026-10-28T12:02:40.205Z",
     "tool": "build_card",
     "summary": "8 items placed, 0 candidates rejected under the rules."
    }
@@ -289,7 +345,7 @@
     "path": "/search",
     "cached": false,
     "status": 200,
-    "ms": 14,
+    "ms": 4,
     "resultCount": 1
    },
    {
@@ -297,7 +353,7 @@
     "path": "/search",
     "cached": false,
     "status": 200,
-    "ms": 12,
+    "ms": 2,
     "resultCount": 1
    },
    {
@@ -305,7 +361,7 @@
     "path": "/v2/tags",
     "cached": false,
     "status": 200,
-    "ms": 1,
+    "ms": 0,
     "resultCount": 1
    },
    {
@@ -313,7 +369,7 @@
     "path": "/v2/insights",
     "cached": false,
     "status": 200,
-    "ms": 5,
+    "ms": 4,
     "resultCount": 10
    },
    {
@@ -329,7 +385,7 @@
     "path": "/v2/insights",
     "cached": false,
     "status": 200,
-    "ms": 1,
+    "ms": 0,
     "resultCount": 10
    },
    {
@@ -337,7 +393,7 @@
     "path": "/v2/insights",
     "cached": false,
     "status": 200,
-    "ms": 0,
+    "ms": 1,
     "resultCount": 10
    },
    {
@@ -353,7 +409,7 @@
     "path": "/v2/insights",
     "cached": false,
     "status": 200,
-    "ms": 0,
+    "ms": 1,
     "resultCount": 10
    },
    {
@@ -377,7 +433,7 @@
     "path": "/v2/insights",
     "cached": false,
     "status": 200,
-    "ms": 0,
+    "ms": 6,
     "resultCount": 10
    },
    {
@@ -385,7 +441,7 @@
     "path": "/v2/insights",
     "cached": false,
     "status": 200,
-    "ms": 1,
+    "ms": 2,
     "resultCount": 10
    }
   ],

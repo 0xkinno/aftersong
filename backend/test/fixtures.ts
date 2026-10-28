@@ -21,6 +21,7 @@ export function cand(p: Partial<Candidate> & { id: string; name: string; domain:
     personalRank: 1,
     cohortRank: 12,
     signalIds: ["SYN-FAV-001"],
+    driverId: null,
     callIds: ["q1"],
     ...p,
   };
