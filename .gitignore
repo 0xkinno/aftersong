@@ -1,0 +1,23 @@
+# study material never leaves the reference folder
+reference/
+
+# build instruction files hold study notes, kept local only
+AFTERSONG_BUILD_INSTRUCTION.md
+HACKATHON_WINNING_SYSTEM_V5.md
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# deps and build output
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.log
+.vercel/
+.DS_Store
+playwright-report/
+test-results/

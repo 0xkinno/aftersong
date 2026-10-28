@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Blocks commits that carry study-material terms or banned wording. See scripts/check-clean.mjs.
+node scripts/check-clean.mjs --staged || exit 1
