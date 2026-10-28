@@ -60,6 +60,16 @@ export function yearOf(props: Record<string, unknown> | null): { year: number | 
   return { year: hit ? (hit[1] as number) : null, yearEnd: end, source: hit ? `property:${hit[0]}` : null };
 }
 
+/** Items with no year property can still carry a decade tag such as "1960s". That is a span, not a point. */
+export function eraFromTags(tags: Tag[]): { year: number; yearEnd: number; source: string } | null {
+  const decades = tags
+    .map((t) => /(?:^|[^0-9])((?:19|20)[0-9])0s(?:[^a-z0-9]|$)/i.exec(`${t.name} ${t.id}`))
+    .filter((m): m is RegExpExecArray => m !== null)
+    .map((m) => Number(m[1]) * 10);
+  if (decades.length === 0) return null;
+  return { year: Math.min(...decades), yearEnd: Math.max(...decades) + 9, source: "tag:decade" };
+}
+
 function tagOf(raw: unknown): Tag | null {
   if (typeof raw === "string") return raw.startsWith("urn:tag:") ? { id: raw, name: raw.split(":").pop() ?? raw, type: null } : null;
   const r = asRecord(raw);
@@ -82,6 +92,7 @@ export function normalizeEntity(raw: unknown): QlooEntity | null {
   const type = typeof e.type === "string" ? e.type : (types.find((t) => t.startsWith("urn:entity:")) ?? types[0] ?? null);
   const y = yearOf(props);
   const tags = (Array.isArray(e.tags) ? e.tags : []).map(tagOf).filter((t): t is Tag => t !== null);
+  const era = y.year === null ? eraFromTags(tags) : null;
   return {
     id,
     name: cleanName(nameRaw),
@@ -89,9 +100,9 @@ export function normalizeEntity(raw: unknown): QlooEntity | null {
     subtype: typeof e.subtype === "string" ? e.subtype : null,
     types,
     popularity: num(e.popularity),
-    year: y.year,
-    yearEnd: y.yearEnd,
-    yearSource: y.source,
+    year: era ? era.year : y.year,
+    yearEnd: era ? era.yearEnd : y.yearEnd,
+    yearSource: era ? era.source : y.source,
     tags,
     affinity: num(e.affinity) ?? num(q?.affinity),
     explainability: q?.explainability ?? null,

@@ -157,6 +157,20 @@ export class QlooClient {
     return { body, status: res.status };
   }
 
+  /** A real, uncached call for the status page. */
+  async probe(): Promise<{ ok: boolean; configured: boolean; httpStatus: number | null; ms: number; at: string; detail: string }> {
+    const at = new Date(this.now()).toISOString();
+    if (!this.key) return { ok: false, configured: false, httpStatus: null, ms: 0, at, detail: "QLOO_API_KEY is not set on this service" };
+    const t0 = this.now();
+    try {
+      const { status } = await this.live("/search", { query: "Sam Cooke", take: 1 });
+      return { ok: true, configured: true, httpStatus: status, ms: this.now() - t0, at, detail: "search answered" };
+    } catch (e) {
+      const err = e as QlooError;
+      return { ok: false, configured: true, httpStatus: err.status ?? null, ms: this.now() - t0, at, detail: err.code ?? "request failed" };
+    }
+  }
+
   async get(path: string, params: Params): Promise<{ body: unknown; callId: string }> {
     try {
       assertSafeParams(path, params);
