@@ -49,11 +49,34 @@ const TAGS: Record<string, (v: string) => boolean> = {
 
 const ENTITIES: Record<string, (v: string) => boolean> = { entity_ids: idList };
 
+const DATE = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v);
+const COMPARE: Record<string, (v: string) => boolean> = {
+  "a.signal.interests.entities": idList,
+  "b.signal.interests.entities": idList,
+  "filter.type": (v) => TYPE.test(v),
+  take: (v) => /^\d{1,2}$/.test(v),
+};
+const TRENDING: Record<string, (v: string) => boolean> = {
+  "filter.type": (v) => TYPE.test(v),
+  "filter.start_date": DATE,
+  "filter.end_date": DATE,
+  "signal.interests.entities": idList,
+  take: (v) => /^\d{1,2}$/.test(v),
+};
+const AUDIENCES: Record<string, (v: string) => boolean> = {
+  "filter.audience.types": (v) => /^[A-Za-z0-9_:.,-]{1,200}$/.test(v),
+  "filter.parents.types": (v) => /^[A-Za-z0-9_:.,-]{1,200}$/.test(v),
+  take: (v) => /^\d{1,2}$/.test(v),
+};
+
 const BY_PATH: Record<string, Record<string, (v: string) => boolean>> = {
   "/v2/insights": INSIGHTS,
   "/search": SEARCH,
   "/v2/tags": TAGS,
   "/entities": ENTITIES,
+  "/v2/analysis/compare": COMPARE,
+  "/v2/trending": TRENDING,
+  "/v2/audiences": AUDIENCES,
 };
 
 export class GuardError extends Error {
@@ -72,5 +95,12 @@ export function assertSafeParams(path: string, params: Params): void {
     const rule = rules[k];
     if (!rule) throw new GuardError(`parameter ${k} is not allowed on ${path}`);
     if (!rule(String(raw))) throw new GuardError(`value for ${k} is not allowed on ${path}`);
+  }
+  if (path === "/v2/insights") {
+    // signal.location is a hard filter on a pinned pool: most items vanish. Open queries only.
+    if (params["signal.location"] !== undefined && params["filter.results.entities"] !== undefined) throw new GuardError("signal.location must not be combined with filter.results.entities");
+    // Location was measured to act on places, not films. Never use it to localise anything else.
+    const t = String(params["filter.type"] ?? "");
+    if (params["signal.location"] !== undefined && t !== "urn:entity:place" && t !== "urn:entity:destination") throw new GuardError("signal.location is only allowed for places and destinations");
   }
 }

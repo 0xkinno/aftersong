@@ -1,16 +1,29 @@
-import type { Candidate, Label } from "./types.ts";
+import { DATED, type Candidate, type Label } from "./types.ts";
 
 export const POPULARITY_CEILING = 0.85;
-const AFFINITY_GAP = 0.1;
-const RANK_GAP = 5;
 
-/** Personal: ranks clearly higher for this person than for the cohort. Shared era: high for both.
- *  Widely known: Qloo reports high popularity. A missing cohort score is unknown, never zero. */
-export function labelFor(c: Pick<Candidate, "popularity" | "personalAffinity" | "cohortAffinity" | "personalRank" | "cohortRank">, ceiling = POPULARITY_CEILING): { label: Label; cohortUnknown: boolean } {
-  if (c.popularity !== null && c.popularity >= ceiling) return { label: "widely_known", cohortUnknown: c.cohortAffinity === null && c.cohortRank === null };
-  const cohortUnknown = c.cohortAffinity === null && c.cohortRank === null;
-  if (cohortUnknown) return { label: "personal", cohortUnknown: true };
-  if (c.personalAffinity !== null && c.cohortAffinity !== null && c.personalAffinity - c.cohortAffinity >= AFFINITY_GAP) return { label: "personal", cohortUnknown: false };
-  if (c.personalRank !== null && c.cohortRank !== null && c.cohortRank - c.personalRank >= RANK_GAP) return { label: "personal", cohortUnknown: false };
-  return { label: "shared_era", cohortUnknown: false };
+type Rankable = Pick<Candidate, "domain" | "popularity" | "personalRank" | "cohortRank" | "personalN" | "cohortN">;
+
+/**
+ * Affinity is comparable only between calls that share a signal, so this compares RANKS inside two
+ * calls over the same pinned pool, never raw affinities across the two calls.
+ *   Personal: top third under his signals and bottom half under the cohort.
+ *   Shared era: top third under both.
+ *   Widely known: Qloo reports popularity above the ceiling, whatever the ranks.
+ *   Some overlap: top third for him and in the middle band for the cohort, or not in his top third.
+ *   Hometown: food and places, which are tied to a place and have no cohort comparison.
+ * A missing cohort rank is unknown, never zero. Returns label null when his own rank is missing, so
+ * the caller abstains on the item.
+ */
+export function labelFor(c: Rankable, ceiling = POPULARITY_CEILING): { label: Label | null; cohortUnknown: boolean } {
+  if (c.popularity !== null && c.popularity >= ceiling) return { label: "widely_known", cohortUnknown: c.cohortRank === null };
+  if (!DATED[c.domain]) return { label: "hometown", cohortUnknown: true };
+  if (c.personalRank === null || !c.personalN) return { label: null, cohortUnknown: c.cohortRank === null };
+  const topThirdHim = c.personalRank <= Math.ceil(c.personalN / 3);
+  if (c.cohortRank === null || !c.cohortN) return { label: topThirdHim ? "personal" : "overlap", cohortUnknown: true };
+  const topThirdCohort = c.cohortRank <= Math.ceil(c.cohortN / 3);
+  const bottomHalfCohort = c.cohortRank > c.cohortN / 2;
+  if (topThirdHim && bottomHalfCohort) return { label: "personal", cohortUnknown: false };
+  if (topThirdHim && topThirdCohort) return { label: "shared_era", cohortUnknown: false };
+  return { label: "overlap", cohortUnknown: false };
 }

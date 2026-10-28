@@ -5,7 +5,9 @@
 import { buildCard } from "../core/card.ts";
 import { memorySignals, type Observation } from "../core/memory.ts";
 import { settleOpener, type OpenerContext } from "../core/openers.ts";
-import { DOMAINS, type Candidate, type Domain, type SessionCard } from "../core/types.ts";
+import { routeSignals } from "../core/route.ts";
+import { DATED, DOMAINS, type Candidate, type Decision, type Domain, type SessionCard } from "../core/types.ts";
+import { spanInWindow } from "../core/window.ts";
 import { bumpWindow } from "../core/window.ts";
 import type { QlooClient } from "../qloo/client.ts";
 import { findDomain } from "../qloo/find.ts";
@@ -83,7 +85,12 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
   const confirmed = resident.favourites.filter((f) => f.confirmed && f.id);
   const entityFavs = confirmed.filter((f) => f.kind === "entity");
   const tagFavs = confirmed.filter((f) => f.kind === "tag");
-  const signalEntityIds = [...new Set([...entityFavs.map((f) => f.id as string), ...memory.positive.map((o) => o.entityId)])];
+  const routes = routeSignals(confirmed, memory.positive);
+  const decisions: Decision[] = [];
+  const decide = (decision: Decision["decision"], why: string, call: string | null, count: number | null) => {
+    decisions.push({ at: new Date().toISOString(), decision, why, call, count });
+    emit("decision", why);
+  };
 
   const state = {
     pools: {} as Partial<Record<Domain, Candidate[]>>,
@@ -126,6 +133,9 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
           const cuisines = await resolveCuisineTags(deps.client, region).catch(() => []);
           state.cuisineTagIds = cuisines.map((t) => t.id);
           state.resolved = true;
+          for (const f of resident.favourites.filter((x) => !x.confirmed)) decide(f.reason ? "drop_favourite" : "ask_confirm", f.reason ? `Dropped "${f.text}": ${f.reason}. It is not used.` : `"${f.text}" is waiting for the carer to confirm a match, so this card is built without it.`, null, null);
+          if (widenBy > 0) decide("widen_window", `The window was widened by ${widenBy} years after the carer agreed.`, null, null);
+          if (routes.media.entityIds.length + routes.media.tagIds.length > 0 && routes.food.entityIds.length + routes.food.tagIds.length > 0) decide("route_signals", "Music and film favourites drive music, film and TV. Food favourites drive only food and places.", null, null);
           emit(name, `${entityFavs.length} confirmed favourite${entityFavs.length === 1 ? "" : "s"}. Home city ${care ? "found" : "not found"}, hometown ${home ? "found" : "not found"}, ${cuisines.length} cuisine tag${cuisines.length === 1 ? "" : "s"}.`);
           return `confirmed favourites: ${confirmed.map((f) => f.name).join(", ")}. window ${window.start} to ${window.end}. care city ${care ? "found" : "not found"}; hometown ${home ? "found" : "not found"}; cuisine tags ${cuisines.length}.`;
         }
@@ -143,16 +153,26 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
             emit(name, `${domain}: the ${domain === "food" ? "home city" : "hometown"} could not be found in Qloo, so nothing was searched.`);
             return `${domain}: no location, 0 candidates`;
           }
-          const r = await findDomain({
-            client: deps.client,
-            domain,
-            signalEntityIds,
-            signalTagIds: tagFavs.map((f) => f.id as string),
-            filterTagIds: domain === "food" ? state.cuisineTagIds : undefined,
-            window,
-            excludeIds: memory.upset.map((o) => o.entityId),
-            location,
-          });
+          const media = routes.media;
+          const food = routes.food;
+          const dated = DATED[domain];
+          const sigE = dated ? media.entityIds : domain === "food" ? food.entityIds : food.entityIds.length ? food.entityIds : media.entityIds;
+          const sigT = dated ? media.tagIds : domain === "food" ? food.tagIds : [];
+          const cuisine = domain === "food" ? state.cuisineTagIds : [];
+          if (sigE.length + sigT.length + cuisine.length === 0) {
+            state.pools[domain] = [];
+            decide("abstain_domain", `${domain}: no favourite of the right kind to search from, so nothing was searched.`, null, 0);
+            return `${domain}: no usable signal, 0 candidates`;
+          }
+          const args0 = { client: deps.client, domain, signalEntityIds: sigE, signalTagIds: sigT, filterTagIds: domain === "food" ? cuisine : undefined, window, excludeIds: memory.upset.map((o) => o.entityId), location };
+          let r = await findDomain(args0);
+          if (domain === "music" && r.candidates.length > 0 && r.datedShare < 0.3) {
+            const alt = await findDomain({ ...args0, musicStrategy: "person" });
+            const inWin = (x: typeof r) => x.candidates.filter((c) => c.year !== null && spanInWindow(window, c.year, c.yearEnd)).length;
+            const better = inWin(alt) > inWin(r);
+            decide("switch_music_strategy", `Artists came back with years for ${Math.round(r.datedShare * 100)} percent of items. Tried people born so they were adults in the window: ${inWin(alt)} fit against ${inWin(r)}. ${better ? "Using the people route, with years estimated from birth year." : "Keeping artists."}`, alt.callIds[0] ?? null, inWin(alt));
+            if (better) r = alt;
+          }
           state.pools[domain] = r.candidates;
           for (const e of r.returned) {
             state.seenIds.add(e.id);
@@ -168,6 +188,9 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
           if (missing.length) return `ERROR: call find_era_items for: ${missing.join(", ")}`;
           state.card = buildCard({ cardId: input.cardId, residentId: resident.id, window, widenedBy: widenBy, favourites: resident.favourites, memory, pools: state.pools, seenIds: state.seenIds, model: deps.model ? { provider: deps.model.provider, id: deps.model.id } : null, trail: [], calls: [], now: new Date(now).toISOString() });
           const c = state.card;
+          for (const ab of c.abstentions.filter((x) => x.domain !== "card")) decide("abstain_domain", `${ab.domain}: not enough from these years yet, so nothing was added from a guess.`, null, 0);
+          const skipped = c.rejections.filter((x) => x.failures.some((f) => f.rule === "no_affinity")).length;
+          if (skipped) decide("skip_item", `${skipped} items were skipped because Qloo returned no affinity for them.`, null, skipped);
           emit(name, `${c.items.length} items placed, ${c.rejections.length} candidates rejected under the rules${c.status === "thin" ? ". Not enough from these years yet." : "."}`);
           return `card items:\n${c.items.map((i) => `${i.entityId} | ${i.domain} | ${i.name} | ${i.year ?? "no year"}`).join("\n")}`;
         }
@@ -254,6 +277,7 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
 
   const card = state.card as SessionCard;
   card.trail = trail;
+  card.decisions = decisions;
   card.calls = traced.calls.map((c) => ({ id: c.id, path: c.path, cached: c.cached, status: c.status, ms: c.ms, resultCount: c.resultCount }));
   if (traced.value.modelNote) card.model = null;
   return {

@@ -138,7 +138,8 @@ on("POST", "/sample/group", async (c) => {
   const t = limiter.take(c.ip);
   if (!t.ok) throw new HttpError(429, t.reason);
   await svc.ensureSamples();
-  return svc.group("sample", Array.isArray(c.body.residentIds) ? c.body.residentIds : []);
+  const out = await svc.groupWithAgent("sample", Array.isArray(c.body.residentIds) ? c.body.residentIds : []);
+  return { ...out.result, trail: out.trail, modelNote: out.modelNote };
 });
 on("POST", "/sample/hard-case", async (c) => {
   const t = limiter.take(c.ip);
@@ -203,7 +204,10 @@ on("GET", "/cards/:id/export", async (c) => svc.exportCard(await carer(c), c.par
 on("POST", "/cards/:id/observations", async (c) => svc.logObservation(await carer(c), c.params[0]!, String(c.body.entityId), String(c.body.value), c.body.note ?? null));
 on("GET", "/cards/:id/session", async (c) => ({ session: await svc.getSession(await carer(c), c.params[0]!) }));
 on("PUT", "/cards/:id/session", async (c) => svc.saveSession(await carer(c), c.params[0]!, { currentIndex: Number(c.body.currentIndex ?? 0), finished: c.body.finished === true }));
-on("POST", "/group", async (c) => svc.group(await carer(c), Array.isArray(c.body.residentIds) ? c.body.residentIds : []));
+on("POST", "/group", async (c) => {
+  const out = await svc.groupWithAgent(await carer(c), Array.isArray(c.body.residentIds) ? c.body.residentIds : []);
+  return { ...out.result, trail: out.trail, modelNote: out.modelNote };
+});
 
 // ---------- family ----------
 on("GET", "/family/:token", async (c) => svc.familyView(await svc.familyActor(c.params[0]!)));

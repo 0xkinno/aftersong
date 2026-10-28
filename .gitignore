@@ -29,3 +29,4 @@ data/probe/
 data/review/
 data/wild/*.json
 !data/wild/wild.template.json
+AFTERSONG_FOLLOWUP*.md

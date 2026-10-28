@@ -26,6 +26,8 @@ export function vetCandidate(c: Candidate, ctx: RuleContext, taken: Set<string>)
       f.push({ rule: "outside_window", detail: `${c.year}${c.yearEnd ? `-${c.yearEnd}` : ""} is outside ${ctx.window.start}-${ctx.window.end}` });
     }
   }
+  // abstain on an item whose affinity Qloo did not return, rather than inventing one
+  if (c.personalAffinity === null) f.push({ rule: "no_affinity", detail: "Qloo returned no query.affinity for this item" });
   const connected = c.personalAffinity !== null || c.personalRank !== null;
   const viaKnown = c.signalIds.some((s) => ctx.confirmedIds.has(s) || ctx.positiveIds.has(s));
   if (!connected || !viaKnown) f.push({ rule: "not_connected", detail: "not scored against a confirmed favourite or confirmed reaction" });

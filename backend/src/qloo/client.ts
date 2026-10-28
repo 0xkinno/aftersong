@@ -228,6 +228,20 @@ export class QlooClient {
     return { entities: extractEntities(body), callId };
   }
 
+  /** What two groups of entities share. a and b are comma separated entity ids. */
+  async compare(a: string[], b: string[], type?: string): Promise<{ body: unknown; callId: string }> {
+    return this.get("/v2/analysis/compare", { "a.signal.interests.entities": a.join(","), "b.signal.interests.entities": b.join(","), "filter.type": type, take: 10 });
+  }
+
+  async trending(entityIds: string[], type: string, start: string, end: string): Promise<{ entities: QlooEntity[]; callId: string }> {
+    const { body, callId } = await this.get("/v2/trending", { "filter.type": type, "signal.interests.entities": entityIds.join(","), "filter.start_date": start, "filter.end_date": end, take: 10 });
+    return { entities: extractEntities(body), callId };
+  }
+
+  async audiences(filter: string): Promise<{ body: unknown; callId: string }> {
+    return this.get("/v2/audiences", { "filter.audience.types": filter, take: 10 });
+  }
+
   async insights(params: Params): Promise<{ entities: QlooEntity[]; callId: string }> {
     const { body, callId } = await this.get("/v2/insights", params);
     return { entities: extractEntities(body), callId };

@@ -23,6 +23,7 @@ export interface BuildInput {
   model: { provider: string; id: string } | null;
   trail: SessionCard["trail"];
   calls: SessionCard["calls"];
+  decisions?: SessionCard["decisions"];
   now?: string;
 }
 
@@ -48,7 +49,7 @@ export function buildCard(input: BuildInput): SessionCard {
       if (failures.length) rejections.push({ entityId: c.id, name: c.name, domain, failures });
       else passing.push(c);
     }
-    const score = (c: Candidate) => (c.personalAffinity ?? 0) * neighbourWeight(c.tags, input.memory.upset) + (c.personalRank !== null ? 1 / (1 + c.personalRank) : 0) * 0.001;
+    const score = (c: Candidate) => (c.personalRank !== null && c.personalN ? 1 - (c.personalRank - 1) / c.personalN : 0) * neighbourWeight(c.tags, input.memory.upset);
     passing.sort((a, b) => score(b) - score(a));
     // prefer a mix: personal first, at most one widely known per domain, two per card
     const picked: Candidate[] = [];
@@ -56,6 +57,7 @@ export function buildCard(input: BuildInput): SessionCard {
     for (const c of passing) {
       if (picked.length >= QUOTA[domain]) break;
       const { label } = labelFor(c);
+      if (label === null) continue;
       if (label === "widely_known" && (wkHere >= 1 || widelyKnown >= MAX_WIDELY_KNOWN)) continue;
       if (taken.has(nameKey(c))) continue;
       picked.push(c);
@@ -68,7 +70,8 @@ export function buildCard(input: BuildInput): SessionCard {
     }
     if (picked.length === 0) abstentions.push({ domain, message: "Not enough from these years yet.", canWiden: true });
     for (const c of picked) {
-      const { label, cohortUnknown } = labelFor(c);
+      const { label: lab, cohortUnknown } = labelFor(c);
+      const label = lab ?? "overlap";
       const known = c.signalIds.filter((s) => positiveIds.has(s) || confirmedIds.has(s));
       const via = (c.driverId && known.includes(c.driverId) ? c.driverId : undefined) ?? known.find((s) => positiveIds.has(s)) ?? known[0] ?? c.signalIds[0];
       const kind: "favourite" | "observation" = positiveIds.has(via) ? "observation" : "favourite";
@@ -113,6 +116,7 @@ export function buildCard(input: BuildInput): SessionCard {
     model: input.model,
     trail: input.trail,
     calls: input.calls,
+    decisions: input.decisions ?? [],
     version: 1,
   };
 }

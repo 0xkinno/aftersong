@@ -82,6 +82,8 @@ export async function runPlainAi(deps: { client: QlooClient; model: Model }, res
         cohortAffinity: null,
         personalRank: affinity !== null ? 1 : null,
         cohortRank: null,
+        personalN: affinity !== null ? 1 : 0,
+        cohortN: 0,
         signalIds: affinity !== null ? favIds : [],
         driverId: null,
         callIds: [],

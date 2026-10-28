@@ -17,6 +17,8 @@ export interface QlooEntity {
   year: number | null;
   yearEnd: number | null;
   yearSource: string | null;
+  /** Birth year for people, from properties.date_of_birth. */
+  birthYear: number | null;
   tags: Tag[];
   affinity: number | null;
   explainability: unknown;
@@ -103,8 +105,10 @@ export function normalizeEntity(raw: unknown): QlooEntity | null {
     year: era ? era.year : y.year,
     yearEnd: era ? era.yearEnd : y.yearEnd,
     yearSource: era ? era.source : y.source,
+    birthYear: yearFromDate(props?.date_of_birth) ?? yearFromDate(props?.birth_date) ?? null,
     tags,
-    affinity: num(e.affinity) ?? num(q?.affinity),
+    // Affinity is read only from query.affinity. popularity is a different field and is never a fallback.
+    affinity: num(q?.affinity),
     explainability: q?.explainability ?? null,
     disambiguation: typeof e.disambiguation === "string" ? e.disambiguation : null,
   };

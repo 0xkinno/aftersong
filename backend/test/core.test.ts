@@ -92,12 +92,17 @@ test("neighbours of an upset item are down-weighted", () => {
   assert.equal(neighbourWeight(tags.slice(0, 1), [obs({ entityId: "X", value: "upset", tags })]), 1);
 });
 
-test("labels: personal, shared era, widely known; unknown cohort is flagged, not zero", () => {
-  assert.equal(labelFor({ popularity: 0.3, personalAffinity: 0.8, cohortAffinity: 0.3, personalRank: 1, cohortRank: 3 }).label, "personal");
-  assert.equal(labelFor({ popularity: 0.3, personalAffinity: 0.8, cohortAffinity: 0.75, personalRank: 1, cohortRank: 2 }).label, "shared_era");
-  assert.equal(labelFor({ popularity: 0.95, personalAffinity: 0.8, cohortAffinity: 0.1, personalRank: 1, cohortRank: 9 }).label, "widely_known");
-  const u = labelFor({ popularity: 0.3, personalAffinity: 0.8, cohortAffinity: null, personalRank: 1, cohortRank: null });
-  assert.equal(u.cohortUnknown, true);
+test("labels compare ranks inside two calls over one pool, never raw affinities", () => {
+  const r = (p: number | null, c: number | null, pop = 0.3, domain: "film" | "food" = "film") => ({ domain, popularity: pop, personalRank: p, cohortRank: c, personalN: 12, cohortN: 12 });
+  assert.equal(labelFor(r(2, 10)).label, "personal"); // top third for him, bottom half for the cohort
+  assert.equal(labelFor(r(2, 3)).label, "shared_era"); // top third for both
+  assert.equal(labelFor(r(2, 6)).label, "overlap"); // middle band for the cohort
+  assert.equal(labelFor(r(9, 2)).label, "overlap");
+  assert.equal(labelFor(r(1, 12, 0.95)).label, "widely_known"); // popularity wins whatever the ranks
+  assert.equal(labelFor(r(null, 3)).label, null); // no rank for him: abstain on the item
+  const u = labelFor(r(2, null));
+  assert.equal(u.cohortUnknown, true); // unknown is flagged, never zero
+  assert.equal(labelFor(r(null, null, 0.3, "food")).label, "hometown");
 });
 
 test("thin result abstains and offers to widen", () => {

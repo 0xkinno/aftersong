@@ -5,7 +5,7 @@ export const DOMAINS: Domain[] = ["music", "film", "tv", "food", "place"];
 /** Dated domains are held to the bump window. Food and place are tied to a hometown instead. */
 export const DATED: Record<Domain, boolean> = { music: true, film: true, tv: true, food: false, place: false };
 
-export type Label = "personal" | "shared_era" | "widely_known";
+export type Label = "personal" | "shared_era" | "widely_known" | "overlap" | "hometown";
 export type ObservationValue = "lit_up" | "sang_or_moved" | "talked" | "no_response" | "upset" | "skipped";
 export const OBSERVATION_VALUES: ObservationValue[] = ["lit_up", "sang_or_moved", "talked", "no_response", "upset", "skipped"];
 export const POSITIVE: ObservationValue[] = ["lit_up", "sang_or_moved"];
@@ -31,6 +31,9 @@ export interface Candidate extends QlooEntity {
   cohortAffinity: number | null;
   personalRank: number | null;
   cohortRank: number | null;
+  /** How many items were ranked in each pinned call, for thirds and halves. */
+  personalN: number;
+  cohortN: number;
   /** Signals used by the calls that scored this item. */
   signalIds: string[];
   /** The signal Qloo reports as the strongest driver, when explainability says. */
@@ -39,7 +42,7 @@ export interface Candidate extends QlooEntity {
 }
 
 export interface RuleFailure {
-  rule: "not_qloo_entity" | "is_seed" | "duplicate" | "era_unknown" | "outside_window" | "not_connected" | "suppressed_upset" | "wrong_domain";
+  rule: "not_qloo_entity" | "is_seed" | "duplicate" | "era_unknown" | "outside_window" | "not_connected" | "suppressed_upset" | "wrong_domain" | "no_affinity";
   detail?: string;
 }
 
@@ -78,6 +81,14 @@ export interface CardItem {
   callIds: string[];
 }
 
+export interface Decision {
+  at: string;
+  decision: "ask_confirm" | "drop_favourite" | "widen_window" | "switch_music_strategy" | "abstain_domain" | "route_signals" | "skip_item";
+  why: string;
+  call: string | null;
+  count: number | null;
+}
+
 export interface Abstention {
   domain: Domain | "card";
   message: string;
@@ -96,6 +107,8 @@ export interface SessionCard {
   abstentions: Abstention[];
   model: { provider: string; id: string } | null;
   trail: Array<{ at: string; tool: string; summary: string }>;
+  /** Each decision the agent made, with why, which call and the result count. */
+  decisions: Decision[];
   calls: Array<{ id: string; path: string; cached: boolean; status: number | null; ms: number; resultCount: number | null }>;
   version: 1;
 }

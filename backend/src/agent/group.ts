@@ -21,6 +21,30 @@ export interface GroupResult {
   plan: RoomPlan;
   names: Record<string, string>;
   calls: number;
+  /** One line on what two residents' tastes share, from /v2/analysis/compare. Null when Qloo gave nothing usable. */
+  explanation: { pair: [string, string]; line: string | null } | null;
+}
+
+/** Pulls readable names out of whatever list the compare response carries. */
+export function sharedNames(body: unknown): string[] {
+  const out: string[] = [];
+  const walk = (v: unknown, depth: number) => {
+    if (depth > 4 || v === null || typeof v !== "object") return;
+    if (Array.isArray(v)) return v.forEach((x) => walk(x, depth + 1));
+    const o = v as Record<string, unknown>;
+    if (typeof o.name === "string" && out.length < 3 && !out.includes(o.name)) out.push(o.name);
+    Object.values(o).forEach((x) => walk(x, depth + 1));
+  };
+  walk((body as { results?: unknown })?.results ?? body, 0);
+  return out;
+}
+
+export async function explainPair(client: QlooClient, aName: string, bName: string, a: string[], b: string[]): Promise<string | null> {
+  if (a.length === 0 || b.length === 0) return null;
+  const { body } = await client.compare(a.slice(0, 20), b.slice(0, 20));
+  const names = sharedNames(body);
+  if (names.length === 0) return null;
+  return `${aName} and ${bName} share an affinity for ${names.join(", ")}.`;
 }
 
 export async function planGroupSession(client: QlooClient, input: GroupInput): Promise<GroupResult> {
@@ -70,7 +94,17 @@ export async function planGroupSession(client: QlooClient, input: GroupInput): P
       return { id, name: e.name, domain, year: e.year, yearEnd: e.yearEnd, ranks, poolSize };
     });
     const plan = planRoom(rs.map((r) => ({ id: r.resident.id, firstName: r.resident.firstName, window: r.window, upsetIds: r.upset })), cands, 6);
-    return { plan, names: Object.fromEntries(cands.map((c) => [c.id, c.name])) };
+    // explain, in one line, what two residents share: the least served resident and the best served
+    const left = plan.coverage.find((c) => c.leftOut) ?? plan.coverage[plan.coverage.length - 1];
+    const best = [...plan.coverage].sort((x, y) => y.covered - x.covered).find((c) => c.residentId !== left?.residentId);
+    let explanation: GroupResult["explanation"] = null;
+    if (left && best) {
+      const ra = rs.find((r) => r.resident.id === left.residentId)!;
+      const rb = rs.find((r) => r.resident.id === best.residentId)!;
+      const line = await explainPair(client, ra.resident.firstName, rb.resident.firstName, ra.signals, rb.signals).catch(() => null);
+      explanation = { pair: [ra.resident.firstName, rb.resident.firstName], line };
+    }
+    return { plan, names: Object.fromEntries(cands.map((c) => [c.id, c.name])), explanation };
   });
-  return { plan: value.plan, names: value.names, calls: calls.filter((c) => !c.cached).length };
+  return { plan: value.plan, names: value.names, calls: calls.filter((c) => !c.cached).length, explanation: value.explanation };
 }

@@ -1,10 +1,12 @@
-// Finds candidates for one domain and scores them twice: against the person's own signals and against
-// the oldest age cohort. Items missing from one list are re-scored with filter.results.entities so
-// both scores come from the same pool. A score that never comes back stays null.
+// Finds candidates for one domain. Dated domains (music, film, TV) are scored twice over the SAME
+// pinned pool: once with the person's own signals and once with the age cohort. Affinity is only
+// comparable between calls that share a signal, so the two scores are compared as RANKS inside each
+// pinned call, never as raw numbers. Food and places are open queries tied to a place and are never
+// pinned: location acts as a hard filter on a pinned pool.
 import type { QlooClient } from "./client.ts";
 import type { QlooEntity } from "./entity.ts";
 import type { Params } from "./guard.ts";
-import type { Candidate, Domain, Window } from "../core/types.ts";
+import { DATED, type Candidate, type Domain, type Window } from "../core/types.ts";
 
 export const DOMAIN_TYPE: Record<Domain, string> = {
   music: "urn:entity:artist",
@@ -15,6 +17,7 @@ export const DOMAIN_TYPE: Record<Domain, string> = {
 };
 const YEAR_FILTER: Record<Domain, boolean> = { music: false, film: true, tv: true, food: false, place: false };
 export const COHORT_BRACKET = "55_and_older";
+export type MusicStrategy = "artist" | "person";
 
 export interface FindArgs {
   client: QlooClient;
@@ -24,33 +27,53 @@ export interface FindArgs {
   filterTagIds?: string[];
   window: Window;
   excludeIds: string[];
-  /** Locality id or "POINT(lon lat)". */
+  /** Locality id. Only used for food and places, as an open query. */
   location?: string;
   take?: number;
+  /** "person" asks for people born so they were adults in the window, when artists carry no years. */
+  musicStrategy?: MusicStrategy;
 }
 
 export interface FindResult {
   candidates: Candidate[];
   callIds: string[];
-  /** Plain-language notes for the trail, for example which score was re-checked. */
+  /** Plain-language notes for the trail. */
   notes: string[];
   returned: QlooEntity[];
+  /** Share of returned candidates that carry a year. The agent uses it to switch music strategy. */
+  datedShare: number;
+  strategy: MusicStrategy | null;
 }
 
 const join = (a: string[]) => a.join(",");
 
+/** Ranks by query.affinity, high first. Items without affinity get no rank. */
+function rankByAffinity(entities: QlooEntity[]): { ranks: Map<string, number>; n: number; aff: Map<string, number> } {
+  const scored = entities.filter((e) => e.affinity !== null).sort((a, b) => (b.affinity as number) - (a.affinity as number));
+  return { ranks: new Map(scored.map((e, i) => [e.id, i + 1])), n: scored.length, aff: new Map(scored.map((e) => [e.id, e.affinity as number])) };
+}
+
 export async function findDomain(a: FindArgs): Promise<FindResult> {
-  const type = DOMAIN_TYPE[a.domain];
+  const dated = DATED[a.domain];
+  const strategy: MusicStrategy | null = a.domain === "music" ? (a.musicStrategy ?? "artist") : null;
+  const type = strategy === "person" ? "urn:entity:person" : DOMAIN_TYPE[a.domain];
   const base: Params = { "filter.type": type, take: a.take ?? 30 };
   if (YEAR_FILTER[a.domain]) {
     base["filter.release_year.min"] = a.window.start;
     base["filter.release_year.max"] = a.window.end;
   }
+  if (strategy === "person") {
+    base["filter.date_of_birth.min"] = a.window.start - 45;
+    base["filter.date_of_birth.max"] = a.window.end - 15;
+  }
   if (a.excludeIds.length) base["filter.exclude.entities"] = join(a.excludeIds.slice(0, 60));
-  if (a.location) base["signal.location"] = a.location;
-  if (a.filterTagIds?.length) base["filter.tags"] = join(a.filterTagIds);
+  if (!dated) {
+    if (a.location) base["signal.location"] = a.location;
+    if (a.filterTagIds?.length) base["filter.tags"] = join(a.filterTagIds);
+  }
 
-  const personalSignals: Params = { "signal.interests.entities": join(a.signalEntityIds), "feature.explainability": true };
+  const personalSignals: Params = { "feature.explainability": true };
+  if (a.signalEntityIds.length) personalSignals["signal.interests.entities"] = join(a.signalEntityIds);
   if (a.signalTagIds?.length) personalSignals["signal.interests.tags"] = join(a.signalTagIds);
   const cohortSignals: Params = { "signal.demographics.age": COHORT_BRACKET };
 
@@ -58,80 +81,57 @@ export async function findDomain(a: FindArgs): Promise<FindResult> {
   const notes: string[] = [];
   const personal = await a.client.insights({ ...base, ...personalSignals });
   callIds.push(personal.callId);
-  const cohort = await a.client.insights({ ...base, ...cohortSignals });
-  callIds.push(cohort.callId);
+
+  const eraFix = (e: QlooEntity): QlooEntity =>
+    strategy === "person" && e.birthYear !== null ? { ...e, year: e.birthYear + 25, yearEnd: e.birthYear + 45, yearSource: "person:dob+25..45" } : e;
+
+  let pinnedP: QlooEntity[] = [];
+  let pinnedC: QlooEntity[] = [];
+  let open: QlooEntity[] = personal.entities;
+  if (dated) {
+    const cohort = await a.client.insights({ ...base, ...cohortSignals });
+    callIds.push(cohort.callId);
+    const pool: string[] = [];
+    for (const e of [...personal.entities, ...cohort.entities]) if (!pool.includes(e.id)) pool.push(e.id);
+    const pin: Params = { "filter.results.entities": join(pool.slice(0, 60)) };
+    const p = await a.client.insights({ ...base, ...personalSignals, ...pin });
+    const c = await a.client.insights({ ...base, ...cohortSignals, ...pin });
+    callIds.push(p.callId, c.callId);
+    pinnedP = p.entities;
+    pinnedC = c.entities;
+    notes.push(`Ranked ${Math.min(pool.length, 60)} items twice over the same pool, once for him and once for his generation`);
+    open = [...personal.entities, ...cohort.entities];
+  }
 
   const byId = new Map<string, QlooEntity>();
-  const pAff = new Map<string, number | null>();
-  const cAff = new Map<string, number | null>();
-  const pRankOrder: string[] = [];
-  const cRankOrder: string[] = [];
-  const callsFor = new Map<string, string[]>();
-  const note = (id: string, call: string) => callsFor.set(id, [...(callsFor.get(id) ?? []), call]);
+  for (const e of [...open, ...pinnedP, ...pinnedC]) if (!byId.has(e.id)) byId.set(e.id, eraFix(e));
+  const explainOf = new Map<string, unknown>();
+  for (const e of [...personal.entities, ...pinnedP]) if (e.explainability) explainOf.set(e.id, e.explainability);
 
-  personal.entities.forEach((e) => {
-    byId.set(e.id, e);
-    pAff.set(e.id, e.affinity);
-    pRankOrder.push(e.id);
-    note(e.id, personal.callId);
-  });
-  cohort.entities.forEach((e) => {
-    if (!byId.has(e.id)) byId.set(e.id, e);
-    cAff.set(e.id, e.affinity);
-    cRankOrder.push(e.id);
-    note(e.id, cohort.callId);
-  });
-
-  const missingPersonal = [...cAff.keys()].filter((id) => !pAff.has(id) && !pRankOrder.includes(id));
-  const missingCohort = [...pAff.keys()].filter((id) => !cAff.has(id) && !cRankOrder.includes(id));
-
-  if (missingPersonal.length) {
-    const r = await a.client.insights({ ...base, ...personalSignals, "filter.results.entities": join(missingPersonal.slice(0, 60)) });
-    callIds.push(r.callId);
-    notes.push(`Scored ${missingPersonal.length} cohort items against the favourites`);
-    r.entities.forEach((e) => {
-      pAff.set(e.id, e.affinity);
-      pRankOrder.push(e.id);
-      note(e.id, r.callId);
-      if (!byId.has(e.id)) byId.set(e.id, e);
-    });
-  }
-  if (missingCohort.length) {
-    const r = await a.client.insights({ ...base, ...cohortSignals, "filter.results.entities": join(missingCohort.slice(0, 60)) });
-    callIds.push(r.callId);
-    notes.push(`Scored ${missingCohort.length} personal items against the age cohort`);
-    r.entities.forEach((e) => {
-      cAff.set(e.id, e.affinity);
-      cRankOrder.push(e.id);
-      note(e.id, r.callId);
-    });
-  }
-
-  const rankBy = (order: string[], aff: Map<string, number | null>): Map<string, number> => {
-    const ids = [...new Set(order)];
-    const sorted = ids.sort((x, y) => (aff.get(y) ?? -1) - (aff.get(x) ?? -1) || order.indexOf(x) - order.indexOf(y));
-    return new Map(sorted.map((id, i) => [id, i + 1]));
-  };
-  const pRank = rankBy(pRankOrder, pAff);
-  const cRank = rankBy(cRankOrder, cAff);
+  const P = rankByAffinity(dated ? pinnedP : personal.entities);
+  const C = dated ? rankByAffinity(pinnedC) : { ranks: new Map<string, number>(), n: 0, aff: new Map<string, number>() };
 
   const candidates: Candidate[] = [...byId.values()].map((e) => ({
     ...e,
     domain: a.domain,
-    personalAffinity: pAff.get(e.id) ?? null,
-    cohortAffinity: cAff.get(e.id) ?? null,
-    personalRank: pRank.get(e.id) ?? null,
-    cohortRank: cRank.get(e.id) ?? null,
-    signalIds: pRank.has(e.id) ? [...a.signalEntityIds] : [],
-    driverId: topDriver(byId.get(e.id)?.explainability, a.signalEntityIds),
-    callIds: callsFor.get(e.id) ?? [],
+    personalAffinity: P.aff.get(e.id) ?? null,
+    cohortAffinity: C.aff.get(e.id) ?? null,
+    personalRank: P.ranks.get(e.id) ?? null,
+    cohortRank: C.ranks.get(e.id) ?? null,
+    personalN: P.n,
+    cohortN: C.n,
+    signalIds: P.ranks.has(e.id) ? [...a.signalEntityIds] : [],
+    driverId: topDriver(explainOf.get(e.id), a.signalEntityIds),
+    callIds: [...callIds],
   }));
-  return { candidates, callIds, notes, returned: [...byId.values()] };
+  const withYear = candidates.filter((c) => c.year !== null).length;
+  return { candidates, callIds, notes, returned: [...byId.values()], datedShare: candidates.length ? withYear / candidates.length : 0, strategy };
 }
 
 /** Best effort: finds the input entity whose score is highest inside Qloo's explainability block. */
 export function topDriver(explain: unknown, signalIds: string[]): string | null {
-  if (!explain || signalIds.length < 2) return signalIds.length === 1 ? (signalIds[0] as string) : null;
+  if (signalIds.length === 1) return signalIds[0] as string;
+  if (!explain || signalIds.length < 2) return null;
   const SCORE = ["score", "weight", "affinity", "contribution", "influence", "value"];
   let best: { id: string; score: number } | null = null;
   const walk = (v: unknown) => {

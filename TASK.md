@@ -69,3 +69,15 @@ Mark each task `[x]` the moment it is finished and verified.
 - [x] `scripts/deploy-check.mjs` curls every public path after a deploy
 - [x] Self-judging scores recorded in `PROGRESS.md` (comparison scores stay in `reference/`)
 - [ ] Practitioner interview or founder stake recorded in `MOMENT.md` (none yet; none is claimed)
+
+### Phase 8: Follow-up 01 (from AFTERSONG_FOLLOWUP_01.md, section I)
+- [ ] A: Sample label on every sample screen; group planner exposed as an agent tool
+- [ ] B: Apply corrections 1 to 8, each with a test
+- [ ] C: PREREG committed, probe-matrix run live, FINDINGS.md generated, discovery sentence on landing
+- [ ] D: Visible agent decisions; MCP server; harness equivalence check recorded
+- [ ] E: Pre-registered eval with hash check; 3-run plain-AI arm; sign tests; abstention preset test
+- [ ] E4: Real consented session logged, or plain-words statement that none was run
+- [ ] F: Card fields, print layout, offline session mode, consent record, family note
+- [ ] G: Hero image placed; name and first-screen checks
+- [ ] H: PITCH.md
+- [ ] Re-run all browser checks and the five judge-agent rounds on the deployed URL after the live run

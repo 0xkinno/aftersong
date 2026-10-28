@@ -5,6 +5,7 @@ import { createHash, randomBytes, randomUUID } from "node:crypto";
 import { readFileSync, existsSync } from "node:fs";
 import { runCardAgent, type AgentResult, type Sabotage, type TrailEvent } from "./agent/agent.ts";
 import { planGroupSession, type GroupResult } from "./agent/group.ts";
+import { runGroupAgent, type GroupAgentResult } from "./agent/group-agent.ts";
 import type { Model } from "./agent/model.ts";
 import { runPlainAi, type PlainResult } from "./agent/plain.ts";
 import { claimViolations, houseStyleViolations } from "./core/house-style.ts";
@@ -350,6 +351,18 @@ export class Service {
     await this.d.store.put("usage", useId, rec, { homeId: r.homeId, residentId: r.id });
     const cards = await this.d.store.list<SessionCard>("cards", { residentId: r.id });
     return { plain: value, card: cards[cards.length - 1] ?? null };
+  }
+
+  /** The agent decides when to call plan_group_session. The server computes the plan. */
+  async groupWithAgent(actor: Actor | "sample", residentIds: string[]): Promise<GroupAgentResult> {
+    if (residentIds.length < 2 || residentIds.length > 8) throw new HttpError(400, "Pick 2 to 8 residents.");
+    const list: Array<{ id: string; firstName: string; birthYear: number }> = [];
+    for (const id of residentIds) {
+      const r = actor === "sample" ? await this.d.store.get<Resident>("residents", id) : await this.getResident(actor, id);
+      if (!r || (actor === "sample" && !r.isSample)) throw new HttpError(404, "Resident not found.");
+      list.push({ id: r.id, firstName: r.firstName, birthYear: r.birthYear });
+    }
+    return runGroupAgent({ model: this.d.model }, list, (ids) => this.group(actor, ids));
   }
 
   async group(actor: Actor | "sample", residentIds: string[]): Promise<GroupResult> {
