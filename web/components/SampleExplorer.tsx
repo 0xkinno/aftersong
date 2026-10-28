@@ -56,16 +56,16 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
 
   return (
     <div className="wrap py-10">
-      <p className="kicker">Sample</p>
-      <h1 className="text-40 md:text-64">Try a sample resident</h1>
-      <p className="mt-3 max-w-2xl text-ink-2">These residents are samples, shown with their intake and no personal data. The cards are built by the real agent from real Qloo results. Nothing here is saved.</p>
+      <p className="kicker no-print">Sample</p>
+      <h1 className="text-40 md:text-64 no-print">Try a sample resident</h1>
+      <p className="mt-3 max-w-2xl text-ink-2 no-print">These residents are samples, shown with their intake and no personal data. The cards are built by the real agent from real Qloo results. Nothing here is saved.</p>
 
       {loading && <p className="mt-8 text-ink-2">Loading</p>}
       {error && <p role="alert" className="card p-4 mt-6" style={{ color: "var(--clay-text)" }}>{error}</p>}
 
       {residents && (
-        <div className="mt-8 grid gap-6 md:grid-cols-[320px_1fr]">
-          <div>
+        <div className="mt-8 grid gap-6 md:grid-cols-[320px_1fr] print-single">
+          <div className="no-print">
             <label htmlFor="who">Sample resident</label>
             <select id="who" value={id} onChange={(e) => setId(e.target.value)}>
               {residents.map((x) => <option key={x.id} value={x.id}>{x.firstName}, born {x.birthYear}</option>)}
@@ -87,7 +87,7 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
             </div>
           </div>
           <div>
-            {(running || trail.length > 0) && <div className="mb-6"><BuildTrail events={trail.length ? trail : card?.trail ?? []} running={running} /></div>}
+            {(running || trail.length > 0) && <div className="mb-6 no-print"><BuildTrail events={trail.length ? trail : card?.trail ?? []} running={running} /></div>}
             {card && <CardView card={card} sample residentName={r?.firstName} />}
             {!card && !running && !error && <p className="card p-6 text-ink-2">No saved card for this sample yet. Build it live to see the agent work.</p>}
           </div>

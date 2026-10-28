@@ -13,6 +13,8 @@ export interface Resident {
   favourites: Favourite[];
   offsets: BumpOffsets;
   consent: boolean;
+  /** Who agreed and when. Without it nothing is saved. Null only for the built-in samples. */
+  consentRecord: { givenBy: "family" | "resident"; recordedBy: "family" | "carer"; at: string; version: 1 } | null;
   intakeBy: "family" | "carer";
   /** Set when the family submits the intake. The carer then cannot edit the family's fields. */
   familySubmittedAt: string | null;

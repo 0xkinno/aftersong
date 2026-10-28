@@ -79,8 +79,8 @@ export class Service {
     return homeId;
   }
 
-  async createResident(homeId: string, i: { firstName: string; birthYear: number; careCity: string; hometown: string; favouriteTexts: string[]; consent: boolean; by: "family" | "carer"; offsets?: { from: number; to: number } }): Promise<Resident> {
-    if (!i.consent) throw new HttpError(400, "Consent from the resident or their family is required.");
+  async createResident(homeId: string, i: { firstName: string; birthYear: number; careCity: string; hometown: string; favouriteTexts: string[]; consent: boolean; consentBy?: "family" | "resident"; by: "family" | "carer"; offsets?: { from: number; to: number } }): Promise<Resident> {
+    if (!i.consent) throw new HttpError(400, "Consent from the resident or their family is required. Nothing is saved without it.");
     this.checkText(i.firstName, "first name");
     this.validIntake(i);
     const now = new Date().toISOString();
@@ -94,6 +94,7 @@ export class Service {
       favourites: i.favouriteTexts.slice(0, 5).map((t) => ({ text: t.trim().slice(0, 80), kind: "unresolved", id: null, name: null, type: null, confirmed: false })),
       offsets: i.offsets ?? DEFAULT_OFFSETS,
       consent: true,
+      consentRecord: { givenBy: i.consentBy ?? "family", recordedBy: i.by, at: now, version: 1 },
       intakeBy: i.by,
       familySubmittedAt: i.by === "family" ? now : null,
       isSample: false,
@@ -128,8 +129,9 @@ export class Service {
   }
 
   /** Family-owned fields only. After the family submits, the carer cannot change them. */
-  async saveIntake(actor: Actor, id: string, patch: { birthYear?: number; hometown?: string; favouriteTexts?: string[] }): Promise<Resident> {
+  async saveIntake(actor: Actor, id: string, patch: { birthYear?: number; hometown?: string; favouriteTexts?: string[]; consent?: boolean }): Promise<Resident> {
     const r = await this.getResident(actor, id);
+    if (actor.role === "family" && patch.consent !== true) throw new HttpError(400, "Please tick the consent box. Nothing is saved without it.");
     if (actor.role === "carer" && r.familySubmittedAt) throw new HttpError(403, "The family filled this intake. Ask them to change it.");
     this.validIntake({ birthYear: patch.birthYear ?? r.birthYear, favouriteTexts: patch.favouriteTexts });
     if (patch.birthYear !== undefined) r.birthYear = patch.birthYear;
@@ -142,7 +144,10 @@ export class Service {
       r.favourites = patch.favouriteTexts.slice(0, 5).map((t) => keep.get(t.trim().toLowerCase()) ?? { text: t.trim(), kind: "unresolved" as const, id: null, name: null, type: null, confirmed: false });
     }
     r.updatedAt = new Date().toISOString();
-    if (actor.role === "family") r.familySubmittedAt = r.updatedAt;
+    if (actor.role === "family") {
+      r.familySubmittedAt = r.updatedAt;
+      r.consentRecord = { givenBy: "family", recordedBy: "family", at: r.updatedAt, version: 1 };
+    }
     bumpWindow(r.birthYear, r.offsets);
     await this.d.store.put("residents", r.id, r, { homeId: r.homeId, residentId: r.id });
     return r;
@@ -311,7 +316,7 @@ export class Service {
     const lines = [
       `${obs.length} reaction${obs.length === 1 ? "" : "s"} logged for ${r.firstName} this week.`,
       worked.length ? `What worked: ${worked.slice(0, 5).join(", ")}.` : "Nothing stood out this week.",
-      upset.size ? `${upset.size} item${upset.size === 1 ? "" : "s"} will not appear again.` : `Nothing upset ${r.firstName} this week.`,
+      upset.size ? `Stays off the cards: ${[...upset].slice(0, 8).join(", ")}.` : `Nothing upset ${r.firstName} this week.`,
     ];
     for (const l of lines) {
       const bad = [...houseStyleViolations(l), ...claimViolations(l)];
@@ -399,7 +404,7 @@ export class Service {
           favourites.push(pick ? { text: t, kind: pick.kind, id: pick.id, name: pick.name, type: pick.type, confirmed: true } : { text: t, kind: "unresolved", id: null, name: null, type: null, confirmed: false, reason: "No single exact match" });
         }
         const now = new Date().toISOString();
-        r = { id: s.id, homeId: "sample", firstName: s.firstName, birthYear: s.birthYear, careCity: s.careCity, hometown: s.hometown, favourites, offsets: DEFAULT_OFFSETS, consent: true, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: now, updatedAt: now };
+        r = { id: s.id, homeId: "sample", firstName: s.firstName, birthYear: s.birthYear, careCity: s.careCity, hometown: s.hometown, favourites, offsets: DEFAULT_OFFSETS, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: now, updatedAt: now };
         await this.d.store.put("residents", r.id, r, { homeId: "sample", residentId: r.id });
       }
       out.push(r);

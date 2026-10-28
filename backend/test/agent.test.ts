@@ -11,7 +11,7 @@ import { mockQloo } from "./mock-qloo.ts";
 const resident: Resident = {
   id: "r1", homeId: "h1", firstName: "Sample", birthYear: 1940, careCity: "San Antonio, Texas", hometown: "Port Harcourt, Nigeria",
   favourites: [{ text: "Synthetic Singer", kind: "entity", id: "SYN-FAV-001", name: "Synthetic Singer", type: "urn:entity:artist", confirmed: true }],
-  offsets: { from: 10, to: 30 }, consent: true, intakeBy: "family", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "",
+  offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "family", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "",
 };
 
 const client = () => new QlooClient({ key: "k", transport: mockQloo, spacingMs: 0 });

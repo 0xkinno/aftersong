@@ -9,7 +9,7 @@ import { scripted } from "../backend/test/scripted-model.ts";
 
 const resident = { id: "synthetic-resident", homeId: "synthetic", firstName: "Synthetic", birthYear: 1940, careCity: "Synthetic City", hometown: "Synthetic Town",
   favourites: [{ text: "Synthetic Singer", kind: "entity", id: "SYN-FAV-001", name: "Synthetic Singer", type: "urn:entity:artist", confirmed: true }],
-  offsets: { from: 10, to: 30 }, consent: true, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "" };
+  offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "" };
 const client = new QlooClient({ key: "synthetic", transport: mockQloo, spacingMs: 0 });
 const r = await runCardAgent({ client, model: scripted(), sabotage: "model_injects", currentYear: 2026 }, { resident, observations: [], cardId: "sabotage" });
 const blockedLines = r.card.items.filter((i) => i.opener.source === "template" && i.opener.blocked?.length).length;

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HardCase from "@/components/HardCase";
+import AbstentionPreset from "@/components/AbstentionPreset";
 import GlowCard from "@/components/GlowCard";
 import sabotage from "@/lib/sabotage-result.json";
 
@@ -36,6 +37,7 @@ export default function Judge() {
 
       <section id="break" className="mt-12 grid gap-6 md:grid-cols-2" aria-label="Break it on purpose">
         <HardCase />
+        <AbstentionPreset />
         <div className="card p-5">
           <p className="kicker">Fault switch</p>
           <p className="mt-2">With <code className="mono">AFTERSONG_SABOTAGE=model_injects</code> the model tries to swap a card line for a name that is not on the card and to add an item that does not exist.</p>

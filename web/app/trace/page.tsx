@@ -20,7 +20,7 @@ export default async function TracePage() {
   const t = await load();
   return (
     <div className="wrap py-10">
-      <p className="kicker">Trace</p>
+      <p className="kicker">Trace  Sample cards</p>
       <h1 className="text-40 md:text-64">The running system's own account</h1>
       <p className="mt-3 max-w-2xl text-ink-2">The last sample cards the agent built: each tool call it made, and each Qloo request with its status and time. Nothing is edited. Live probes are on <a className="underline" href="/api/status">/api/status</a>.</p>
       {!t && <p role="status" className="card p-5 mt-8">The backend did not answer, so there is no trace to show.</p>}

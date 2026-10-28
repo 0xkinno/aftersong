@@ -26,7 +26,7 @@ const transport: Transport = async (url) => {
   return { status: 404, headers: { get: () => null }, json: async () => ({}) };
 };
 
-const resident: Resident = { id: "r", homeId: "h", firstName: "S", birthYear: 1940, careCity: "A", hometown: "B", favourites: [{ text: "F", kind: "entity", id: "SYN-FAV-0001", name: "Synthetic Fav", type: null, confirmed: true }], offsets: { from: 10, to: 30 }, consent: true, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "" };
+const resident: Resident = { id: "r", homeId: "h", firstName: "S", birthYear: 1940, careCity: "A", hometown: "B", favourites: [{ text: "F", kind: "entity", id: "SYN-FAV-0001", name: "Synthetic Fav", type: null, confirmed: true }], offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "" };
 const model = (text: string): Model => ({ provider: "scripted", id: "t", async complete() { return { text, toolCalls: [], usage: { inputTokens: 1, outputTokens: 1 } }; } });
 
 test("plain AI list: each item is looked up and held to the same rules", async () => {

@@ -22,7 +22,11 @@ test("roles: family writes the intake, carer confirms and logs; neither can do t
   const fam = await svc.familyActor(token);
 
   await assert.rejects(() => svc.saveIntake(carer, r.id, { hometown: "Elsewhere" }), (e: HttpError) => e.status === 403);
-  await svc.saveIntake(fam, r.id, { hometown: "Port Harcourt, Nigeria", favouriteTexts: ["Synthetic Singer", "Another"] });
+  await assert.rejects(() => svc.saveIntake(fam, r.id, { hometown: "Elsewhere", favouriteTexts: ["Synthetic Singer"] }), (e: HttpError) => e.status === 400, "no consent, nothing saved");
+  assert.equal((await svc.getResident(fam, r.id)).hometown, "Port Harcourt, Nigeria");
+  const saved = await svc.saveIntake(fam, r.id, { hometown: "Port Harcourt, Nigeria", favouriteTexts: ["Synthetic Singer", "Another"], consent: true });
+  assert.equal(saved.consentRecord?.givenBy, "family");
+  assert.ok(saved.consentRecord && Date.parse(saved.consentRecord.at) > 0, "consent is stored with a timestamp");
   await assert.rejects(() => svc.confirm(fam, r.id, "Synthetic Singer", null), (e: HttpError) => e.status === 403);
 
   const items = await svc.resolveForCarer(carer, r.id);
@@ -108,4 +112,30 @@ test("intake validation rejects contact details and out of range years", async (
   await assert.rejects(() => svc.createResident("h", { ...input, favouriteTexts: ["call me on 5551234567"] }), (e: HttpError) => e.status === 400);
   await assert.rejects(() => svc.createResident("h", { ...input, birthYear: 2015 }), (e: HttpError) => e.status === 400);
   await assert.rejects(() => svc.createResident("h", { ...input, consent: false }), (e: HttpError) => e.status === 400);
+});
+
+test("consent is recorded with a timestamp when a carer creates the resident, and nothing is saved without it", async () => {
+  const { svc, store } = make();
+  const r = await svc.createResident("home-a", { ...input, by: "carer", consentBy: "resident" });
+  assert.equal(r.consentRecord?.givenBy, "resident");
+  assert.equal(r.consentRecord?.recordedBy, "carer");
+  assert.ok(Date.parse(r.consentRecord!.at) > 0);
+  const before = (await store.list("residents")).length;
+  await assert.rejects(() => svc.createResident("home-a", { ...input, consent: false }), (e: HttpError) => e.status === 400);
+  assert.equal((await store.list("residents")).length, before);
+});
+
+test("the weekly family note lists items to avoid by name and uses only logged reactions", async () => {
+  const { svc } = make();
+  const r = await svc.createResident("home-a", { ...input, by: "carer" });
+  const m = (await svc.resolveForCarer(carer, r.id))[0]!.resolution!.matches[0]!;
+  await svc.confirm(carer, r.id, "Synthetic Singer", { id: m.id, name: m.name, type: m.type, kind: m.kind });
+  const { card } = await svc.buildCard(r.id, { actor: carer });
+  await svc.logObservation(carer, card.id, card.items[0]!.entityId, "upset", null);
+  await svc.logObservation(carer, card.id, card.items[1]!.entityId, "lit_up", null);
+  const obs = (await svc.timeline(carer, r.id)).observations;
+  const d = svc.buildDigest(r, obs, "2026-W44", "manual", new Date().toISOString());
+  assert.ok(d.lines.some((l) => l.startsWith("Stays off the cards:") && l.includes(card.items[0]!.name)));
+  assert.ok(d.lines.some((l) => l.startsWith("What worked:") && l.includes(card.items[1]!.name)));
+  assert.ok(!d.lines.some((l) => l.includes(card.items[2]!.name)), "an item nobody reacted to is not mentioned");
 });

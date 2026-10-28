@@ -8,7 +8,7 @@ import { mockQloo } from "../backend/test/mock-qloo.ts";
 const resident = {
   id: "synthetic-resident", homeId: "synthetic", firstName: "Synthetic", birthYear: 1940, careCity: "Synthetic City", hometown: "Synthetic Town",
   favourites: [{ text: "Synthetic Singer", kind: "entity", id: "SYN-FAV-001", name: "Synthetic Singer", type: "urn:entity:artist", confirmed: true }],
-  offsets: { from: 10, to: 30 }, consent: true, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: "2026-10-28T00:00:00Z", updatedAt: "2026-10-28T00:00:00Z",
+  offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: "2026-10-28T00:00:00Z", updatedAt: "2026-10-28T00:00:00Z",
 };
 const client = new QlooClient({ key: "synthetic", transport: mockQloo, spacingMs: 0 });
 const r = await runCardAgent({ client, model: null, currentYear: 2026 }, { resident, observations: [], cardId: "synthetic-card", now: Date.parse("2026-10-28T00:00:00Z") });

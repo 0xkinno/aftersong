@@ -42,7 +42,7 @@ for (const f of forms.slice(0, limit)) {
       const m = res.status === "one" ? res.matches[0] : null;
       favourites.push(m ? { text, kind: m.kind, id: m.id, name: m.name, type: m.type, confirmed: true } : { text, kind: "unresolved", id: null, name: null, type: null, confirmed: false });
     }
-    const resident = { id: f.id, homeId: "eval", firstName: f.firstName, birthYear: f.birthYear, careCity: f.careCity, hometown: f.hometown, favourites, offsets: { from: 10, to: 30 }, consent: true, intakeBy: "carer", familySubmittedAt: null, isSample: false, createdAt: "", updatedAt: "" };
+    const resident = { id: f.id, homeId: "eval", firstName: f.firstName, birthYear: f.birthYear, careCity: f.careCity, hometown: f.hometown, favourites, offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: false, createdAt: "", updatedAt: "" };
     let r;
     try {
       r = await runCardAgent({ client, model }, { resident, observations: [], cardId: `eval-${f.id}` });

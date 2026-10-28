@@ -1,7 +1,8 @@
 "use client";
 import { motion, useReducedMotion } from "framer-motion";
 import GlowCard from "./GlowCard";
-import { DOMAIN_LABEL, LABEL_TEXT, OBSERVATIONS, type SessionCard } from "@/lib/types";
+import { playUrl } from "@/lib/play";
+import { DOMAIN_LABEL, FRIENDLY_TOOL, LABEL_TEXT, OBSERVATIONS, type SessionCard } from "@/lib/types";
 
 const REASON: Record<string, string> = {
   not_qloo_entity: "Not an entity Qloo returned in this build",
@@ -13,7 +14,7 @@ const REASON: Record<string, string> = {
   suppressed_upset: "Marked upset earlier, so it stays off",
   wrong_domain: "Wrong kind of item",
 };
-const TAG_CLASS = { personal: "tag tag-personal", shared_era: "tag tag-shared", widely_known: "tag tag-known" } as const;
+const TAG_CLASS = { personal: "tag tag-personal", shared_era: "tag tag-shared", widely_known: "tag tag-known", overlap: "tag tag-known", hometown: "tag tag-shared" } as const;
 
 export default function CardView({ card, sample = false, residentName, onWiden, actions }: { card: SessionCard; sample?: boolean; residentName?: string; onWiden?: () => void; actions?: React.ReactNode }) {
   const reduce = useReducedMotion();
@@ -60,7 +61,8 @@ export default function CardView({ card, sample = false, residentName, onWiden, 
                 <span className={TAG_CLASS[it.label]}>{LABEL_TEXT[it.label]}</span>
               </div>
               <h3 className="text-28 mt-2">{it.name}</h3>
-              <p className="text-14 text-ink-2 mt-2">
+              <p className="text-16 mt-2"><strong>Because of:</strong> {it.connectionBasis === "explainability" || (it.connectedAll ?? []).length < 2 ? it.connectedTo.name : (it.connectedAll ?? []).map((c) => c.name).join(", ")}</p>
+              <p className="text-14 text-ink-2 mt-1 print-hide">
                 {it.connectionBasis === "explainability" || (it.connectedAll ?? []).length < 2 ? (
                   <>Qloo links this to <strong className="text-ink">{it.connectedTo.name}</strong> for people with similar taste.</>
                 ) : (
@@ -74,8 +76,9 @@ export default function CardView({ card, sample = false, residentName, onWiden, 
                 </p>
               )}
               <p className="mt-3 text-20 font-display">&ldquo;{it.opener.text}&rdquo;</p>
-              {it.opener.source === "template" && <p className="text-12 mono text-ink-2 mt-1">Template line{it.opener.blocked ? `, the model line was blocked (${it.opener.blocked.length})` : ""}</p>}
-              {it.label === "personal" && it.cohortUnknown && <p className="text-12 mono text-ink-2 mt-1">Age cohort score unknown</p>}
+              {it.opener.source === "template" && <p className="text-12 mono text-ink-2 mt-1 print-hide">Template line{it.opener.blocked ? `, the model line was blocked (${it.opener.blocked.length})` : ""}</p>}
+              {it.label === "personal" && it.cohortUnknown && <p className="text-12 mono text-ink-2 mt-1 print-hide">Age cohort score unknown</p>}
+              <p className="mt-3 no-print"><a className="underline text-14 inline-flex items-center" style={{ minHeight: 44 }} href={playUrl(it).href} target="_blank" rel="noopener noreferrer">{playUrl(it).label}</a></p>
               {it.tags.length > 0 && <p className="text-12 mono text-ink-2 mt-2">{it.tags.slice(0, 4).map((t) => t.name).join("  ")}</p>}
             </GlowCard>
           </motion.li>
@@ -88,7 +91,23 @@ export default function CardView({ card, sample = false, residentName, onWiden, 
         </p>
       )}
 
-      <details className="mt-8 no-print">
+      <details className="mt-8 no-print" data-testid="how-made">
+        <summary className="cursor-pointer kicker" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>How this card was made ({(card.decisions ?? []).length} decisions)</summary>
+        <div className="mt-3 grid gap-3">
+          {(card.decisions ?? []).length === 0 ? <p className="text-14 text-ink-2">The agent made no decisions beyond the fixed steps below.</p> : (
+            <ol className="grid gap-2" style={{ listStyle: "none", padding: 0 }}>
+              {(card.decisions ?? []).map((d, i) => (
+                <li key={i} className="card p-3 text-14"><span className="kicker">{d.decision.replace(/_/g, " ")}</span><br />{d.why}{d.count !== null ? ` (${d.count})` : ""}{d.call ? ` call ${d.call}` : ""}</li>
+              ))}
+            </ol>
+          )}
+          <ol className="grid gap-1" style={{ listStyle: "none", padding: 0 }}>
+            {card.trail.map((e, i) => <li key={i} className="text-14"><span className="mono text-12 uppercase tracking-widest text-ember-text">{FRIENDLY_TOOL[e.tool] ?? e.tool}</span> {e.summary}</li>)}
+          </ol>
+        </div>
+      </details>
+
+      <details className="mt-4 no-print">
         <summary className="cursor-pointer kicker">What the rules turned away ({card.rejections.length})</summary>
         <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto mt-3">
           <table>

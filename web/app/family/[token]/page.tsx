@@ -16,6 +16,7 @@ export default function Family({ params }: { params: Promise<{ token: string }> 
   const [err, setErr] = useState<string | null>(null);
   const [form, setForm] = useState({ birthYear: "", hometown: "", f: ["", "", ""] });
   const [saved, setSaved] = useState(false);
+  const [consent, setConsent] = useState(false);
 
   const load = () => api<View>(`/family/${token}`).then((d) => { setV(d); setForm({ birthYear: String(d.resident.birthYear), hometown: d.resident.hometown, f: [0, 1, 2].map((i) => d.resident.favourites[i]?.text ?? "") }); }).catch((e) => setErr(e.message));
   useEffect(() => { load(); }, [token]);
@@ -31,14 +32,15 @@ export default function Family({ params }: { params: Promise<{ token: string }> 
 
       <form className="card p-5 mt-8 grid gap-3" onSubmit={async (e) => {
         e.preventDefault(); setErr(null); setSaved(false);
-        try { await api(`/family/${token}/intake`, { method: "PUT", body: { birthYear: Number(form.birthYear), hometown: form.hometown, favourites: form.f.filter(Boolean) } }); setSaved(true); load(); } catch (x) { setErr((x as Error).message); }
+        try { await api(`/family/${token}/intake`, { method: "PUT", body: { birthYear: Number(form.birthYear), hometown: form.hometown, favourites: form.f.filter(Boolean), consent } }); setSaved(true); load(); } catch (x) { setErr((x as Error).message); }
       }}>
         <h2 className="text-28">What you told us</h2>
         <div><label htmlFor="by">Birth year</label><input id="by" inputMode="numeric" value={form.birthYear} onChange={(e) => setForm({ ...form, birthYear: e.target.value })} /></div>
         <div><label htmlFor="ht">Where they grew up</label><input id="ht" value={form.hometown} onChange={(e) => setForm({ ...form, hometown: e.target.value })} /></div>
         {form.f.map((x, i) => <div key={i}><label htmlFor={`f${i}`}>Favourite {i + 1}</label><input id={`f${i}`} maxLength={80} value={x} onChange={(e) => { const f = [...form.f]; f[i] = e.target.value; setForm({ ...form, f }); }} /></div>)}
         <p className="text-14 text-ink-2">Best remembered years: {v.resident.window.start} to {v.resident.window.end}. {v.resident.favourites.filter((f) => f.confirmed).length} of {v.resident.favourites.length} favourites confirmed by the carer.</p>
-        <button className="btn btn-primary">Save</button>
+        <label className="flex gap-3 items-start" style={{ color: "var(--ink)" }}><input type="checkbox" style={{ width: 28, minHeight: 28 }} checked={consent} onChange={(e) => setConsent(e.target.checked)} required />I am a member of the family and I agree to this being used to prepare sessions. Nothing is saved without this.</label>
+        <button className="btn btn-primary" style={{ minHeight: 56 }}>Save</button>
         {saved && <p role="status">Saved.</p>}
       </form>
 

@@ -128,6 +128,8 @@ on("GET", "/sample/residents/:id/card", async (c) => {
   const card = (await store.list<SessionCard>("cards", { residentId: c.params[0]! })).pop();
   return card ? { card, cached: true } : { card: null, cached: false };
 });
+// Sample session taps are checked and discarded, so the phone's offline queue can be shown without storing anything.
+on("POST", "/sample/taps", async (c) => ({ ok: true, saved: false, entityId: String(c.body.entityId ?? "").slice(0, 64) }));
 on("GET", "/sample/cards/:id/export", async (c) => svc.exportCard("sample", c.params[0]!));
 on("POST", "/sample/residents/:id/compare", async (c) => {
   const t = limiter.take(c.ip);
@@ -168,7 +170,7 @@ on("POST", "/try", async (c) => {
     favourites.push(m ? { text, kind: m.kind, id: m.id, name: m.name, type: m.type, confirmed: true } : { text, kind: "unresolved" as const, id: null, name: null, type: null, confirmed: false });
   }
   const now = new Date().toISOString();
-  const resident: Resident = { id: "try", homeId: "try", firstName: "Guest", birthYear: b.birthYear, careCity: String(b.careCity), hometown: String(b.hometown), favourites, offsets: { from: 10, to: 30 }, consent: true, intakeBy: "carer", familySubmittedAt: null, isSample: false, createdAt: now, updatedAt: now };
+  const resident: Resident = { id: "try", homeId: "try", firstName: "Guest", birthYear: b.birthYear, careCity: String(b.careCity), hometown: String(b.hometown), favourites, offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: false, createdAt: now, updatedAt: now };
   return streamCard(c, async (emit) => ({ ...(await svc.buildCard("try", { actor: "public", resident, persist: false, onEvent: (e) => emit({ type: "trail", ...e }) })), favourites }));
 }, true);
 
@@ -177,7 +179,7 @@ on("GET", "/residents", async (c) => ({ residents: await svc.listResidents(((awa
 on("POST", "/residents", async (c) => {
   const a = (await carer(c)) as Extract<Actor, { role: "carer" }>;
   const b = c.body;
-  return svc.createResident(a.homeId, { firstName: String(b.firstName ?? ""), birthYear: Number(b.birthYear), careCity: String(b.careCity ?? ""), hometown: String(b.hometown ?? ""), favouriteTexts: Array.isArray(b.favourites) ? b.favourites.map(String) : [], consent: b.consent === true, by: "carer" });
+  return svc.createResident(a.homeId, { firstName: String(b.firstName ?? ""), birthYear: Number(b.birthYear), careCity: String(b.careCity ?? ""), hometown: String(b.hometown ?? ""), favouriteTexts: Array.isArray(b.favourites) ? b.favourites.map(String) : [], consent: b.consent === true, consentBy: b.consentBy === "resident" ? "resident" : "family", by: "carer" });
 });
 on("GET", "/residents/:id", async (c) => svc.getResident(await carer(c), c.params[0]!));
 on("PUT", "/residents/:id/intake", async (c) => svc.saveIntake(await carer(c), c.params[0]!, { birthYear: c.body.birthYear, hometown: c.body.hometown, favouriteTexts: c.body.favourites }));
@@ -214,7 +216,7 @@ on("GET", "/family/:token", async (c) => svc.familyView(await svc.familyActor(c.
 on("PUT", "/family/:token/intake", async (c) => {
   const a = await svc.familyActor(c.params[0]!);
   if (a.role !== "family") throw new HttpError(403, "Family only.");
-  return svc.saveIntake(a, a.residentId, { birthYear: c.body.birthYear, hometown: c.body.hometown, favouriteTexts: c.body.favourites });
+  return svc.saveIntake(a, a.residentId, { birthYear: c.body.birthYear, hometown: c.body.hometown, favouriteTexts: c.body.favourites, consent: c.body.consent === true });
 });
 on("DELETE", "/family/:token/memory/:obs", async (c) => {
   const a = await svc.familyActor(c.params[0]!);

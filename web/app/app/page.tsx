@@ -9,7 +9,7 @@ interface Res { id: string; firstName: string; birthYear: number; hometown: stri
 function Dashboard() {
   const [list, setList] = useState<Res[] | null>(null);
   const [err, setErr] = useState<string | null>(null);
-  const [form, setForm] = useState({ firstName: "", birthYear: "", careCity: "", hometown: "", f1: "", f2: "", f3: "", consent: false });
+  const [form, setForm] = useState({ firstName: "", birthYear: "", careCity: "", hometown: "", f1: "", f2: "", f3: "", consent: false, consentBy: "family" });
   const [busy, setBusy] = useState(false);
 
   const load = () => api<{ residents: Res[] }>("/residents", { auth: true }).then((r) => setList(r.residents)).catch((e) => setErr(e.message));
@@ -20,14 +20,14 @@ function Dashboard() {
     setBusy(true);
     setErr(null);
     try {
-      const r = await api<Res>("/residents", { method: "POST", auth: true, body: { firstName: form.firstName, birthYear: Number(form.birthYear), careCity: form.careCity, hometown: form.hometown, favourites: [form.f1, form.f2, form.f3].filter(Boolean), consent: form.consent } });
+      const r = await api<Res>("/residents", { method: "POST", auth: true, body: { firstName: form.firstName, birthYear: Number(form.birthYear), careCity: form.careCity, hometown: form.hometown, favourites: [form.f1, form.f2, form.f3].filter(Boolean), consent: form.consent, consentBy: form.consentBy } });
       location.href = `/app/resident/${r.id}`;
     } catch (e2) {
       setErr((e2 as Error).message);
       setBusy(false);
     }
   };
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [k]: e.target.type === "checkbox" ? e.target.checked : e.target.value });
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setForm({ ...form, [k]: e.target.type === "checkbox" ? e.target.checked : e.target.value });
 
   return (
     <div className="wrap py-10">
@@ -54,6 +54,7 @@ function Dashboard() {
           <div><label htmlFor="f1">Favourite one</label><input id="f1" required maxLength={80} value={form.f1} onChange={set("f1")} /></div>
           <div><label htmlFor="f2">Favourite two</label><input id="f2" maxLength={80} value={form.f2} onChange={set("f2")} /></div>
           <div><label htmlFor="f3">Favourite three</label><input id="f3" maxLength={80} value={form.f3} onChange={set("f3")} /></div>
+          <div><label htmlFor="cb">Who agreed</label><select id="cb" value={form.consentBy} onChange={set("consentBy")}><option value="family">A member of the family</option><option value="resident">The resident</option></select></div>
           <label className="flex gap-3 items-start" style={{ color: "var(--ink)" }}><input type="checkbox" style={{ width: 24, minHeight: 24 }} checked={form.consent} onChange={set("consent")} required />The resident or their family agrees to this being used. No health details are entered.</label>
           <button className="btn btn-primary" disabled={busy}>Add resident</button>
         </form>

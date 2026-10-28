@@ -23,7 +23,7 @@ const fav = (id: string, name: string, type: string | null, kind: "entity" | "ta
 const resident: Resident = {
   id: "r1", homeId: "h", firstName: "Sample", birthYear: 1940, careCity: "San Antonio, Texas", hometown: "Port Harcourt, Nigeria",
   favourites: [fav("SYN-FAV-001", "Synthetic Singer", "urn:entity:artist"), fav("SYN-MOVIE-001", "Synthetic Film", "urn:entity:movie"), fav("urn:tag:cuisine:jollof", "jollof rice", null, "tag")],
-  offsets: { from: 10, to: 30 }, consent: true, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "",
+  offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: "", updatedAt: "",
 };
 
 // ---- B1: ranks inside two calls over one pinned pool ----

@@ -4,6 +4,10 @@ import HeroSvg from "@/components/HeroSvg";
 import LandingCard from "@/components/LandingCard";
 import FactsPanel from "@/components/FactsPanel";
 import sources from "@/lib/sources.json";
+import findings from "@/lib/findings.json";
+
+// The discovery sentence is written by scripts/probe-matrix.mjs from measured results. Until a run exists, the plain claim below is shown, and it makes no number-based promise.
+const DISCOVERY = (findings as { sentence: string | null }).sentence ?? "Everyone assumes music for old people is one playlist. The songs that reach a person come from the years they remember best and from what they loved.";
 
 const STEPS = [
   { n: "01", t: "The family names three favourites", d: "Sam Cooke, Casablanca, his mother's jollof rice. They type it from anywhere through a private link." },
@@ -16,17 +20,24 @@ export default function Home() {
   const stats = ["who", "turnover", "cochrane"].map((id) => sources.sources.find((s) => s.id === id)!);
   return (
     <>
-      <section className="wrap pt-16 pb-12 md:pt-24 grid gap-10 md:grid-cols-[1.25fr_1fr] items-center" aria-labelledby="hero">
-        <div>
-          <p className="kicker">A reminiscence agent for memory care</p>
-          <h1 id="hero" className="mt-4" style={{ fontSize: "clamp(48px, 9vw, 96px)", lineHeight: 1.02 }}>The songs he still knows.</h1>
-          <p className="mt-6 text-20 max-w-xl text-ink-2">Marisol has twenty minutes before the afternoon session with a new resident who barely speaks. Aftersong turns three remembered favourites into a card of music, film, food and places from the years he remembers best.</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link className="btn btn-primary" href="/sample">Try a sample resident</Link>
-            <Link className="btn" href="/judge">For judges</Link>
-          </div>
+      <section className="hero relative" aria-labelledby="hero">
+        <div className="hero-bg" aria-hidden="true">
+          {/* decorative, masked so the headline sits on clean paper */}
+          <img src="/hero.webp" alt="" width={1800} height={1204} fetchPriority="low" decoding="async" />
         </div>
-        <div className="max-w-[520px] w-full justify-self-center md:justify-self-end"><HeroSvg className="w-full h-auto" /></div>
+        <div className="wrap pt-16 pb-12 md:pt-24 grid gap-10 md:grid-cols-[1.25fr_1fr] items-center relative">
+          <div>
+            <p className="kicker">A reminiscence agent for memory care</p>
+            <h1 id="hero" className="mt-4" style={{ fontSize: "clamp(48px, 9vw, 96px)", lineHeight: 1.02 }}>The songs he still knows.</h1>
+            <p className="mt-6 text-20 max-w-xl text-ink-2">Marisol has twenty minutes before the afternoon session with a new resident who barely speaks. Aftersong turns three remembered favourites into a card of music, film, food and places from the years he remembers best.</p>
+            <p className="mt-4 text-16 max-w-xl" data-testid="discovery">{DISCOVERY}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link className="btn btn-primary" href="/sample">Try a sample resident</Link>
+              <Link className="btn" href="/judge">For judges</Link>
+            </div>
+          </div>
+          <div className="max-w-[520px] w-full justify-self-center md:justify-self-end"><HeroSvg className="w-full h-auto" /></div>
+        </div>
       </section>
 
       <section className="wrap py-16" aria-labelledby="problem">
