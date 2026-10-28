@@ -3,7 +3,7 @@ reference/
 
 # build instruction files hold study notes, kept local only
 AFTERSONG_BUILD_INSTRUCTION.md
-HACKATHON_WINNING_SYSTEM_V5.md
+HACKATHON_WINNING_SYSTEM_V5*.md
 
 # secrets
 .env
