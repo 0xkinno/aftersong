@@ -51,6 +51,8 @@ neighbours. lit_up and sang_or_moved become new confirmed signals. Entries expir
 reconfirmed. The family can view and delete. A model guess never becomes memory.
 
 ## Crew (job titles, one responsibility, tools, identity)
+These are responsibilities inside one agent loop, not separate model identities. The model chooses the order of tool calls. The group route runs the Room Planner deterministically; the model does not choose it.
+
 | Role | Responsibility | Tools it may call | Identity |
 |---|---|---|---|
 | Intake Clerk | Resolve typed favourites to Qloo entities | `resolve_favourites` | model, no write access |

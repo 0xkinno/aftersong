@@ -1,28 +1,55 @@
 # EVIDENCE.md
 
-Evidence, disclosures and measured results. Numbers here come from `docs/FACTS.json` once it exists
-(Phase 5). Nothing in this file is typed by hand as a headline.
+Evidence, disclosures and measured results. Numbers are read from `docs/FACTS.json`, which a script
+generates from real runs. Nothing in this file is typed by hand as a headline.
 
 ## Disclosures
 
 ### Persona and sample data
 Marisol (activities coordinator) and Walter Okafor (resident) are invented people used to tell the
 story and to preload sample data. They are not real, and no real person's data appears in the sample.
-This wording lives only in this file. The README, the app, the voiceover and any demo video present
-them as the story and the sample, with the on-screen word "Sample" on every screen that uses sample
-data.
+The four other sample residents (Ruth, Hector, Margaret, Joseph) are invented in the same way. This
+wording lives only in this file. The README, the app, the voiceover and any demo video present them as
+the story and the sample, with the on-screen word "Sample" on every screen that uses sample data.
+
+### Curated and wild forms
+The 15 curated intake forms in `data/eval/curated.json` were written by us from public biographical
+archetypes (birth year, three well-known favourites, a hometown). They are flattering by construction
+and are reported separately. Wild forms come from consenting older relatives or friends' grandparents
+(first name, birth year, city, three favourites only) and are kept out of the repository; only
+aggregates and hashed item ids reach `docs/eval-summary.json`. Until they are collected the wild set
+reads "not run yet".
 
 ### AI assistance
 AI coding assistants were used to write parts of this repository. All commits are authored by 0xkinno.
 
-### Prior work
-This repository was started on 2026-10-28, inside the submission period. No earlier code is reused.
+### Prior work and other events
+This repository was started on 2026-10-28, inside the submission period. No earlier code is reused and
+the project has not been entered in any other event.
 
 ### Qloo data handling
-Qloo receives entity IDs, tags, years and coordinates only. No names, health details or account data.
+Qloo receives entity IDs, tag IDs, an age bracket, years, and a locality ID or a point. It also receives
+the name a family typed for a favourite, in `/search`, and a place name in a locality search. No health
+details, no resident names, no account data. The code refuses anything else before it leaves
+(`backend/src/qloo/guard.ts`). The developer guide allows private caching and forbids storing responses
+in a public repository, so none is stored here. Test fixtures are synthetic and say so.
 
-## Eval results
-Added in Phase 5: curated set, wild set, both error directions, misses by id, cost per card.
+## Results
+Read from `docs/FACTS.json`; shown on `/evidence` and in the README.
+
+## Both error directions
+Not measured yet. They need a human reviewer over the plain AI list and over Aftersong's rejections.
+Recorded here when done, with the reviewer, the date and the counts:
+- Items Aftersong rejected that the reviewer would keep (false rejections): unmeasured.
+- Items Aftersong kept that the reviewer says are wrong (false keeps): unmeasured.
+- False positive rate of the checker on the plain AI list: unmeasured.
 
 ## Misses and limits
-Added as they are found.
+- Qloo has no year filter for artists. How music years are obtained is decided by the probe and recorded in `PLATFORM_PROBE.md`.
+- The harness was not used; see `SPONSOR_INTEL.md` for the reason.
+- Carer sign-in and saved residents were tested with a stand-in sign-in and an in-memory store; they are untested against Supabase until a project is connected.
+- No real session with an older person has been run.
+
+## Run log of unattended work
+The weekly family note runs Monday 07:00 UTC from a Render cron job. Run records are stored in the
+`runs` collection and listed here once a real run exists.

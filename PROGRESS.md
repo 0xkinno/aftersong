@@ -5,38 +5,67 @@ Updated at the end of every working session.
 ## Standing rules (from Kinnoski, apply to every phase)
 - All files and folders live inside `AFTERSONG/`.
 - Nothing about other entries appears in committed code, UI, README or docs. Study material stays in `reference/` (gitignored). `scripts/check-clean.mjs` enforces this from `reference/blocked-terms.txt`, in the pre-commit hook.
-- The word "fictional" never appears in the README, UI, voiceover or demo video. The disclosure that the persona and sample data are invented lives only in `EVIDENCE.md`. This replaces the "labelled fictional" wording in the build instruction. The "Sample" label on sample screens stays.
+- The word "fictional" never appears in the README, UI, voiceover, demo video or submission text. The disclosure that the persona and sample data are invented lives only in `EVIDENCE.md`. This replaces the "labelled fictional" wording in the build instruction. The "Sample" label on sample screens stays.
 - Every commit is authored by 0xkinno. No AI attribution anywhere.
 - House style: no dashes as punctuation, no emoji, no hype words.
+- Study `HACKATHON_WINNING_SYSTEM_V5 (1).md` (revision 5.1, the larger file), not the older copy.
 
-## Session 1, 2026-10-28: Phase 0
+## Where things stand (session 2, 2026-10-28)
+Phases 0 to 7 are built as far as they can be without keys and accounts. Everything that needs the
+Qloo key, a model key, Supabase, GitHub, Vercel or Render is listed under "Blocked on Kinnoski".
 
-### Done and verified
-- Read `AFTERSONG_BUILD_INSTRUCTION.md` and `HACKATHON_WINNING_SYSTEM_V5.md` in full.
-- Repo initialised on `main`. MIT licence. `.gitignore` covers `reference/`, `.env*`, and the two instruction files.
-- Git identity set locally: `0xkinno`, `140649226+0xkinno@users.noreply.github.com` (numeric ID read from the public GitHub API).
-- Attribution guards in place: `.github/workflows/no-claude-attribution.yml`, `.githooks/commit-msg`, `core.hooksPath=.githooks`. Added `.githooks/pre-commit` running `scripts/check-clean.mjs`.
-- All 12 repos from Section 11 cloned into `reference/`. Notes in `reference/NOTES.md`. Lane map in `reference/LANE_MAP.md`.
-- `RULES_EXTRACT.md` written from the live official rules page (read via the in-app browser).
-- Name check for "Aftersong": no collision found, see `docs/NAME_CHECK.md`. App stores and trademark registers were not searched directly.
-- Web app skeleton (`web/`, Next.js 15) with `/api/status`; backend skeleton (`backend/`, Node 22) with `/health` and `/status`; `render.yaml`. Built with `next build`, run locally, and `/api/status` returned the backend's measured status. Qloo shows `configured: false` because no key is set yet.
-- `.env` created with a generated `BACKEND_SHARED_SECRET`. `.env.example` committed.
+| Phase | State |
+|---|---|
+| 0 Foundation | Done except the Vercel and Render deploy |
+| 1 Sponsor intelligence and probe | Intel done from docs and package source. Probe script written and tested for its keyless path; real calls wait for the key |
+| 2 The card | Code, rules, agent, UI built and tested on stand-ins. Not yet run on live Qloo |
+| 3 Human loop | Built and tested at service level; family page and session mode checked in the browser. Carer pages and Supabase untested until a project exists |
+| 4 Group and compare | Built and unit tested. Live runs wait for the key |
+| 5 Proof | Sources verified. Eval and facts scripts written. No eval run, so FACTS.json is empty and the site says "not measured yet" |
+| 6 UI and quality | Landing, all pages, house-style test, 51 Playwright and axe checks across five viewports pass. Screenshots wait for real data |
+| 7 Red team and submission | README, SUBMISSION_DEVPOST.md, PITCH.md written. Red team, submit and tag wait for the deploy |
 
-### Not done, needs Kinnoski
-- **Vercel and Render deployment.** Requires logging in to those accounts, which I cannot do. Steps below. TASK.md keeps this item unchecked.
-- **QLOO_API_KEY** and a model key in `.env`. Without the Qloo key the status probe reports "not configured", as designed.
-- GitHub repo under 0xkinno: `gh` is not installed here, so the remote is not created.
+## Verification so far
+- `npm test`: 35 tests pass (client, rules, memory, agent with a scripted model, fault switch, room planner, plain AI check, service roles).
+- `npm run verify:fixtures`: honest synthetic card passes all six checks; tampered card fails as expected.
+- `web/e2e/quality.spec.ts`: 51 tests pass on a stack running a synthetic Qloo stand-in: no horizontal scroll, no overlap, axe with no serious violations, hover glow, at 375x812, 412x915, 768x1024, 1280x800 and 1440x900.
+- `npm run check`: house style, no study material in committed files, FACTS, SDK_SURFACE and README current.
+- The stand-in Qloo is `scripts/dev-mock-qloo.mjs`. Its data is invented, never deployed, and never used for a result or a screenshot in the README.
 
-### Deployment steps for Kinnoski
-1. GitHub: create an empty public repo `0xkinno/aftersong`, then `git remote add origin <url>` and push `main`.
-2. Render: New, Blueprint, pick the repo (it reads `render.yaml`). Set `QLOO_API_KEY` and `BACKEND_SHARED_SECRET` (same value as in `.env`).
-3. Vercel: import the repo, set Root Directory to `web`, add `BACKEND_URL` (the Render URL), `BACKEND_SHARED_SECRET`.
-4. Tell me both URLs. I will confirm `/api/status` shows a real backend probe and tick the last Phase 0 box.
+## Plan and build diff (V5 rule: every session)
+Claims checked against code this session:
+- THESIS.md says the agent has Intake Clerk, Era Scout, Card Builder, Room Planner, Memory Keeper and Opener Writer roles. In code these are tools of one agent loop plus `plan_group_session` invoked by the group route, not a model-chosen tool. The group route is deterministic; it is listed that way in SDK_SURFACE.md ("Room planner re-scoring"). THESIS.md now says the crew table is responsibilities inside one loop, not separate model identities.
+- SPONSOR_INTEL.md says the harness is not wired. Code agrees.
+- The build instruction prefers the harness MCP. Not used; reason recorded.
+- The build instruction asks for a hero image. Not made: no image model in this environment. Hero art is the inline SVG only.
+- Invariant 2 applies to dated items. Food and place items are tied to a hometown cuisine or place instead, because Qloo places have no year. Recorded in README Limits and RISK.md.
+- `upset` memory does not expire on its own (stricter than the 90 day rule). Recorded in `backend/src/core/memory.ts`.
 
-### Notes
-- Rules page says a video is not a listed submission item. Confirm on the live Devpost form in Phase 7.
-- The brief's `filter.release_year` was not seen in any studied code. Phase 1 must probe it.
-- Adjacent music-and-dementia products exist in the real world (details in `reference/LANE_MAP.md`). The pitch should acknowledge playlist apps fairly and show the year-window and carer-loop difference.
+## Self-judging, 1 to 5, this build (V5 Part 17)
+Comparison scores are kept locally in `reference/`.
 
-### Next
-Phase 1 starts only after Kinnoski approves.
+| Criterion | Score | Evidence | What moves it |
+|---|---|---|---|
+| Technological Implementation | 3 | Rules, window, cohort split, same-pool re-scoring, allowlist, rate discipline, tests, SDK surface with file and line | A live probe and eval on our own key; the music years strategy |
+| Design | 4 | Calm editorial UI, phone first session mode, print layout, five viewports and axe pass | Real data in screenshots; a real session on a phone |
+| Potential Impact | 4 | Specific person and moment, verified sources, buyer and price hypothesis, carer role | A practitioner interview or one real session |
+| Quality of the Idea | 4 | Year windows across five kinds of item, Personal against generation, carer taps as the next signal | The measured comparison against the plain AI list |
+
+Blocking questions answered "no" today: wild set or real run (none), both error directions (none),
+live Qloo observed (none), deployed on Vercel and Render (not yet), red team (not run), unattended run
+recorded (not yet), screenshots of the deployed app (none).
+
+## Blocked on Kinnoski
+1. `QLOO_API_KEY` in `.env`. Then: `npm run probe`, `node scripts/discovery.mjs`, `npm run eval`, `npm run facts`.
+2. A model key and `MODEL_ID` in `.env` (Anthropic, OpenRouter or NVIDIA). Record the model id in SDK_SURFACE.md by running `npm run docs`.
+3. Supabase project: run `supabase/schema.sql`; URL, anon key and service role key into `.env`.
+4. GitHub repo URL (`0xkinno/aftersong`). `gh` is not installed here, so push is by git remote.
+5. Vercel and Render accounts: steps in `docs/DEPLOY.md`.
+6. Wild forms: 10 to 15 consenting older relatives, first name, birth year, city, three favourites, into `data/wild/*.json` using `wild.template.json`.
+7. Human review of the plain AI list and of Aftersong's rejections, for both error directions.
+8. The final Devpost submit click.
+
+## Notes
+- The rules page lists a demo link, a public repository with a visible licence, and a text description. A video is not listed as required.
+- Music years: the code supports three strategies (a year property, a decade tag, or none). The probe decides which one holds; until then the card may show fewer music items.
+- Adjacent music-and-dementia products exist in the real world (details in `reference/LANE_MAP.md`). The pitch should acknowledge playlist apps fairly.

@@ -53,7 +53,7 @@ export default function SessionMode({ card, startIndex = 0, sample = false, onTa
         <p className="kicker">{DOMAIN_LABEL[item!.domain]}{item!.year ? `  ${item!.year}` : ""}</p>
         <h1 className="text-40 mt-2" style={{ fontSize: "clamp(32px, 9vw, 48px)" }}>{item!.name}</h1>
         <p className="mt-6 font-display" style={{ fontSize: "clamp(24px, 6.5vw, 32px)", lineHeight: 1.25 }}>&ldquo;{item!.opener.text}&rdquo;</p>
-        <p className="mt-4 text-14 text-ink-2">Qloo links this to {item!.connectedTo.name} for people with similar taste.</p>
+        <p className="mt-4 text-14 text-ink-2">{item!.connectionBasis === "explainability" || (item!.connectedAll ?? []).length < 2 ? <>Qloo links this to {item!.connectedTo.name} for people with similar taste.</> : <>Qloo scored this against {(item!.connectedAll ?? []).map((c) => c.name).join(", ")} together, for people with similar taste.</>}</p>
       </article>
 
       <fieldset className="mt-8">

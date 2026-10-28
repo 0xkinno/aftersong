@@ -4,11 +4,13 @@
   "private": true,
   "license": "MIT",
   "description": "A reminiscence agent for memory care.",
-  "engines": { "node": ">=22.19" },
+  "engines": {
+    "node": ">=22.19"
+  },
   "scripts": {
     "test": "npm --prefix backend test",
     "typecheck": "npm --prefix backend run typecheck",
-    "check": "node scripts/check-clean.mjs && node scripts/house-style-test.mjs && node scripts/facts.mjs --check",
+    "check": "node scripts/check-clean.mjs && node scripts/house-style-test.mjs && node scripts/facts.mjs --check && node scripts/sdk-surface.mjs --check && node scripts/readme.mjs --check",
     "verify": "node scripts/verify-card.mjs",
     "verify:fixtures": "node scripts/verify-card.mjs backend/test/fixtures/synthetic-export.json && node scripts/verify-card.mjs backend/test/fixtures/synthetic-export-tampered.json --expect-fail",
     "facts": "node scripts/facts.mjs",
@@ -16,6 +18,8 @@
     "eval": "node scripts/eval.mjs",
     "backend": "npm --prefix backend start",
     "web": "npm --prefix web run dev",
-    "sabotage": "node scripts/sabotage-report.mjs"
+    "sabotage": "node scripts/sabotage-report.mjs",
+    "docs": "node scripts/sources.mjs && node scripts/facts.mjs && node scripts/sdk-surface.mjs && node scripts/readme.mjs && node scripts/milestones.mjs",
+    "discovery": "node scripts/discovery.mjs"
   }
 }
