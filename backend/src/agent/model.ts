@@ -101,6 +101,7 @@ export function openAiCompatModel(provider: string, baseUrl: string, key: string
       const body = await j(res);
       if (!res.ok) throw new ModelError(`${provider} ${res.status}: ${body?.error?.message?.slice?.(0, 80) ?? "error"}`, res.status);
       const msg = body.choices?.[0]?.message ?? {};
+      let calls_i = 0;
       const calls: ToolCall[] = (msg.tool_calls ?? []).map((t: any) => {
         let args: Record<string, unknown> = {};
         try {
@@ -108,7 +109,7 @@ export function openAiCompatModel(provider: string, baseUrl: string, key: string
         } catch {
           args = {};
         }
-        return { id: t.id, name: t.function?.name, args };
+        return { id: t.id || `call_${calls_i++}`, name: t.function?.name, args };
       });
       return { text: msg.content ?? "", toolCalls: calls, usage: { inputTokens: body.usage?.prompt_tokens ?? 0, outputTokens: body.usage?.completion_tokens ?? 0 } };
     },
@@ -121,14 +122,69 @@ export interface ModelEnv {
   ANTHROPIC_API_KEY?: string;
   OPENROUTER_API_KEY?: string;
   NVIDIA_API_KEY?: string;
+  GROQ_API_KEY?: string;
+  GROQ_MODEL_ID?: string;
+  GEMINI_API_KEY?: string;
+  GEMINI_MODEL_ID?: string;
 }
 
-/** Returns null when no usable key is set, so callers can say so plainly. */
-export function modelFromEnv(env: ModelEnv): Model | null {
-  const p = (env.MODEL_PROVIDER || "").toLowerCase();
-  const pick = p || (env.ANTHROPIC_API_KEY ? "anthropic" : env.OPENROUTER_API_KEY ? "openrouter" : env.NVIDIA_API_KEY ? "nvidia" : "");
-  if (pick === "anthropic" && env.ANTHROPIC_API_KEY && env.MODEL_ID) return anthropicModel(env.ANTHROPIC_API_KEY, env.MODEL_ID);
-  if (pick === "openrouter" && env.OPENROUTER_API_KEY && env.MODEL_ID) return openAiCompatModel("openrouter", "https://openrouter.ai/api/v1", env.OPENROUTER_API_KEY, env.MODEL_ID);
-  if (pick === "nvidia" && env.NVIDIA_API_KEY && env.MODEL_ID) return openAiCompatModel("nvidia", "https://integrate.api.nvidia.com/v1", env.NVIDIA_API_KEY, env.MODEL_ID);
+const BASES = { openrouter: "https://openrouter.ai/api/v1", nvidia: "https://integrate.api.nvidia.com/v1", groq: "https://api.groq.com/openai/v1", gemini: "https://generativelanguage.googleapis.com/v1beta/openai" } as const;
+const DEFAULT_IDS = { groq: "llama-3.3-70b-versatile", gemini: "gemini-2.5-flash" } as const;
+
+/** One provider by name, or null when its key (or, where there is no default, its model id) is missing. */
+function one(name: string, env: ModelEnv, id: string | undefined): Model | null {
+  if (name === "anthropic") return env.ANTHROPIC_API_KEY && id ? anthropicModel(env.ANTHROPIC_API_KEY, id) : null;
+  if (name === "openrouter") return env.OPENROUTER_API_KEY && id ? openAiCompatModel(name, BASES.openrouter, env.OPENROUTER_API_KEY, id) : null;
+  if (name === "nvidia") return env.NVIDIA_API_KEY && id ? openAiCompatModel(name, BASES.nvidia, env.NVIDIA_API_KEY, id) : null;
+  if (name === "groq") return env.GROQ_API_KEY ? openAiCompatModel(name, BASES.groq, env.GROQ_API_KEY, id || DEFAULT_IDS.groq) : null;
+  if (name === "gemini") return env.GEMINI_API_KEY ? openAiCompatModel(name, BASES.gemini, env.GEMINI_API_KEY, id || DEFAULT_IDS.gemini) : null;
   return null;
+}
+
+/** Tries each model in order. A failure (rate limit, outage, bad key, timeout) moves to the next; the last error is thrown if all fail. */
+export function withFallback(models: Model[]): Model {
+  let current = models[0];
+  return {
+    get provider() {
+      return current.provider;
+    },
+    get id() {
+      return current.id;
+    },
+    async complete(system, messages, tools, signal) {
+      let last: unknown = null;
+      for (const m of models) {
+        try {
+          const r = await m.complete(system, messages, tools, signal);
+          current = m;
+          return r;
+        } catch (e) {
+          last = e;
+        }
+      }
+      throw last;
+    },
+  };
+}
+
+/**
+ * The primary model comes from MODEL_PROVIDER and MODEL_ID. Every other provider that has a key becomes a
+ * fallback, in this order: anthropic, openrouter, nvidia, groq, gemini. Groq and Gemini need only a key.
+ * Returns null when no usable key is set, so callers can say so plainly.
+ */
+export function modelFromEnv(env: ModelEnv): Model | null {
+  const order = ["anthropic", "openrouter", "nvidia", "groq", "gemini"];
+  const p = (env.MODEL_PROVIDER || "").toLowerCase();
+  const own = (name: string) => (name === "groq" ? env.GROQ_MODEL_ID : name === "gemini" ? env.GEMINI_MODEL_ID : undefined);
+  const primary = p ? one(p, env, env.MODEL_ID || own(p)) : null;
+  const rest: Model[] = [];
+  for (const name of order) {
+    if (name === p) continue;
+    // a provider without its own model id (anthropic, openrouter, nvidia) can only back up when MODEL_ID names it, so groq and gemini are the natural fallbacks
+    const m = one(name, env, own(name) ?? (p ? undefined : env.MODEL_ID));
+    if (m) rest.push(m);
+  }
+  const all = primary ? [primary, ...rest] : rest;
+  if (!all.length) return null;
+  return all.length === 1 ? all[0] : withFallback(all);
 }

@@ -84,3 +84,10 @@ Mark each task `[x]` the moment it is finished and verified.
 
 
 Phase 8, item C, open parts: `docs/PREREG.md` and `scripts/probe-matrix.mjs` are written and tested on synthetic input. The matrix has not been run: it refuses until PREREG is committed, and it spends live Qloo quota. After it runs, FINDINGS.md and the landing discovery sentence are generated from its output.
+### Session 4 additions
+- [x] CI browser job fixed (Playwright runs from `web/`)
+- [x] README reorganised; banner and four landscape screenshots from Playwright Chromium; findings table generated
+- [x] Landing redesigned: dark stage, title-case headline, larger animated record art, tighter spacing; 71 browser checks pass
+- [x] Model fallback: Groq and Gemini adapters, ordered fallback chain, tests
+- [ ] Vercel production deploy (waiting on Kinnoski's sign-in), Render service, Supabase schema run
+- [ ] Plain AI arm rerun with Groq or Gemini key, then `node scripts/facts.mjs`

@@ -86,11 +86,13 @@ Done since the first score: live Qloo observed (probe, matrix F1 to F5, discover
 - Screenshots taken locally against the real backend and live Qloo, with the model out of quota (cards show template openers, labelled as such).
 - DISCOVERY.md run log filled from `node scripts/discovery.mjs`.
 
+- Landing redesign (dark stage, title-case headline, larger record, sample cards), 71 browser checks pass. Groq and Gemini fallback added to the model adapters.
+
 ## Blocked on Kinnoski
 1. Vercel production deploy of `web/` (a classifier blocked my `vercel --prod`; run it yourself or allow it). The project `aftersong` exists with three env vars and no production deployment.
 2. Render service from `render.yaml`, then `BACKEND_URL` in Vercel. Until then the deployed app shows saved samples only.
 3. Supabase: run `supabase/schema.sql` (the `records` table returns 404 today).
-4. Model quota: OpenRouter credits or another key, then `npm run eval` and `node scripts/facts.mjs` for the plain AI columns and sign tests.
+4. Model quota: a `GROQ_API_KEY` or `GEMINI_API_KEY` in `.env` (now supported as fallbacks), or OpenRouter credits, then `npm run eval` and `node scripts/facts.mjs` for the plain AI columns and sign tests.
 5. Push: `git push origin main` if a push from here fails for credentials.
 6. Wild forms: 10 to 15 consenting older relatives into `data/wild/*.json`.
 7. Human review of the plain AI list and of Aftersong's rejections, for both error directions.

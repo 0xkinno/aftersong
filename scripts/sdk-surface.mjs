@@ -39,7 +39,7 @@ const harnessCell = hc
     ].join(" ")
   : "0.1.26, equivalence check written (scripts/harness-check.mjs), not yet run";
 const MODEL = [
-  ["Model adapters (Anthropic, OpenRouter, NVIDIA over HTTP)", "backend/src/agent/model.ts", "export function modelFromEnv"],
+  ["Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback)", "backend/src/agent/model.ts", "export function modelFromEnv"],
   ["Tool-calling loop with five tools and a write_openers channel", "backend/src/agent/agent.ts", "export const TOOLS"],
   ["Fault switch", "backend/src/agent/agent.ts", "function sabotageReply"],
   ["Opener filter (invariant 5)", "backend/src/core/openers.ts", "export function openerViolations"],

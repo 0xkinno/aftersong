@@ -58,8 +58,8 @@ region("surface", `| Feature | Call site | Status | Note |\n|---|---|---|---|\n$
 
 const hero = shot("landing-desktop-1440x900.png");
 region("shots-hero", hero ? `![Aftersong landing page](${hero})` : "");
-const grid = ["sample-card.png", "session-iphone.png", "judge.png", "method.png"].map(shot);
-region("shots-grid", grid.every(Boolean) ? `| | |\n|---|---|\n| ![A sample card](${grid[0]}) | ![Session mode on a phone](${grid[1]}) |\n| ![For judges](${grid[2]}) | ![Method](${grid[3]}) |` : "");
+const grid = ["sample-card.png", "session-desktop.png", "judge.png", "method.png"].map(shot);
+region("shots-grid", grid.every(Boolean) ? `| | |\n|---|---|\n| ![A sample card](${grid[0]}) | ![Session mode](${grid[1]}) |\n| ![For judges](${grid[2]}) | ![Method](${grid[3]}) |` : "");
 
 if (process.argv.includes("--check")) {
   if (readFileSync("README.md", "utf8") !== md) {

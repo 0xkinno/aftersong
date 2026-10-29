@@ -33,7 +33,7 @@ The afternoon session starts in twenty minutes. Today Marisol would search for "
 <!-- shots-grid:start -->
 | | |
 |---|---|
-| ![A sample card](docs/screens/sample-card.png) | ![Session mode on a phone](docs/screens/session-iphone.png) |
+| ![A sample card](docs/screens/sample-card.png) | ![Session mode](docs/screens/session-desktop.png) |
 | ![For judges](docs/screens/judge.png) | ![Method](docs/screens/method.png) |
 <!-- shots-grid:end -->
 
@@ -162,7 +162,7 @@ Every call, with file and line, is in [SDK_SURFACE.md](SDK_SURFACE.md). The plat
 | Plain AI counterfactual lookups | [backend/src/agent/plain.ts:72](backend/src/agent/plain.ts#L72) | built in code | Each suggested item is looked up and checked by the same rules |
 | Request allowlist | [backend/src/qloo/guard.ts:90](backend/src/qloo/guard.ts#L90) | built in code | Only IDs, tags, an age bracket, years, a place |
 | Rate discipline | [backend/src/qloo/client.ts:51](backend/src/qloo/client.ts#L51) | built in code | 250 ms spacing, no retry on 429, de-duplication, daily cap |
-| Model adapters (Anthropic, OpenRouter, NVIDIA over HTTP) | [backend/src/agent/model.ts:127](backend/src/agent/model.ts#L127) |  |  |
+| Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback) | [backend/src/agent/model.ts:175](backend/src/agent/model.ts#L175) |  |  |
 | Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:59](backend/src/agent/agent.ts#L59) |  |  |
 | Fault switch | [backend/src/agent/agent.ts:309](backend/src/agent/agent.ts#L309) |  |  |
 | Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |  |  |
@@ -224,7 +224,7 @@ Not yet. The first consented session with an older person will be logged in the 
 | Component | State |
 |---|---|
 | Qloo calls from the backend | Live when `QLOO_API_KEY` is set; the status page reports the last real probe |
-| Agent tool loop and model openers | Live when a model key is set; otherwise cards say they used template lines |
+| Agent tool loop and model openers | Live when a model key is set (Anthropic, OpenRouter, NVIDIA, Groq or Gemini, with automatic fallback to the next configured one); otherwise cards say they used template lines |
 | Rules, memory policy, room planner, verifier | Live code, covered by tests |
 | Sample residents on `/sample` | Sample: intake only, labelled Sample. Their cards are built by the real agent |
 | Carer sign-in, saved residents, family links | Live when Supabase is configured; otherwise the app says so |
@@ -236,7 +236,7 @@ Not yet. The first consented session with an older person will be logged in the 
 | What goes wrong | What happens |
 |---|---|
 | Qloo is down or rate limits us | The screen says so in plain words. No retry storm, no guess |
-| The model is down or returns nothing | The card is built in fixed order with labelled template openers |
+| The model is down, rate limited or returns nothing | The next configured model (Groq, Gemini and others) answers; if none does, the card is built in fixed order with labelled template openers |
 | The model names something off the card | The line is blocked and replaced; the card shows how many |
 | The server restarts mid session | Session progress is saved after every item; the carer resumes where she stopped |
 | The weekly run fires twice | A create-only claim per resident and week makes the second run do nothing |

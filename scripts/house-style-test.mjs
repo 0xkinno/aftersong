@@ -42,7 +42,7 @@ for (const f of files) {
 // Name style: the product name and headline never use the word "taste". It is for describing Qloo's graph only.
 const nameChecks = [
   ["web/app/layout.tsx", /title:\s*"([^"]*)"/],
-  ["web/app/page.tsx", /<h1[^>]*>([^<]*)<\/h1>/],
+  ["web/app/page.tsx", /<h1[^>]*>([\s\S]*?)<\/h1>/],
   ["README.md", /^# (.*)$/m],
   ["README.md", /^\*\*(Helps[^*]*)\*\*$/m],
 ];

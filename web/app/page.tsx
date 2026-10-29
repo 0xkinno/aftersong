@@ -20,27 +20,42 @@ export default function Home() {
   const stats = ["who", "turnover", "cochrane"].map((id) => sources.sources.find((s) => s.id === id)!);
   return (
     <>
-      <section className="hero relative" aria-labelledby="hero">
+      <section className="hero stage relative" aria-labelledby="hero">
         <div className="hero-bg" aria-hidden="true">
-          {/* decorative, masked so the headline sits on clean paper */}
+          {/* decorative, masked so the headline sits on a clean ground */}
           <img src="/hero.webp" alt="" width={1800} height={1204} fetchPriority="low" decoding="async" />
         </div>
-        <div className="wrap pt-16 pb-12 md:pt-24 grid gap-10 md:grid-cols-[1.25fr_1fr] items-center relative">
-          <div>
-            <p className="kicker">A reminiscence agent for memory care</p>
-            <h1 id="hero" className="mt-4" style={{ fontSize: "clamp(48px, 9vw, 96px)", lineHeight: 1.02 }}>The songs he still knows.</h1>
-            <p className="mt-6 text-20 max-w-xl text-ink-2">Marisol has twenty minutes before the afternoon session with a new resident who barely speaks. Aftersong turns three remembered favourites into a card of music, film, food and places from the years he remembers best.</p>
-            <p className="mt-4 text-16 max-w-xl" data-testid="discovery">{DISCOVERY}</p>
+        <div className="stage-glow" aria-hidden="true" />
+        <div className="stage-inner grid gap-6 lg:grid-cols-[1fr_1.05fr] items-center relative">
+          <div className="stage-copy">
+            <p className="kicker stage-kicker"><span className="dot" aria-hidden="true" />A reminiscence agent for memory care</p>
+            <h1 id="hero" className="mt-5 stage-h1">The Songs He <em>Still Knows.</em></h1>
+            <p className="mt-6 text-20 max-w-xl stage-lead">Marisol has twenty minutes before the afternoon session with a new resident who barely speaks. Aftersong turns three remembered favourites into a card of music, film, food and places from the years he remembers best.</p>
+            <p className="mt-4 text-16 max-w-xl stage-note" data-testid="discovery">{DISCOVERY}</p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link className="btn btn-primary" href="/sample">Try a sample resident</Link>
-              <Link className="btn" href="/judge">For judges</Link>
+              <Link className="btn btn-stage" href="/sample">Try a sample resident</Link>
+              <Link className="btn btn-stage-ghost" href="/judge">For judges</Link>
             </div>
           </div>
-          <div className="max-w-[520px] w-full justify-self-center md:justify-self-end"><HeroSvg className="w-full h-auto" /></div>
+          <div className="stage-art">
+            <HeroSvg className="w-full h-auto stage-svg" />
+            <div className="float-card float-a" aria-hidden="true">
+              <p className="kicker">Sample · Music · 1958 to 1967</p>
+              <p className="fc-title">Otis Redding</p>
+              <p className="fc-sub">Because of Sam Cooke</p>
+              <span className="tag fc-tag">Some overlap</span>
+            </div>
+            <div className="float-card float-b" aria-hidden="true">
+              <p className="kicker">Sample · Film · 1962</p>
+              <p className="fc-title">To Kill a Mockingbird</p>
+              <p className="fc-sub">Because of Casablanca</p>
+              <span className="tag fc-tag">Shared era</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="wrap py-16" aria-labelledby="problem">
+      <section className="wrap py-12" aria-labelledby="problem">
         <p className="kicker">01  The problem</p>
         <h2 id="problem" className="text-40 mt-2 max-w-2xl">Most care homes play one playlist for everyone.</h2>
         <div className="grid gap-4 mt-8 md:grid-cols-3">
@@ -54,7 +69,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="wrap py-16" aria-labelledby="how">
+      <section className="wrap py-12" aria-labelledby="how">
         <p className="kicker">02  How it works</p>
         <h2 id="how" className="text-40 mt-2">Four steps, one carer in the room.</h2>
         <ol className="grid gap-5 mt-8 md:grid-cols-2 lg:grid-cols-4" style={{ listStyle: "none", padding: 0 }}>
@@ -70,13 +85,13 @@ export default function Home() {
         </ol>
       </section>
 
-      <section className="wrap py-16" aria-labelledby="card">
+      <section className="wrap py-12" aria-labelledby="card">
         <p className="kicker">03  The card</p>
         <h2 id="card" className="text-40 mt-2 mb-8">What Marisol walks in with.</h2>
         <LandingCard />
       </section>
 
-      <section className="wrap py-16" aria-labelledby="compare">
+      <section className="wrap py-12" aria-labelledby="compare">
         <p className="kicker">04  A plain AI, side by side</p>
         <h2 id="compare" className="text-40 mt-2 max-w-2xl">Same intake, same rules, two different lists.</h2>
         <p className="mt-3 max-w-2xl text-ink-2">A plain model is asked for items for the same resident. Every item is looked up in Qloo and checked: is it a real entity, is it inside his years, does Qloo link it to what he loved.</p>
@@ -84,7 +99,7 @@ export default function Home() {
         <Link className="btn mt-6" href="/compare">See one comparison</Link>
       </section>
 
-      <section className="wrap py-16" aria-labelledby="not">
+      <section className="wrap py-12" aria-labelledby="not">
         <p className="kicker">05  What it will not do</p>
         <h2 id="not" className="text-40 mt-2">Limits that are built in, not promised.</h2>
         <ul className="grid gap-3 mt-6 md:grid-cols-2" style={{ listStyle: "none", padding: 0 }}>
@@ -101,7 +116,7 @@ export default function Home() {
         </ul>
       </section>
 
-      <section className="wrap py-16" aria-labelledby="homes">
+      <section className="wrap py-12" aria-labelledby="homes">
         <p className="kicker">06  For care homes</p>
         <h2 id="homes" className="text-40 mt-2">Who it is for and what it might cost.</h2>
         <p className="mt-3 max-w-2xl text-ink-2">The user is the activities coordinator. The buyer is the director of care at a memory care operator or a home care agency. The pricing below is a hypothesis to test, not a result: about four dollars per resident per month, and free for a family with one resident. No customer has paid yet.</p>

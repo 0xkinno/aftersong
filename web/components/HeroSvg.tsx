@@ -1,59 +1,84 @@
-/** A record half out of its sleeve, three ember lines to three small things from a life. Inline, no external assets. */
+/** A record half out of its sleeve, three ember lines to three small things from a life. Inline, no external assets. Drawn for the dark hero stage. */
 export default function HeroSvg({ className = "" }: { className?: string }) {
-  const grooves = Array.from({ length: 9 }, (_, i) => 44 + i * 11);
+  const grooves = Array.from({ length: 12 }, (_, i) => 52 + i * 8.5);
+  const light = "#f6f1e8";
+  const mono = "var(--font-jetbrains), monospace";
   return (
-    <svg viewBox="0 0 520 520" className={className} role="img" aria-label="A vinyl record half out of a paper sleeve labelled 1952 to 1972, with three lines leading to a film reel, a bowl and a transistor radio" fill="none" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round">
-      <g stroke="var(--ink)">
-        {/* record, tilted */}
-        <g transform="rotate(-10 300 260)">
-          <circle cx="300" cy="260" r="150" fill="var(--paper)" />
-          {grooves.map((r) => (
-            <circle key={r} cx="300" cy="260" r={r} opacity={r % 22 === 0 ? 0.55 : 0.28} />
+    <svg viewBox="0 0 600 600" className={className} role="img" aria-label="A vinyl record half out of a paper sleeve labelled 1952 to 1972, with three lines leading to a film reel, a bowl and a transistor radio" fill="none" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+      <defs>
+        <radialGradient id="rec" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#2b2621" />
+          <stop offset="1" stopColor="#14110e" />
+        </radialGradient>
+        <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stopColor="#e8692c" stopOpacity="0.42" />
+          <stop offset="1" stopColor="#e8692c" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor={light} stopOpacity="0.5" />
+          <stop offset="1" stopColor={light} stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="sleeve" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#3a342d" />
+          <stop offset="1" stopColor="#24201b" />
+        </linearGradient>
+      </defs>
+      <circle cx="340" cy="290" r="270" fill="url(#halo)" stroke="none" />
+      {/* record */}
+      <g transform="rotate(-8 340 290)">
+        <g className="spin" style={{ transformOrigin: "340px 290px" }}>
+          <circle cx="340" cy="290" r="190" fill="url(#rec)" stroke={light} strokeOpacity="0.55" />
+          {grooves.map((r, i) => (
+            <circle key={r} cx="340" cy="290" r={r * 1.55} stroke={light} strokeOpacity={i % 3 === 0 ? 0.28 : 0.12} />
           ))}
-          <circle cx="300" cy="260" r="40" stroke="var(--ember)" fill="var(--paper)" />
-          <circle cx="300" cy="260" r="4" fill="var(--ink)" />
+          <path d="M340 130 A160 160 0 0 1 480 215" stroke="url(#sheen)" strokeWidth="14" strokeOpacity="0.5" />
+          <path d="M340 450 A160 160 0 0 1 200 365" stroke="url(#sheen)" strokeWidth="14" strokeOpacity="0.35" />
+          <circle cx="340" cy="290" r="52" fill="#e8692c" stroke="none" />
+          <circle cx="340" cy="290" r="52" stroke="#f4a35b" strokeOpacity="0.6" />
+          <path d="M318 290 H362" stroke="#14110e" strokeOpacity="0.35" />
         </g>
-        {/* sleeve covering the left half */}
-        <g transform="rotate(-10 150 300)">
-          <rect x="56" y="150" width="228" height="300" rx="6" fill="var(--paper-2)" />
-          <path d="M56 188 H284" opacity="0.4" />
-          <rect x="84" y="318" width="168" height="54" rx="3" fill="var(--paper)" />
-          <text x="168" y="342" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="11" letterSpacing="1.4" fill="var(--ink)" stroke="none">TO REMEMBER</text>
-          <text x="168" y="360" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="13" letterSpacing="1.4" fill="var(--ember-text)" stroke="none">1952 TO 1972</text>
-        </g>
+        <circle cx="340" cy="290" r="5" fill="#14110e" stroke={light} strokeOpacity="0.5" />
+      </g>
+      {/* sleeve covering the left half */}
+      <g transform="rotate(-8 170 340)">
+        <rect x="52" y="150" width="268" height="360" rx="10" fill="url(#sleeve)" stroke={light} strokeOpacity="0.55" />
+        <path d="M52 196 H320" stroke={light} strokeOpacity="0.18" />
+        <rect x="84" y="364" width="204" height="70" rx="5" fill="#14110e" stroke={light} strokeOpacity="0.35" />
+        <text x="186" y="392" textAnchor="middle" fontFamily={mono} fontSize="12" letterSpacing="2.4" fill={light} fillOpacity="0.75" stroke="none">TO REMEMBER</text>
+        <text x="186" y="418" textAnchor="middle" fontFamily={mono} fontSize="17" letterSpacing="2.2" fill="#f4a35b" stroke="none">1952 TO 1972</text>
       </g>
       {/* constellation */}
-      <g stroke="var(--ember)">
-        <path d="M388 196 C420 170 430 140 452 110" />
-        <path d="M444 262 C470 266 488 276 500 292" />
-        <path d="M410 346 C430 386 420 420 400 452" />
-        <circle cx="388" cy="196" r="3" fill="var(--ember)" />
-        <circle cx="444" cy="262" r="3" fill="var(--ember)" />
-        <circle cx="410" cy="346" r="3" fill="var(--ember)" />
+      <g stroke="#f4a35b">
+        <path d="M468 214 C506 188 520 150 544 112" strokeDasharray="3 5" />
+        <path d="M512 296 C536 300 552 312 560 332" strokeDasharray="3 5" />
+        <path d="M456 392 C488 432 478 476 450 520" strokeDasharray="3 5" />
+        <circle cx="468" cy="214" r="4.5" fill="#f4a35b" />
+        <circle cx="512" cy="296" r="4.5" fill="#f4a35b" />
+        <circle cx="456" cy="392" r="4.5" fill="#f4a35b" />
       </g>
-      <g stroke="var(--ink)" fill="var(--paper)">
+      <g stroke={light} fill="#14110e">
         {/* film reel */}
-        <g transform="translate(452 84)">
-          <circle r="22" />
-          <circle r="5" />
+        <g transform="translate(548 84)">
+          <circle r="28" />
+          <circle r="6" />
           {[0, 72, 144, 216, 288].map((a) => (
-            <circle key={a} cx={11 * Math.cos((a * Math.PI) / 180)} cy={11 * Math.sin((a * Math.PI) / 180)} r="3.2" />
+            <circle key={a} cx={14 * Math.cos((a * Math.PI) / 180)} cy={14 * Math.sin((a * Math.PI) / 180)} r="4" />
           ))}
-          <text y="40" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="10" letterSpacing="1.2" fill="var(--ink)" stroke="none">FILM</text>
+          <text y="48" textAnchor="middle" fontFamily={mono} fontSize="11" letterSpacing="1.6" fill={light} stroke="none">FILM</text>
         </g>
         {/* bowl */}
-        <g transform="translate(496 306)">
-          <path d="M-22 -4 H22 C22 14 10 22 0 22 C-10 22 -22 14 -22 -4 Z" />
-          <path d="M-12 -12 C-8 -20 -2 -8 2 -16 C6 -22 10 -10 12 -14" opacity="0.7" />
-          <text y="42" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="10" letterSpacing="1.2" fill="var(--ink)" stroke="none">FOOD</text>
+        <g transform="translate(560 352)">
+          <path d="M-28 -4 H28 C28 18 14 28 0 28 C-14 28 -28 18 -28 -4 Z" />
+          <path d="M-16 -14 C-10 -26 -2 -10 3 -20 C8 -28 13 -12 16 -18" strokeOpacity="0.7" />
+          <text y="50" textAnchor="middle" fontFamily={mono} fontSize="11" letterSpacing="1.6" fill={light} stroke="none">FOOD</text>
         </g>
         {/* transistor radio */}
-        <g transform="translate(396 470)">
-          <rect x="-26" y="-16" width="52" height="32" rx="5" />
-          <circle cx="-10" cy="0" r="8" />
-          <path d="M6 -6 H18 M6 0 H18 M6 6 H18" />
-          <path d="M-14 -16 L8 -30" />
-          <text y="34" textAnchor="middle" fontFamily="var(--font-jetbrains), monospace" fontSize="10" letterSpacing="1.2" fill="var(--ink)" stroke="none">RADIO</text>
+        <g transform="translate(446 536)">
+          <rect x="-32" y="-20" width="64" height="40" rx="6" />
+          <circle cx="-12" cy="0" r="10" />
+          <path d="M8 -8 H22 M8 0 H22 M8 8 H22" />
+          <path d="M-18 -20 L10 -38" />
+          <text y="42" textAnchor="middle" fontFamily={mono} fontSize="11" letterSpacing="1.6" fill={light} stroke="none">RADIO</text>
         </g>
       </g>
     </svg>
