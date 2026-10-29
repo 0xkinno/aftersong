@@ -138,7 +138,7 @@ export function geminiModel(key: string, id: string | undefined): Model {
   let models = first.map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
   let current = models[0];
   let discovered = false;
-  const notFound = (e: unknown) => e instanceof ModelError && (e.status === 404 || e.status === 400);
+  const notFound = (e: unknown) => e instanceof ModelError && [400, 404, 429, 500, 503].includes(e.status ?? 0);
   /** Asks Gemini which flash models this key can use now and returns them, newest version first. */
   const discover = async (): Promise<Model[]> => {
     try {
