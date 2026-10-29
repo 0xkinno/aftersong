@@ -15,6 +15,14 @@ const RULES = [
   ["Memory is the carer's taps", "Six reactions, stored with who, when, card and item. Positives become new signals. Entries expire after 90 days unless logged again. The family can view and delete them.", "backend/src/core/memory.ts"],
 ];
 
+// Index into RULES, grouped by what the rule protects.
+const GROUPS: Array<[string, string, number[]]> = [
+  ["Era and truth", "What can appear on a card at all.", [0, 1, 2, 9, 6]],
+  ["Ranking", "How items are ordered and labelled.", [8, 10]],
+  ["Memory and care", "What the carer's taps change.", [3, 7, 11]],
+  ["Words and privacy", "What the model may write and what Qloo may see.", [4, 5]],
+];
+
 const CALLS = [
   ["Resolve favourites", "/search", "The typed name, optionally an entity type", "Entity IDs the carer confirms"],
   ["Tags", "/v2/tags", "A short phrase, semantic search on", "Tag IDs for cuisines and genres"],
@@ -26,6 +34,8 @@ const CALLS = [
   ["Not repeating", "/v2/insights with filter.exclude.entities", "IDs the carer marked upset", "Results without them"],
 ];
 
+const num = (i: number) => String(i + 1).padStart(2, "0");
+
 export default function Method() {
   return (
     <div className="wrap py-10">
@@ -33,21 +43,56 @@ export default function Method() {
       <h1 className="text-40 md:text-64">Every rule and every call</h1>
       <p className="mt-3 max-w-2xl text-ink-2">The agent chooses which tools to call and in what order. It does not choose what goes on the card. Rules in code do, after Qloo answers, even when the same limit was sent as a filter.</p>
 
+      <dl className="statrow mt-8">
+        <div><dt>Rules in code</dt><dd>{RULES.length}</dd></div>
+        <div><dt>Qloo calls</dt><dd>{CALLS.length}</dd></div>
+        <div><dt>Gap between calls</dt><dd>250 ms</dd></div>
+        <div><dt>Answers cached</dt><dd>1 day</dd></div>
+      </dl>
+
       <h2 className="text-28 mt-12">The rules</h2>
-      <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto mt-4">
-        <table><thead><tr><th>Rule</th><th>In plain words</th><th>File</th></tr></thead>
-          <tbody>{RULES.map((r) => <tr key={r[0]}><td>{r[0]}</td><td>{r[1]}</td><td className="mono text-12">{r[2]}</td></tr>)}</tbody></table>
+      <div className="grid gap-6 mt-5 md:grid-cols-2 items-start">
+        {GROUPS.map(([name, blurb, ids]) => (
+          <section key={name} className="panel">
+            <header className="panel-head"><h3>{name}</h3><p>{blurb}</p></header>
+            <ol className="rulelist">
+              {ids.map((i) => (
+                <li key={RULES[i][0]}>
+                  <span className="rule-n">{num(i)}</span>
+                  <div>
+                    <p className="rule-t">{RULES[i][0]}</p>
+                    <p className="rule-d">{RULES[i][1]}</p>
+                    <p className="chip mono">{RULES[i][2]}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))}
       </div>
 
-      <h2 className="text-28 mt-12">The Qloo calls</h2>
-      <div tabIndex={0} role="region" aria-label="Scrollable table" className="overflow-x-auto mt-4">
-        <table><thead><tr><th>Step</th><th>Endpoint</th><th>What is sent</th><th>What comes back</th></tr></thead>
-          <tbody>{CALLS.map((r) => <tr key={r[0]}><td>{r[0]}</td><td className="mono text-12">{r[1]}</td><td>{r[2]}</td><td>{r[3]}</td></tr>)}</tbody></table>
+      <h2 className="text-28 mt-14">The Qloo calls</h2>
+      <p className="mt-2 max-w-2xl text-ink-2">In the order a card is built.</p>
+      <div tabIndex={0} role="region" aria-label="Scrollable table" className="panel mt-5 overflow-x-auto">
+        <table className="tidy">
+          <thead><tr><th>Step</th><th>Endpoint</th><th>What is sent</th><th>What comes back</th></tr></thead>
+          <tbody>{CALLS.map((r, i) => (
+            <tr key={r[0]}>
+              <td><span className="rule-n">{num(i)}</span> <strong>{r[0]}</strong></td>
+              <td><span className="chip mono" style={{ marginTop: 0 }}>{r[1]}</span></td>
+              <td>{r[2]}</td>
+              <td>{r[3]}</td>
+            </tr>
+          ))}</tbody>
+        </table>
       </div>
       <p className="mt-4 text-ink-2 max-w-2xl">Calls are spaced at least 250 milliseconds apart, a rate limit response is never retried automatically, repeated requests share one call, and answers are cached on the server for a day. The exact parameters and which ones Qloo ignored are in the platform probe.</p>
 
-      <h2 className="text-28 mt-12">Two labelled layers on every item</h2>
-      <p className="mt-3 max-w-2xl">What Qloo returned (the item, its year, its tags, its affinity) is separate from what Aftersong adds (the Personal, Shared era or Widely known tag, and the opener). Personal means the item ranks clearly higher for this person than for people of his generation. Widely known means Qloo reports high popularity.</p>
+      <h2 className="text-28 mt-14">Two labelled layers on every item</h2>
+      <div className="grid gap-6 mt-5 md:grid-cols-2">
+        <div className="panel p-5"><p className="kicker">From Qloo</p><p className="mt-2">The item, its year, its tags and its affinity. Shown as returned.</p></div>
+        <div className="panel p-5"><p className="kicker">Added by Aftersong</p><p className="mt-2">The Personal, Shared era or Widely known tag, and the opener. Personal means the item ranks clearly higher for this person than for people of his generation. Widely known means Qloo reports high popularity.</p></div>
+      </div>
     </div>
   );
 }

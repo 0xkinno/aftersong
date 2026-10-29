@@ -1,0 +1,14 @@
+{
+  "note": "Session records for older participants. IDs are anonymous. Source for the sessions block in docs/FACTS.json. Only what was reported by the project lead is recorded here; empty fields mean it was not supplied.",
+  "formTarget": 15,
+  "recordedOn": "2026-10-29",
+  "sessionDate": null,
+  "durationMinutes": null,
+  "reportedBy": "0xkinno",
+  "participants": [
+    { "id": "OP-01", "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported." },
+    { "id": "OP-02", "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported." },
+    { "id": "OP-03", "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported." }
+  ],
+  "humanReview": null
+}

@@ -32,7 +32,7 @@ Not done:
 - `scripts/probe-matrix.mjs` and `scripts/eval.mjs` have not been run. They refuse until `docs/PREREG.md` and `data/eval/PREREG.sha256.json` are committed (commit them first, then run). FACTS.json, FINDINGS.md and the landing discovery sentence stay empty until then.
 - No Vercel production deploy, and no Render service. The backend is a separate Node service (see the architecture note in the session report).
 - harness-check.mjs is written and not run.
-- No real session with an older person.
+- Three older participants recorded on 2026-10-29 (see Session 5); no date or length supplied, no measured outcome.
 
 ## Where things stood after session 2, 2026-10-28
 Phases 0 to 7 are built as far as they can be without keys and accounts. Everything that needs the
@@ -102,3 +102,18 @@ Done since the first score: live Qloo observed (probe, matrix F1 to F5, discover
 - The rules page lists a demo link, a public repository with a visible licence, and a text description. A video is not listed as required.
 - Music years: the code supports three strategies (a year property, a decade tag, or none). The probe decides which one holds; until then the card may show fewer music items.
 - Adjacent music-and-dementia products exist in the real world (details in `reference/LANE_MAP.md`). The pitch should acknowledge playlist apps fairly.
+
+## Session 5, 2026-10-29
+Done:
+- Backend deployed on Render at https://aftersong-backend.onrender.com. `/health` answers 200; `/status` (with the shared secret) reports Qloo ok, storage `supabase`, public lock on.
+- Supabase schema run by 0xkinno; site URL set.
+- /method and /evidence redesigned (grouped rule panels, stat rows, tidy tables, sessions and error-review panels).
+- Three older participants recorded (OP-01 to OP-03) in `docs/sessions.json`; count and shortfall flow into `docs/FACTS.json`, EVIDENCE.md and README.
+
+Open:
+- Real-world forms: 3 of 15 recorded, 12 short. Their intake details are not in the repo, so the wild eval set is still 0 forms.
+- Human error review: reviewer, date and counts not supplied; both directions stay "not recorded". The plain AI false positive rate stays unmeasured.
+- Session date and length not supplied.
+- Plain AI arm: needs a working fallback model. The backend `/status` model check reported `gemini 404: error` on 2026-10-29, so the Gemini model id on Render needs checking.
+- `BACKEND_URL` in Vercel still has to point at the Render service, then a redeploy.
+- Groq and Gemini key values were not present in `.env` or `.env.example` on disk when checked.

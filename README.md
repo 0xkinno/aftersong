@@ -217,7 +217,7 @@ Tools: `build_session_card` (a sample resident such as `sample-walter` needs no 
 
 ## Has a real person used it?
 
-Not yet. The first consented session with an older person will be logged in the deployed app and reported in [EVIDENCE.md](EVIDENCE.md), including every "no response". Until then no claim of benefit is made.
+Three older participants (OP-01, OP-02, OP-03) have used it. All three said it was easy to understand, said they were never confused, and said everything went smoothly; none raised a criticism. That is a small group describing their own experience, with no timed task and no measured outcome, so no claim of benefit is made. The target is 15 real-world forms; 3 are recorded and 12 are still to find. Details and limits are in [EVIDENCE.md](EVIDENCE.md).
 
 ## What is live, sample, and designed
 

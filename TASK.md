@@ -40,9 +40,9 @@ Mark each task `[x]` the moment it is finished and verified.
 
 ### Phase 5: Proof
 - [x] `docs/SOURCES.md` with verified links
-- [ ] Eval set: 15 curated, 15 wild forms (consent recorded)
+- [ ] Eval set: 15 curated (done), 15 wild forms (consent recorded): 3 participants recorded, 12 short, intake details not in repo, wild eval still 0 forms
 - [x] `scripts/eval.mjs` and `scripts/facts.mjs` write `docs/FACTS.json`; CI fails on mismatch
-- [ ] Fault switch test; both error directions; misses listed in `EVIDENCE.md`
+- [ ] Fault switch test; both error directions (human review counts not supplied, recorded as not recorded); misses listed in `EVIDENCE.md`
 - [x] `PROOF.md` with commands to reproduce every number
 
 ### Phase 6: UI and quality

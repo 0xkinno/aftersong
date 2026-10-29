@@ -399,5 +399,29 @@
     }
   },
   "review": null,
+  "sessions": {
+    "participants": 3,
+    "formTarget": 15,
+    "shortfall": 12,
+    "recordedOn": "2026-10-29",
+    "sessionDate": null,
+    "durationMinutes": null,
+    "reportedBy": "0xkinno",
+    "entries": [
+      {
+        "id": "OP-01",
+        "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported."
+      },
+      {
+        "id": "OP-02",
+        "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported."
+      },
+      {
+        "id": "OP-03",
+        "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported."
+      }
+    ],
+    "humanReview": null
+  },
   "misses": []
 }

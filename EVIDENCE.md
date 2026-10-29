@@ -38,21 +38,35 @@ in a public repository, so none is stored here. Test fixtures are synthetic and 
 Read from `docs/FACTS.json`; shown on `/evidence` and in the README.
 
 ## Real session
-Not yet run with a real person. The plan: one 15 minute session with an older relative or neighbour, with
-written consent, logged in the deployed app. No names, faces or health details will be published. This
-section will report what happened, including every "no response" item. Until it does, nothing here
-claims that Aftersong helped anyone.
+Three older participants have used Aftersong, recorded here by anonymous ID. The source is `docs/sessions.json`;
+the count and shortfall are generated into `docs/FACTS.json` by `scripts/facts.mjs`. Recorded 2026-10-29,
+reported by 0xkinno. The session date and the session length were not supplied, so neither is stated.
+
+| ID | What they reported |
+|---|---|
+| OP-01 | Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported. |
+| OP-02 | Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported. |
+| OP-03 | Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported. |
+
+What this does and does not show: all three gave the same answer about ease of use, and none raised a
+criticism. That is a small group describing their own experience. No task was timed, no outcome such as
+mood or recall was measured, and no claim is made that Aftersong helped anyone. Per-person quotes, the
+items shown and any "no response" moments were not supplied, so they are not recorded here.
+
+Real-world forms: target 15, recorded participants 3, shortfall 12. The three participants' intake
+details (birth year, favourites, hometown) are not in the repository, so the wild eval set still has 0
+forms and the wild columns stay "not measured yet".
 
 ## Both error directions
-Not measured yet. They need a human reviewer over the plain AI list and over Aftersong's rejections.
-Recorded here when done, with the reviewer, the date and the counts:
-- Items Aftersong rejected that the reviewer would keep (false rejections): unmeasured.
-- Items Aftersong kept that the reviewer says are wrong (false keeps): unmeasured.
-- False positive rate of the checker on the plain AI list: unmeasured.
+Not recorded. A human reviewer has not supplied counts, so nothing is claimed. To be recorded with the
+reviewer, the date, the counts and examples:
+- Items Aftersong rejected that the reviewer would keep (false rejections): not recorded.
+- Items Aftersong kept that the reviewer says are wrong (false keeps): not recorded.
+- False positive rate of the checker on the plain AI list: unmeasured, because the plain AI arm has not run.
 
 ## Misses and limits
 - **The plain AI arm of the eval has not run.** The free OpenRouter model hit its daily limit ("free-models-per-day") during the first runs, so the Aftersong arm was measured on 15 curated forms with no model (template openers), and the three-run plain AI comparison, its sign tests and the plain AI columns on /evidence are still "not measured yet". The first plain AI attempts were discarded: the model first returned empty text because it spent its token limit thinking, and then rate limited. Rerun with `npm run eval` once the model has quota; it overwrites this result.
-- The wild set has 0 forms. Curated: 15 of 15 cards built, no thin cards, 109 items, 15.7 live Qloo calls per card, 15.5 seconds per card without a model.
+- The wild set has 0 forms run through the eval; 3 older participants are recorded of a target of 15 (shortfall 12). Curated: 15 of 15 cards built, no thin cards, 109 items, 15.7 live Qloo calls per card, 15.5 seconds per card without a model.
 - Findings F1 to F5 (see FINDINGS.md) were run once on the curated forms, before any wild form exists.
 - Abstention preset, measured live on 2026-10-29: a resident born in 1925, and even one born in 1900, with an obscure favourite (Mildred Bailey), still got a card of 6 to 7 items. Qloo has data for those years. The abstention appears per domain (television and food for 1900), not as a thin card. The preset uses 1900 for that reason.
 - Qloo's popularity is a percentile: nearly every older artist and film it returns is above 0.97. "Widely known" is therefore the top quarter of each pool, not a fixed number.
@@ -60,7 +74,7 @@ Recorded here when done, with the reviewer, the date and the counts:
 - Qloo has no year filter for artists. How music years are obtained is decided by the probe and recorded in `PLATFORM_PROBE.md`.
 - The harness was not used; see `SPONSOR_INTEL.md` for the reason.
 - Carer sign-in and saved residents were tested with a stand-in sign-in and an in-memory store; they are untested against Supabase until a project is connected.
-- No real session with an older person has been run.
+- Three older participants are recorded, with no date or length supplied and no measured outcome. See Real session.
 
 ## Run log of unattended work
 The weekly family note runs Monday 07:00 UTC from a Render cron job. Run records are stored in the

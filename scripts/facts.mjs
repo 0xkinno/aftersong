@@ -9,6 +9,7 @@ const read = (p) => (existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : null)
 const summary = read("docs/eval-summary.json");
 const review = read("docs/review-summary.json");
 const matrix = read("docs/matrix-summary.json");
+const sessionsSrc = read("docs/sessions.json");
 
 const pct = (n, d) => (d > 0 ? Math.round((n / d) * 1000) / 10 : null);
 const m1 = (xs) => round(mean(xs), 1);
@@ -78,6 +79,7 @@ const facts = {
   wild: summary ? forSet(summary.rows.filter((r) => r.set === "wild")) : null,
   findings: matrix ? matrix.findings : null,
   review: review ?? null,
+  sessions: sessionsSrc ? { participants: sessionsSrc.participants.length, formTarget: sessionsSrc.formTarget, shortfall: Math.max(0, sessionsSrc.formTarget - sessionsSrc.participants.length), recordedOn: sessionsSrc.recordedOn, sessionDate: sessionsSrc.sessionDate, durationMinutes: sessionsSrc.durationMinutes, reportedBy: sessionsSrc.reportedBy, entries: sessionsSrc.participants, humanReview: sessionsSrc.humanReview } : null,
   misses: summary ? summary.rows.filter((r) => r.status !== "built").map((r) => ({ id: r.id, set: r.set, status: r.status, reason: r.reason })) : [],
 };
 
