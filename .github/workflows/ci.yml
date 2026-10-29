@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: 22.19
       - run: npm --prefix backend ci
+      - run: npm --prefix mcp ci
       - run: npm run typecheck
       - run: npm test
       - name: Offline verifier on synthetic fixtures

@@ -19,6 +19,8 @@ export interface QlooEntity {
   yearSource: string | null;
   /** Birth year for people, from properties.date_of_birth. */
   birthYear: number | null;
+  /** Address text for places, flattened from properties.address. */
+  address: string | null;
   tags: Tag[];
   affinity: number | null;
   explainability: unknown;
@@ -82,6 +84,14 @@ function tagOf(raw: unknown): Tag | null {
   return { id, name: cleanName(name), type: typeof r.type === "string" ? r.type : null };
 }
 
+/** Turns a string or a nested object into one line of text. */
+function flatten(v: unknown, depth = 0): string | null {
+  if (typeof v === "string") return v.trim() || null;
+  if (depth > 3 || v === null || typeof v !== "object") return null;
+  const parts = Object.values(v as Record<string, unknown>).map((x) => flatten(x, depth + 1)).filter((x): x is string => x !== null);
+  return parts.length ? parts.join(", ") : null;
+}
+
 export function normalizeEntity(raw: unknown): QlooEntity | null {
   const e = asRecord(raw);
   if (!e) return null;
@@ -106,6 +116,7 @@ export function normalizeEntity(raw: unknown): QlooEntity | null {
     yearEnd: era ? era.yearEnd : y.yearEnd,
     yearSource: era ? era.source : y.source,
     birthYear: yearFromDate(props?.date_of_birth) ?? yearFromDate(props?.birth_date) ?? null,
+    address: flatten(props?.address),
     tags,
     // Affinity is read only from query.affinity. popularity is a different field and is never a fallback.
     affinity: num(q?.affinity),

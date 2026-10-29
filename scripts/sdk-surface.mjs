@@ -15,17 +15,29 @@ const FEATURES = [
   ["Insights for the person's own signals", "backend/src/qloo/find.ts", "const personal = await", "insights.artist.entities", "signal.interests.entities, artist, movie, tv_show, place, destination"],
   ["Year window", "backend/src/qloo/find.ts", "base[\"filter.release_year.min\"]", "insights.movie.releaseyear", "Film and television only; enforced again in code for every domain"],
   ["Cohort signal", "backend/src/qloo/find.ts", "signal.demographics.age", "insights.artist.cohort", "55_and_older, the oldest bracket"],
-  ["Same-pool re-scoring", "backend/src/qloo/find.ts", "\"filter.results.entities\": join(missingPersonal", "insights.artist.rescore", "Both scores from one pool"],
   ["Explainability", "backend/src/qloo/find.ts", "feature.explainability", "insights.artist.entities", "Driver extraction is best effort (topDriver)"],
   ["Popularity as a label", "backend/src/core/classify.ts", "POPULARITY_CEILING", null, "Qloo's popularity field marks Widely known"],
   ["Hometown thread", "backend/src/qloo/find.ts", "signal.location", "insights.destination.hometown", "Locality ID as the location signal"],
   ["Exclude what upset", "backend/src/qloo/find.ts", "filter.exclude.entities", null, "Also enforced in code"],
   ["Cuisine tags as a filter", "backend/src/qloo/find.ts", "filter.tags", "insights.place.cuisine", "Food near the care home"],
+  ["Pinned pool, two rankings (his signals and the cohort)", "backend/src/qloo/find.ts", "const pin: Params", "insights.artist.rescore", "Ranks compared inside each call, never raw affinities across calls"],
+  ["Compare two residents in one line", "backend/src/qloo/client.ts", "async compare(", "compare.groups", "/v2/analysis/compare, used by the room planner"],
   ["Room planner re-scoring", "backend/src/agent/group.ts", "filter.results.entities", null, "One pool, one re-score per resident"],
+  ["Group planner as an agent tool", "backend/src/agent/group-agent.ts", "export const GROUP_TOOLS", null, "The agent decides when to call plan_group_session; the server computes the plan"],
+  ["Aftersong MCP server (stdio, official SDK)", "mcp/server.mjs", "export function buildServer", null, "build_session_card, log_observation, plan_group_session over the same API"],
   ["Plain AI counterfactual lookups", "backend/src/agent/plain.ts", "client.search(it.name", null, "Each suggested item is looked up and checked by the same rules"],
   ["Request allowlist", "backend/src/qloo/guard.ts", "export function assertSafeParams", null, "Only IDs, tags, an age bracket, years, a place"],
   ["Rate discipline", "backend/src/qloo/client.ts", "spacingMs", null, "250 ms spacing, no retry on 429, de-duplication, daily cap"],
 ];
+const hc = existsSync("docs/harness-check.json") ? JSON.parse(readFileSync("docs/harness-check.json", "utf8")) : null;
+const harnessCell = hc
+  ? [
+      hc.harnessVersion + ", run by scripts/harness-check.mjs on " + hc.at.slice(0, 10) + ".",
+      "Resolve: " + (hc.resolve?.error ? "failed (" + hc.resolve.error + ")" : hc.resolve?.sameTopId ? "same top entity id as our REST client" : "different top entity id") + ".",
+      "Recommend: " + (hc.recommend?.error ? "failed (" + hc.recommend.error + ")" : hc.recommend?.shared + " of " + hc.recommend?.ours + " ids shared (" + hc.recommend?.sharePct + " percent)") + ".",
+      "Production calls use REST for rate-limit reasons.",
+    ].join(" ")
+  : "0.1.26, equivalence check written (scripts/harness-check.mjs), not yet run";
 const MODEL = [
   ["Model adapters (Anthropic, OpenRouter, NVIDIA over HTTP)", "backend/src/agent/model.ts", "export function modelFromEnv"],
   ["Tool-calling loop with five tools and a write_openers channel", "backend/src/agent/agent.ts", "export const TOOLS"],
@@ -58,7 +70,7 @@ Status says "live" only when \`docs/probe-summary.json\` shows the matching prob
 | Piece | Version |
 |---|---|
 | Qloo API | hackathon host, \`${probe?.host ?? "https://hackathon.api.qloo.com"}\`, no version string exposed |
-| Qloo harness (\`@qloo/qloo-harness\`) | 0.1.26, studied, **not used, so not claimed** |
+| Qloo harness (\`@qloo/qloo-harness\`) | ${harnessCell} |
 | Node | 22.19 or newer (type stripping) |
 | Next.js | ${web.dependencies.next} |
 | React | ${web.dependencies.react} |
@@ -75,7 +87,8 @@ ${rows}
 ${mrows}
 
 ## Not used, so not claimed
-- The Qloo harness MCP server and its tools (\`qloo_compare_audiences\`, \`qloo_where_popular\`, and the rest). Reason: the event rate limit and our own spacing, caching and request allowlist are easier to enforce on direct calls. See SPONSOR_INTEL.md.
+- The Qloo harness in production. It is used only for the equivalence check above. Reason: the event rate limit and our own spacing, caching and request allowlist are easier to enforce on direct calls. See SPONSOR_INTEL.md.
+- \`/v2/trending\` and \`/v2/audiences\`: client methods and allowlist entries exist for the probe; the product does not call them.
 - The Vercel AI SDK. The tool-calling loop is our own, over each provider's HTTP API.
 - Qloo trends, audiences, analysis compare, heatmaps; books, podcasts, brands and video games as card items.
 - Storing Qloo response bodies in the repository (the developer guide forbids it). Committed fixtures are synthetic.

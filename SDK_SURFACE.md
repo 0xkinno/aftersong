@@ -7,7 +7,7 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Piece | Version |
 |---|---|
 | Qloo API | hackathon host, `https://hackathon.api.qloo.com`, no version string exposed |
-| Qloo harness (`@qloo/qloo-harness`) | 0.1.26, studied, **not used, so not claimed** |
+| Qloo harness (`@qloo/qloo-harness`) | 0.1.26, equivalence check written (scripts/harness-check.mjs), not yet run |
 | Node | 22.19 or newer (type stripping) |
 | Next.js | ^15.5.0 |
 | React | ^19.0.0 |
@@ -20,30 +20,34 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Resolve a place to a locality with /search | [backend/src/qloo/resolve.ts:37](backend/src/qloo/resolve.ts#L37) | built, not yet called on a live key | Sent onward as an ID, never as the typed name |
 | Cuisine and genre tags with /v2/tags | [backend/src/qloo/client.ts:220](backend/src/qloo/client.ts#L220) | built, not yet called on a live key | feature.semantic_search on |
 | Batch lookup with /entities | [backend/src/qloo/client.ts:225](backend/src/qloo/client.ts#L225) | built, not yet called on a live key | One call for many IDs |
-| Insights for the person's own signals | [backend/src/qloo/find.ts:59](backend/src/qloo/find.ts#L59) | built, not yet called on a live key | signal.interests.entities, artist, movie, tv_show, place, destination |
-| Year window | [backend/src/qloo/find.ts:46](backend/src/qloo/find.ts#L46) | built, not yet called on a live key | Film and television only; enforced again in code for every domain |
-| Cohort signal | [backend/src/qloo/find.ts:55](backend/src/qloo/find.ts#L55) | built, not yet called on a live key | 55_and_older, the oldest bracket |
-| Same-pool re-scoring | [backend/src/qloo/find.ts:89](backend/src/qloo/find.ts#L89) | built, not yet called on a live key | Both scores from one pool |
-| Explainability | [backend/src/qloo/find.ts:53](backend/src/qloo/find.ts#L53) | built, not yet called on a live key | Driver extraction is best effort (topDriver) |
+| Insights for the person's own signals | [backend/src/qloo/find.ts:82](backend/src/qloo/find.ts#L82) | built, not yet called on a live key | signal.interests.entities, artist, movie, tv_show, place, destination |
+| Year window | [backend/src/qloo/find.ts:62](backend/src/qloo/find.ts#L62) | built, not yet called on a live key | Film and television only; enforced again in code for every domain |
+| Cohort signal | [backend/src/qloo/find.ts:78](backend/src/qloo/find.ts#L78) | built, not yet called on a live key | 55_and_older, the oldest bracket |
+| Explainability | [backend/src/qloo/find.ts:75](backend/src/qloo/find.ts#L75) | built, not yet called on a live key | Driver extraction is best effort (topDriver) |
 | Popularity as a label | [backend/src/core/classify.ts:3](backend/src/core/classify.ts#L3) | built in code | Qloo's popularity field marks Widely known |
-| Hometown thread | [backend/src/qloo/find.ts:50](backend/src/qloo/find.ts#L50) | built, not yet called on a live key | Locality ID as the location signal |
-| Exclude what upset | [backend/src/qloo/find.ts:49](backend/src/qloo/find.ts#L49) | built in code | Also enforced in code |
-| Cuisine tags as a filter | [backend/src/qloo/find.ts:51](backend/src/qloo/find.ts#L51) | built, not yet called on a live key | Food near the care home |
+| Hometown thread | [backend/src/qloo/find.ts:71](backend/src/qloo/find.ts#L71) | built, not yet called on a live key | Locality ID as the location signal |
+| Exclude what upset | [backend/src/qloo/find.ts:69](backend/src/qloo/find.ts#L69) | built in code | Also enforced in code |
+| Cuisine tags as a filter | [backend/src/qloo/find.ts:72](backend/src/qloo/find.ts#L72) | built, not yet called on a live key | Food near the care home |
+| Pinned pool, two rankings (his signals and the cohort) | [backend/src/qloo/find.ts:96](backend/src/qloo/find.ts#L96) | built, not yet called on a live key | Ranks compared inside each call, never raw affinities across calls |
+| Compare two residents in one line | [backend/src/qloo/client.ts:232](backend/src/qloo/client.ts#L232) | built, not yet called on a live key | /v2/analysis/compare, used by the room planner |
 | Room planner re-scoring | [backend/src/agent/group.ts:2](backend/src/agent/group.ts#L2) | built in code | One pool, one re-score per resident |
+| Group planner as an agent tool | [backend/src/agent/group-agent.ts:13](backend/src/agent/group-agent.ts#L13) | built in code | The agent decides when to call plan_group_session; the server computes the plan |
+| Aftersong MCP server (stdio, official SDK) | [mcp/server.mjs:50](mcp/server.mjs#L50) | built in code | build_session_card, log_observation, plan_group_session over the same API |
 | Plain AI counterfactual lookups | [backend/src/agent/plain.ts:62](backend/src/agent/plain.ts#L62) | built in code | Each suggested item is looked up and checked by the same rules |
-| Request allowlist | [backend/src/qloo/guard.ts:67](backend/src/qloo/guard.ts#L67) | built in code | Only IDs, tags, an age bracket, years, a place |
+| Request allowlist | [backend/src/qloo/guard.ts:90](backend/src/qloo/guard.ts#L90) | built in code | Only IDs, tags, an age bracket, years, a place |
 | Rate discipline | [backend/src/qloo/client.ts:51](backend/src/qloo/client.ts#L51) | built in code | 250 ms spacing, no retry on 429, de-duplication, daily cap |
 
 ## Agent and model
 | Piece | Call site |
 |---|---|
 | Model adapters (Anthropic, OpenRouter, NVIDIA over HTTP) | [backend/src/agent/model.ts:127](backend/src/agent/model.ts#L127) |
-| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:54](backend/src/agent/agent.ts#L54) |
-| Fault switch | [backend/src/agent/agent.ts:275](backend/src/agent/agent.ts#L275) |
+| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:56](backend/src/agent/agent.ts#L56) |
+| Fault switch | [backend/src/agent/agent.ts:299](backend/src/agent/agent.ts#L299) |
 | Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |
 
 ## Not used, so not claimed
-- The Qloo harness MCP server and its tools (`qloo_compare_audiences`, `qloo_where_popular`, and the rest). Reason: the event rate limit and our own spacing, caching and request allowlist are easier to enforce on direct calls. See SPONSOR_INTEL.md.
+- The Qloo harness in production. It is used only for the equivalence check above. Reason: the event rate limit and our own spacing, caching and request allowlist are easier to enforce on direct calls. See SPONSOR_INTEL.md.
+- `/v2/trending` and `/v2/audiences`: client methods and allowlist entries exist for the probe; the product does not call them.
 - The Vercel AI SDK. The tool-calling loop is our own, over each provider's HTTP API.
 - Qloo trends, audiences, analysis compare, heatmaps; books, podcasts, brands and video games as card items.
 - Storing Qloo response bodies in the repository (the developer guide forbids it). Committed fixtures are synthetic.

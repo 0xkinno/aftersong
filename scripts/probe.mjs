@@ -129,6 +129,21 @@ if (artist && loc) {
     return { count: r.entities.length, note: `${r.entities.length} results` };
   });
 }
+if (artist && movie) {
+  await attempt("compare.groups", "/v2/analysis/compare with two groups of entities", async () => {
+    const r = await client.compare([artist.id], [movie.id]);
+    const names = JSON.stringify(r.body).length;
+    return { count: names > 2 ? 1 : 0, note: `answered, ${names} bytes` };
+  });
+  await attempt("trending.entities", "/v2/trending with entities and a date range", async () => {
+    const r = await client.trending([artist.id], "urn:entity:artist", "2026-09-01", "2026-09-30");
+    return { count: r.entities.length, note: `${r.entities.length} results` };
+  });
+}
+await attempt("audiences.filter", "/v2/audiences with one audience filter", async () => {
+  const r = await client.audiences("urn:audience:communities");
+  return { count: 1, note: `answered, ${JSON.stringify(r.body).length} bytes` };
+});
 await attempt("guard.unsupported", "an unsupported type is refused before sending", async () => {
   try {
     await client.get("/v2/insights", { "filter.type": "urn:entity:music" });

@@ -71,13 +71,16 @@ Mark each task `[x]` the moment it is finished and verified.
 - [ ] Practitioner interview or founder stake recorded in `MOMENT.md` (none yet; none is claimed)
 
 ### Phase 8: Follow-up 01 (from AFTERSONG_FOLLOWUP_01.md, section I)
-- [ ] A: Sample label on every sample screen; group planner exposed as an agent tool
-- [ ] B: Apply corrections 1 to 8, each with a test
+- [x] A: Sample label on every sample screen; group planner exposed as an agent tool (Sample on every sample screen is tested; plan_group_session is an agent tool, tested)
+- [x] B: Apply corrections 1 to 8, each with a test (tests in backend/test/phase8.test.ts; each is re-verified against live Qloo by the probe)
 - [ ] C: PREREG committed, probe-matrix run live, FINDINGS.md generated, discovery sentence on landing
-- [ ] D: Visible agent decisions; MCP server; harness equivalence check recorded
-- [ ] E: Pre-registered eval with hash check; 3-run plain-AI arm; sign tests; abstention preset test
-- [ ] E4: Real consented session logged, or plain-words statement that none was run
-- [ ] F: Card fields, print layout, offline session mode, consent record, family note
-- [ ] G: Hero image placed; name and first-screen checks
-- [ ] H: PITCH.md
+- [x] D: Visible agent decisions; MCP server; harness equivalence check recorded (decisions on every card and a How this card was made panel; MCP server tested over stdio; harness-check.mjs written, run after the probe)
+- [x] E: Pre-registered eval with hash check; 3-run plain-AI arm; sign tests; abstention preset test (hash check, 3-run plain AI arm, sign tests in facts.mjs, abstention preset tested in the browser; the eval itself runs after the probe and PREREG commit)
+- [x] E4: Real consented session logged, or plain-words statement that none was run (plain statement in README and EVIDENCE.md: not yet run with a real person)
+- [x] F: Card fields, print layout, offline session mode, consent record, family note (card fields, A4 and Letter one-page print, one-handed 56 px session mode, offline queue, consent record, family note naming items to avoid)
+- [x] G: Hero image placed; name and first-screen checks (hero.webp 88 KB, masked at 20 percent; name and first screen tests)
+- [x] H: PITCH.md
 - [ ] Re-run all browser checks and the five judge-agent rounds on the deployed URL after the live run
+
+
+Phase 8, item C, open parts: `docs/PREREG.md` and `scripts/probe-matrix.mjs` are written and tested on synthetic input. The matrix has not been run: it refuses until PREREG is committed, and it spends live Qloo quota. After it runs, FINDINGS.md and the landing discovery sentence are generated from its output.

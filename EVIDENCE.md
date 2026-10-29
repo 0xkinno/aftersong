@@ -37,6 +37,12 @@ in a public repository, so none is stored here. Test fixtures are synthetic and 
 ## Results
 Read from `docs/FACTS.json`; shown on `/evidence` and in the README.
 
+## Real session
+Not yet run with a real person. The plan: one 15 minute session with an older relative or neighbour, with
+written consent, logged in the deployed app. No names, faces or health details will be published. This
+section will report what happened, including every "no response" item. Until it does, nothing here
+claims that Aftersong helped anyone.
+
 ## Both error directions
 Not measured yet. They need a human reviewer over the plain AI list and over Aftersong's rejections.
 Recorded here when done, with the reviewer, the date and the counts:

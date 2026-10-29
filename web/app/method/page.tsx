@@ -8,6 +8,10 @@ const RULES = [
   ["Openers name nothing else", "The model writes one line per item. A line that names anything not on the card, makes a health claim, or breaks house style is replaced by a template line, and the card says so.", "backend/src/core/openers.ts"],
   ["Qloo sees only IDs", "Requests to Qloo may carry entity IDs, tag IDs, an age bracket, years, and a place as an ID or a point. Names and health details cannot leave.", "backend/src/qloo/guard.ts"],
   ["Not enough is an answer", "When fewer than six items survive, the card says so and offers a five year widening. It never pads.", "backend/src/core/card.ts"],
+  ["Why upset never expires", "Every other reaction fades after 90 days unless it is logged again. An upset reaction does not fade, because a painful association should not lapse with the calendar. Only the family or the carer can delete it.", "backend/src/core/memory.ts"],
+  ["Compare ranks, not raw scores", "A score is only comparable between two calls that share a signal. So his taste and his generation are ranked over the same pinned pool, and the labels come from those ranks: Personal is top third for him and bottom half for his generation.", "backend/src/qloo/find.ts, backend/src/core/classify.ts"],
+  ["No score, no item", "Affinity is read only from query.affinity. If Qloo returns none for an item, the item is skipped. Popularity is never used in its place.", "backend/src/qloo/entity.ts, backend/src/core/rules.ts"],
+  ["Signals go where they work", "Music and film favourites drive music, film and television. Food favourites drive only food and places. Location is used only on open place queries, never on a pinned pool and never to localise films.", "backend/src/core/route.ts, backend/src/qloo/guard.ts"],
   ["Memory is the carer's taps", "Six reactions, stored with who, when, card and item. Positives become new signals. Entries expire after 90 days unless logged again. The family can view and delete them.", "backend/src/core/memory.ts"],
 ];
 

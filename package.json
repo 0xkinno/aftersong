@@ -8,7 +8,7 @@
     "node": ">=22.19"
   },
   "scripts": {
-    "test": "npm --prefix backend test",
+    "test": "npm --prefix backend test && npm --prefix mcp test",
     "typecheck": "npm --prefix backend run typecheck",
     "check": "node scripts/check-clean.mjs && node scripts/house-style-test.mjs && node scripts/facts.mjs --check && node scripts/sdk-surface.mjs --check && node scripts/readme.mjs --check",
     "verify": "node scripts/verify-card.mjs",
@@ -20,6 +20,10 @@
     "web": "npm --prefix web run dev",
     "sabotage": "node scripts/sabotage-report.mjs",
     "docs": "node scripts/sources.mjs && node scripts/facts.mjs && node scripts/sdk-surface.mjs && node scripts/readme.mjs && node scripts/milestones.mjs",
-    "discovery": "node scripts/discovery.mjs"
+    "discovery": "node scripts/discovery.mjs",
+    "matrix": "node scripts/probe-matrix.mjs",
+    "prereg": "node scripts/prereg.mjs",
+    "harness-check": "node scripts/harness-check.mjs",
+    "mcp": "npm --prefix mcp start"
   }
 }

@@ -39,5 +39,17 @@ for (const f of files) {
     }
   });
 }
+// Name style: the product name and headline never use the word "taste". It is for describing Qloo's graph only.
+const nameChecks = [
+  ["web/app/layout.tsx", /title:\s*"([^"]*)"/],
+  ["web/app/page.tsx", /<h1[^>]*>([^<]*)<\/h1>/],
+  ["README.md", /^# (.*)$/m],
+  ["README.md", /^\*\*(Helps[^*]*)\*\*$/m],
+];
+for (const [f, re] of nameChecks) {
+  const m = readFileSync(f, "utf8").match(re);
+  if (!m) { bad++; console.log(`${f}: could not find the name or headline to check`); continue; }
+  if (/taste/i.test(m[1])) { bad++; console.log(`${f}: the name or headline uses the word taste: ${m[1]}`); }
+}
 console.log(bad ? `${bad} house style violation(s).` : `House style ok (${files.length} files).`);
 process.exit(bad ? 1 : 0);

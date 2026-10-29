@@ -142,19 +142,25 @@ Every call, with file and line, is in [SDK_SURFACE.md](SDK_SURFACE.md). The plat
 | Resolve a place to a locality with /search | [backend/src/qloo/resolve.ts:37](backend/src/qloo/resolve.ts#L37) | built, not yet called on a live key | Sent onward as an ID, never as the typed name |
 | Cuisine and genre tags with /v2/tags | [backend/src/qloo/client.ts:220](backend/src/qloo/client.ts#L220) | built, not yet called on a live key | feature.semantic_search on |
 | Batch lookup with /entities | [backend/src/qloo/client.ts:225](backend/src/qloo/client.ts#L225) | built, not yet called on a live key | One call for many IDs |
-| Insights for the person's own signals | [backend/src/qloo/find.ts:59](backend/src/qloo/find.ts#L59) | built, not yet called on a live key | signal.interests.entities, artist, movie, tv_show, place, destination |
-| Year window | [backend/src/qloo/find.ts:46](backend/src/qloo/find.ts#L46) | built, not yet called on a live key | Film and television only; enforced again in code for every domain |
-| Cohort signal | [backend/src/qloo/find.ts:55](backend/src/qloo/find.ts#L55) | built, not yet called on a live key | 55_and_older, the oldest bracket |
-| Same-pool re-scoring | [backend/src/qloo/find.ts:89](backend/src/qloo/find.ts#L89) | built, not yet called on a live key | Both scores from one pool |
-| Explainability | [backend/src/qloo/find.ts:53](backend/src/qloo/find.ts#L53) | built, not yet called on a live key | Driver extraction is best effort (topDriver) |
+| Insights for the person's own signals | [backend/src/qloo/find.ts:82](backend/src/qloo/find.ts#L82) | built, not yet called on a live key | signal.interests.entities, artist, movie, tv_show, place, destination |
+| Year window | [backend/src/qloo/find.ts:62](backend/src/qloo/find.ts#L62) | built, not yet called on a live key | Film and television only; enforced again in code for every domain |
+| Cohort signal | [backend/src/qloo/find.ts:78](backend/src/qloo/find.ts#L78) | built, not yet called on a live key | 55_and_older, the oldest bracket |
+| Explainability | [backend/src/qloo/find.ts:75](backend/src/qloo/find.ts#L75) | built, not yet called on a live key | Driver extraction is best effort (topDriver) |
 | Popularity as a label | [backend/src/core/classify.ts:3](backend/src/core/classify.ts#L3) | built in code | Qloo's popularity field marks Widely known |
-| Hometown thread | [backend/src/qloo/find.ts:50](backend/src/qloo/find.ts#L50) | built, not yet called on a live key | Locality ID as the location signal |
-| Exclude what upset | [backend/src/qloo/find.ts:49](backend/src/qloo/find.ts#L49) | built in code | Also enforced in code |
-| Cuisine tags as a filter | [backend/src/qloo/find.ts:51](backend/src/qloo/find.ts#L51) | built, not yet called on a live key | Food near the care home |
+| Hometown thread | [backend/src/qloo/find.ts:71](backend/src/qloo/find.ts#L71) | built, not yet called on a live key | Locality ID as the location signal |
+| Exclude what upset | [backend/src/qloo/find.ts:69](backend/src/qloo/find.ts#L69) | built in code | Also enforced in code |
+| Cuisine tags as a filter | [backend/src/qloo/find.ts:72](backend/src/qloo/find.ts#L72) | built, not yet called on a live key | Food near the care home |
+| Pinned pool, two rankings (his signals and the cohort) | [backend/src/qloo/find.ts:96](backend/src/qloo/find.ts#L96) | built, not yet called on a live key | Ranks compared inside each call, never raw affinities across calls |
+| Compare two residents in one line | [backend/src/qloo/client.ts:232](backend/src/qloo/client.ts#L232) | built, not yet called on a live key | /v2/analysis/compare, used by the room planner |
 | Room planner re-scoring | [backend/src/agent/group.ts:2](backend/src/agent/group.ts#L2) | built in code | One pool, one re-score per resident |
+| Group planner as an agent tool | [backend/src/agent/group-agent.ts:13](backend/src/agent/group-agent.ts#L13) | built in code | The agent decides when to call plan_group_session; the server computes the plan |
 | Plain AI counterfactual lookups | [backend/src/agent/plain.ts:62](backend/src/agent/plain.ts#L62) | built in code | Each suggested item is looked up and checked by the same rules |
-| Request allowlist | [backend/src/qloo/guard.ts:67](backend/src/qloo/guard.ts#L67) | built in code | Only IDs, tags, an age bracket, years, a place |
+| Request allowlist | [backend/src/qloo/guard.ts:90](backend/src/qloo/guard.ts#L90) | built in code | Only IDs, tags, an age bracket, years, a place |
 | Rate discipline | [backend/src/qloo/client.ts:51](backend/src/qloo/client.ts#L51) | built in code | 250 ms spacing, no retry on 429, de-duplication, daily cap |
+| Model adapters (Anthropic, OpenRouter, NVIDIA over HTTP) | [backend/src/agent/model.ts:127](backend/src/agent/model.ts#L127) |
+| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:56](backend/src/agent/agent.ts#L56) |
+| Fault switch | [backend/src/agent/agent.ts:299](backend/src/agent/agent.ts#L299) |
+| Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |
 <!-- surface:end -->
 
 ## Measured
@@ -170,7 +176,29 @@ Numbers come from `docs/FACTS.json`, generated by `scripts/facts.mjs` from `docs
 Misses recorded: 0.
 <!-- measured:end -->
 
-Aftersong's own checks (years, connection, openers) are enforced in code, so they hold by construction and are not offered as results. The measured comparison is the plain AI list, run through the same rules. Misses and the reviewer's both error directions are in [EVIDENCE.md](EVIDENCE.md). Reproduce every number with [PROOF.md](PROOF.md).
+The questions behind these numbers were written down before the runs, in [docs/PREREG.md](docs/PREREG.md), and the findings, including any null results, are in [FINDINGS.md](FINDINGS.md) once the runs exist. Aftersong's own checks (years, connection, openers) are enforced in code, so they hold by construction and are not offered as results. The measured comparison is the plain AI list, run through the same rules. Misses and the reviewer's both error directions are in [EVIDENCE.md](EVIDENCE.md). Reproduce every number with [PROOF.md](PROOF.md).
+
+## Use it from an agent you already have
+
+Aftersong also runs as an MCP server, so any MCP client can build a card, log what the carer saw, and plan a room. It holds no key and no rules of its own: it calls the deployed app, where the rules run.
+
+```json
+{
+  "mcpServers": {
+    "aftersong": {
+      "command": "node",
+      "args": ["/path/to/aftersong/mcp/server.mjs"],
+      "env": { "AFTERSONG_URL": "https://your-deployed-address", "AFTERSONG_TOKEN": "a carer's access token, for carer tools only" }
+    }
+  }
+}
+```
+
+Tools: `build_session_card` (a sample resident such as `sample-walter` needs no token), `log_observation`, `plan_group_session`. Install once with `npm --prefix mcp ci`.
+
+## Has a real person used it?
+
+Not yet run with a real person. The first consented session with an older person will be logged in the deployed app and reported in [EVIDENCE.md](EVIDENCE.md), including every "no response". Until then no claim of benefit is made.
 
 ## What is live, sample, and designed
 

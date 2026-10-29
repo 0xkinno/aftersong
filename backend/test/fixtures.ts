@@ -13,6 +13,7 @@ export function cand(p: Partial<Candidate> & { id: string; name: string; domain:
     yearEnd: null,
     yearSource: "property:release_year",
     birthYear: null,
+    address: null,
     tags: [],
     affinity: null,
     explainability: null,
