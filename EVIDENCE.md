@@ -44,12 +44,13 @@ reported by 0xkinno. The session date and the session length were not supplied, 
 
 | ID | What they reported |
 |---|---|
-| OP-01 | Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported. |
-| OP-02 | Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported. |
-| OP-03 | Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported. |
+| OP-01 | Said the app was easy to understand and reported no moment of confusion. No criticism was reported. |
+| OP-02 | Faced some small difficulties at the start and got used to the app. |
+| OP-03 | Was confused and felt lost at first, and understood the app by the second day. |
 
-What this does and does not show: all three gave the same answer about ease of use, and none raised a
-criticism. That is a small group describing their own experience. No task was timed, no outcome such as
+What this does and does not show: one participant found it easy from the start, and two had a learning
+period, one of them confused and lost on the first day. That is a small group describing their own
+experience, and it points to a first-use problem that needs fixing. No task was timed, no outcome such as
 mood or recall was measured, and no claim is made that Aftersong helped anyone. Per-person quotes, the
 items shown and any "no response" moments were not supplied, so they are not recorded here.
 

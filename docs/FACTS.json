@@ -410,15 +410,15 @@
     "entries": [
       {
         "id": "OP-01",
-        "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported."
+        "summary": "Said the app was easy to understand and reported no moment of confusion. No criticism was reported."
       },
       {
         "id": "OP-02",
-        "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported."
+        "summary": "Faced some small difficulties at the start and got used to the app."
       },
       {
         "id": "OP-03",
-        "summary": "Said the app was easy to understand. Reported no moment of confusion and said everything went smoothly. No criticism was reported."
+        "summary": "Was confused and felt lost at first, and understood the app by the second day."
       }
     ],
     "humanReview": null
