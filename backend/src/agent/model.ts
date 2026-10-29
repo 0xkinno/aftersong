@@ -134,23 +134,44 @@ const DEFAULT_IDS = { groq: "llama-3.3-70b-versatile", gemini: "gemini-2.5-flash
 
 /** Gemini model ids change often. A 404 on the configured id (a retired or mistyped name) moves to the known ids instead of failing the build. */
 export function geminiModel(key: string, id: string | undefined): Model {
-  const ids = [...new Set([id, DEFAULT_IDS.gemini, "gemini-2.0-flash"].filter((x): x is string => !!x))];
-  const models = ids.map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
+  const first = [...new Set([id, DEFAULT_IDS.gemini].filter((x): x is string => !!x))];
+  let models = first.map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
   let current = models[0];
+  let discovered = false;
+  const notFound = (e: unknown) => e instanceof ModelError && (e.status === 404 || e.status === 400);
+  /** Asks Gemini which flash models this key can use now and returns them, newest version first. */
+  const discover = async (): Promise<Model[]> => {
+    try {
+      const res = await fetch(`${BASES.gemini}/models`, { headers: { authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(15000) });
+      const body = (await res.json()) as { data?: Array<{ id: string }> };
+      const ids = (body.data ?? []).map((m) => m.id.replace(/^models\//, "")).filter((n) => /^gemini-[\d.]+-flash$/.test(n));
+      const ver = (n: string) => parseFloat(n.split("-")[1]);
+      return ids.sort((a, b) => ver(b) - ver(a)).map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
+    } catch {
+      return [];
+    }
+  };
   return {
     get provider() { return current.provider; },
     get id() { return current.id; },
     async complete(system, messages, tools, signal) {
       let last: unknown = null;
-      for (const m of models) {
-        try {
-          const r = await m.complete(system, messages, tools, signal);
-          current = m;
-          return r;
-        } catch (e) {
-          last = e;
-          if (!(e instanceof ModelError && (e.status === 404 || e.status === 400))) throw e;
+      for (let round = 0; round < 2; round++) {
+        for (const m of models) {
+          try {
+            const r = await m.complete(system, messages, tools, signal);
+            current = m;
+            return r;
+          } catch (e) {
+            last = e;
+            if (!notFound(e)) throw e;
+          }
         }
+        if (discovered) break;
+        discovered = true;
+        const found = await discover();
+        if (!found.length) break;
+        models = found;
       }
       throw last;
     },

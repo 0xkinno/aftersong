@@ -29,21 +29,23 @@ test("groq and gemini need only a key, and back up the primary", () => {
   assert.equal(gem?.id, "gemini-2.5-flash");
 });
 
-test("gemini falls back to a known model id when the configured one is not found, and reads array error bodies", async () => {
+test("gemini discovers a usable model when the configured and default ids are gone, and reads array error bodies", async () => {
   const seen: string[] = [];
   const real = globalThis.fetch;
-  globalThis.fetch = (async (_u: string, init: { body: string }) => {
-    const id = JSON.parse(init.body).model;
+  const gone = () => new Response(JSON.stringify([{ error: { message: "models/x is not found" } }]), { status: 404 });
+  globalThis.fetch = (async (u: string, init?: { body?: string }) => {
+    if (String(u).endsWith("/models")) return new Response(JSON.stringify({ data: [{ id: "models/gemini-3-flash" }, { id: "models/gemini-2.5-flash" }, { id: "models/gemini-3-pro" }] }), { status: 200 });
+    const id = JSON.parse(init!.body!).model;
     seen.push(id);
-    if (id === "gemini-retired") return new Response(JSON.stringify([{ error: { message: "models/gemini-retired is not found" } }]), { status: 404 });
-    return new Response(JSON.stringify({ choices: [{ message: { content: "ok" } }], usage: {} }), { status: 200 });
+    if (id === "gemini-3-flash") return new Response(JSON.stringify({ choices: [{ message: { content: "ok" } }], usage: {} }), { status: 200 });
+    return gone();
   }) as unknown as typeof fetch;
   try {
     const m = geminiModel("k", "gemini-retired");
     assert.equal((await m.complete("", [], [])).text, "ok");
-    assert.deepEqual(seen, ["gemini-retired", "gemini-2.5-flash"]);
-    assert.equal(m.id, "gemini-2.5-flash");
-    globalThis.fetch = (async () => new Response(JSON.stringify([{ error: { message: "API key not valid" } }]), { status: 400 })) as unknown as typeof fetch;
+    assert.deepEqual(seen, ["gemini-retired", "gemini-2.5-flash", "gemini-3-flash"]);
+    assert.equal(m.id, "gemini-3-flash");
+    globalThis.fetch = (async () => new Response(JSON.stringify([{ error: { message: "API key not valid" } }]), { status: 403 })) as unknown as typeof fetch;
     await assert.rejects(() => geminiModel("k", undefined).complete("", [], []), /API key not valid/);
   } finally {
     globalThis.fetch = real;
