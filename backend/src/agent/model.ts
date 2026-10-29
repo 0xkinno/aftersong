@@ -146,7 +146,7 @@ export function geminiModel(key: string, id: string | undefined): Model {
       const body = (await res.json()) as { data?: Array<{ id: string }> };
       const ids = (body.data ?? []).map((m) => m.id.replace(/^models\//, "")).filter((n) => /^gemini-[\d.]+-flash$/.test(n));
       const ver = (n: string) => parseFloat(n.split("-")[1]);
-      return ids.sort((a, b) => ver(b) - ver(a)).map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
+      return ids.sort((a, b) => ver(b) - ver(a)).slice(0, 3).map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
     } catch {
       return [];
     }
@@ -159,12 +159,13 @@ export function geminiModel(key: string, id: string | undefined): Model {
       for (let round = 0; round < 2; round++) {
         for (const m of models) {
           try {
-            const r = await m.complete(system, messages, tools, signal);
+            const own = AbortSignal.timeout(20000);
+            const r = await m.complete(system, messages, tools, signal ? AbortSignal.any([own, signal]) : own);
             current = m;
             return r;
           } catch (e) {
             last = e;
-            if (!notFound(e)) throw e;
+            if (signal?.aborted || !(notFound(e) || (e as Error).name === "TimeoutError")) throw e;
           }
         }
         if (discovered) break;
