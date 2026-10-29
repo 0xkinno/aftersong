@@ -51,3 +51,11 @@ test("gemini discovers a usable model when the configured and default ids are go
     globalThis.fetch = real;
   }
 });
+
+test("a model that hangs does not use up the time the next model needs", async () => {
+  const hang: Model = { provider: "p", id: "hang", complete: (_s, _m, _t, signal) => new Promise((_, rej) => signal?.addEventListener("abort", () => rej(new ModelError("timed out")))) };
+  const t0 = Date.now();
+  const r = await withFallback([hang, ok("b")]).complete("", [], []);
+  assert.equal(r.text, "b");
+  assert.ok(Date.now() - t0 < 30000);
+});

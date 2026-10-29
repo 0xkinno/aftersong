@@ -200,13 +200,17 @@ export function withFallback(models: Model[]): Model {
     },
     async complete(system, messages, tools, signal) {
       let last: unknown = null;
-      for (const m of models) {
+      for (const [i, m] of models.entries()) {
+        // A model that hangs must not use up the time the next one needs, so every model but the last gets its own limit.
+        const own = i < models.length - 1 ? AbortSignal.timeout(25000) : undefined;
+        const sig = own && signal ? AbortSignal.any([own, signal]) : (own ?? signal);
         try {
-          const r = await m.complete(system, messages, tools, signal);
+          const r = await m.complete(system, messages, tools, sig);
           current = m;
           return r;
         } catch (e) {
           last = e;
+          if (signal?.aborted) throw e;
         }
       }
       throw last;
