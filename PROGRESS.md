@@ -89,7 +89,7 @@ Done since the first score: live Qloo observed (probe, matrix F1 to F5, discover
 - Landing redesign (dark stage, title-case headline, larger record, sample cards), 71 browser checks pass. Groq and Gemini fallback added to the model adapters.
 
 ## Blocked on Kinnoski
-1. Vercel production deploy of `web/` (a classifier blocked my `vercel --prod`; run it yourself or allow it). The project `aftersong` exists with three env vars and no production deployment.
+1. Render service from `render.yaml`, then `BACKEND_URL` in Vercel (the web app is live at https://aftersong.vercel.app and shows the saved-sample states until then).
 2. Render service from `render.yaml`, then `BACKEND_URL` in Vercel. Until then the deployed app shows saved samples only.
 3. Supabase: run `supabase/schema.sql` (the `records` table returns 404 today).
 4. Model quota: a `GROQ_API_KEY` or `GEMINI_API_KEY` in `.env` (now supported as fallbacks), or OpenRouter credits, then `npm run eval` and `node scripts/facts.mjs` for the plain AI columns and sign tests.

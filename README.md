@@ -1,7 +1,7 @@
 # Aftersong
 
 <!-- badges:start -->
-[![CI](https://github.com/0xkinno/aftersong/actions/workflows/ci.yml/badge.svg)](https://github.com/0xkinno/aftersong/actions) [![MIT licence](https://img.shields.io/badge/licence-MIT-5B5852)](LICENSE)
+[![Live](https://img.shields.io/badge/live-open%20the%20app-E8692C)](https://aftersong.vercel.app) [![CI](https://github.com/0xkinno/aftersong/actions/workflows/ci.yml/badge.svg)](https://github.com/0xkinno/aftersong/actions) [![MIT licence](https://img.shields.io/badge/licence-MIT-5B5852)](LICENSE)
 <!-- badges:end -->
 
 **Helps an activities coordinator in a memory care home, in the twenty minutes before a session, turn three remembered favourites into a card of music, film, food and places from the years a person remembers best.**
@@ -15,10 +15,10 @@
 <!-- links:start -->
 | | |
 |---|---|
-| Live app | not deployed yet |
-| For judges | /judge |
-| Sample resident | /sample |
-| Method | /method |
+| Live app | [https://aftersong.vercel.app](https://aftersong.vercel.app) |
+| For judges | [/judge, a 60 second walk](https://aftersong.vercel.app/judge) |
+| Sample resident | [/sample](https://aftersong.vercel.app/sample) |
+| Method | [/method](https://aftersong.vercel.app/method) |
 | Evidence | [EVIDENCE.md](EVIDENCE.md) |
 | Repository | [https://github.com/0xkinno/aftersong](https://github.com/0xkinno/aftersong) |
 | Video | not recorded yet |

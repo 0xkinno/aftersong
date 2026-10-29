@@ -89,5 +89,6 @@ Phase 8, item C, open parts: `docs/PREREG.md` and `scripts/probe-matrix.mjs` are
 - [x] README reorganised; banner and four landscape screenshots from Playwright Chromium; findings table generated
 - [x] Landing redesigned: dark stage, title-case headline, larger animated record art, tighter spacing; 71 browser checks pass
 - [x] Model fallback: Groq and Gemini adapters, ordered fallback chain, tests
-- [ ] Vercel production deploy (waiting on Kinnoski's sign-in), Render service, Supabase schema run
+- [x] Vercel production deploy: https://aftersong.vercel.app
+- [ ] Render service, Supabase schema run, BACKEND_URL in Vercel
 - [ ] Plain AI arm rerun with Groq or Gemini key, then `node scripts/facts.mjs`
