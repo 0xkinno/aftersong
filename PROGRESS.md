@@ -117,3 +117,10 @@ Open:
 - Plain AI arm: needs a working fallback model. The backend `/status` model check reported `gemini 404: error` on 2026-10-29, so the Gemini model id on Render needs checking.
 - `BACKEND_URL` in Vercel still has to point at the Render service, then a redeploy.
 - Groq and Gemini key values were not present in `.env` or `.env.example` on disk when checked.
+
+## Session 6, 2026-10-29 to 2026-10-30
+- Model fix: Gemini and Groq ids were retired. The adapters now ask the provider which models the key can use and try the best few; each model has its own time limit; the fallback that answered is reused for ten minutes. `/status` reports the model as working (gemini-3.6-flash).
+- All five sample cards were rebuilt with the working model (model-written openers; one template line on Walter's card).
+- Live end-to-end walk with Playwright Chromium on https://aftersong.vercel.app: `web/e2e-live/live.spec.ts`, 9 of 9 pass. The compare button hit the per-visitor cap in the browser after earlier runs, so the plain AI run was also checked once through the backend with a fresh visitor id (it ran and applied the rules).
+- Red team round 1 (five judges) run; see REDTEAM_LOG.md. Round 2 not run.
+- Still open: per-person participant notes, human error review counts, session date and length, plain AI arm in the eval, 12 more forms.
