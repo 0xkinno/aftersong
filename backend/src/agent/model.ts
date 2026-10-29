@@ -192,6 +192,7 @@ function one(name: string, env: ModelEnv, id: string | undefined): Model | null 
 /** Tries each model in order. A failure (rate limit, outage, bad key, timeout) moves to the next; the last error is thrown if all fail. */
 export function withFallback(models: Model[]): Model {
   let current = models[0];
+  let stickUntil = 0;
   return {
     get provider() {
       return current.provider;
@@ -201,13 +202,16 @@ export function withFallback(models: Model[]): Model {
     },
     async complete(system, messages, tools, signal) {
       let last: unknown = null;
-      for (const [i, m] of models.entries()) {
+      // After a fallback answered, start with it for ten minutes so a dead primary does not cost its full wait on every call.
+      const order = Date.now() < stickUntil ? [current, ...models.filter((x) => x !== current)] : models;
+      for (const [i, m] of order.entries()) {
         // A model that hangs must not use up the time the next one needs, so every model but the last gets its own limit.
-        const own = i < models.length - 1 ? AbortSignal.timeout(25000) : undefined;
+        const own = i < order.length - 1 ? AbortSignal.timeout(25000) : undefined;
         const sig = own && signal ? AbortSignal.any([own, signal]) : (own ?? signal);
         try {
           const r = await m.complete(system, messages, tools, sig);
           current = m;
+          stickUntil = m === models[0] ? 0 : Date.now() + 10 * 60 * 1000;
           return r;
         } catch (e) {
           last = e;
