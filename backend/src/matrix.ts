@@ -144,13 +144,16 @@ export function computeF5(rows: F5Row[]) {
   return { forms: rows.length, placesWithAddress: total, noAddress, inHometownPct: total ? round((inHome / total) * 100, 1) : null, inCareCityPct: total ? round((inCare / total) * 100, 1) : null, perForm: per };
 }
 
-/** The headline sentence. Written only when F1 supports it; otherwise null and the landing page keeps its plain claim. */
-export function discoverySentence(f1: F1Result | null): { sentence: string | null; strongest: string | null } {
-  if (!f1 || !f1.supports || f1.meanWidelyKnownCohortOnly === null || f1.meanWidelyKnownOwn === null) return { sentence: null, strongest: null };
-  const x = f1.meanWidelyKnownCohortOnly;
-  const y = Math.round((8 - f1.meanWidelyKnownOwn) * 10) / 10;
+/**
+ * The headline sentence. Written only when F1 supports it (the pre-registered rule). It quotes F2, the
+ * clearer number: the share of a card's items that a list built from the age cohort alone would also
+ * contain. (F1's "widely known in the top eight" counts are shown in FINDINGS.md but are a weak
+ * headline, because Qloo's popularity is a percentile and almost everything older scores high.)
+ */
+export function discoverySentence(f1: F1Result | null, f2: { meanOverlapPct: number | null; forms: number } | null = null): { sentence: string | null; strongest: string | null } {
+  if (!f1 || !f1.supports || !f2 || f2.meanOverlapPct === null || f2.forms === 0) return { sentence: null, strongest: null };
   return {
-    sentence: `With only his generation as the signal, ${x} of 8 items were the same famous names for everyone. With three things his family remembered, ${y} of 8 were not.`,
-    strongest: "F1",
+    sentence: `Built from his generation alone, a list leans on the same famous names for everyone. Only ${f2.meanOverlapPct} percent of what Aftersong puts on a card would be on such a list, because it starts from what his family remembered.`,
+    strongest: "F1 and F2",
   };
 }

@@ -1,6 +1,6 @@
 # MILESTONES.md
 
-Generated from `git log` by `node scripts/milestones.mjs`. 10 commits, all authored by 0xkinno.
+Generated from `git log` by `node scripts/milestones.mjs`. 11 commits, all authored by 0xkinno.
 
 | Commit | When | Author | What |
 |---|---|---|---|
@@ -14,3 +14,4 @@ Generated from `git log` by `node scripts/milestones.mjs`. 10 commits, all autho
 | b303ccc | 2026-10-29 00:30 | 0xkinno | Phase 8 B, A, D: rank-based split over a pinned pool, affinity from query.affinity, location and routing rules, agent decisions, group planner as an agent tool, statistics |
 | bf78f2a | 2026-10-29 00:55 | 0xkinno | Phase 8 F, G, E5: card fields, print layout, offline session mode, consent record, family note, hero image, first screen, abstention preset |
 | 9623a87 | 2026-10-29 01:06 | 0xkinno | Phase 8 C, D, E, H: pre-registration and probe matrix, MCP server, harness check, eval hash check and three-run plain AI arm, PITCH, tests |
+| af9899a | 2026-10-29 01:42 | 0xkinno | Apply the first live run: artist career years, pinned pool page size, locality by region, calibrated popularity, honest food and place connections, probe findings |

@@ -65,7 +65,7 @@ export function anthropicModel(key: string, id: string): Model {
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01" },
-        body: JSON.stringify({ model: id, max_tokens: 1200, system, messages: out, tools: tools.map((t) => ({ name: t.name, description: t.description, input_schema: t.schema })) }),
+        body: JSON.stringify({ model: id, max_tokens: 6000, system, messages: out, tools: tools.map((t) => ({ name: t.name, description: t.description, input_schema: t.schema })) }),
         signal: signal ?? AbortSignal.timeout(60000),
       });
       const body = await j(res);
@@ -95,7 +95,7 @@ export function openAiCompatModel(provider: string, baseUrl: string, key: string
       const res = await fetch(`${baseUrl}/chat/completions`, {
         method: "POST",
         headers: { "content-type": "application/json", authorization: `Bearer ${key}` },
-        body: JSON.stringify({ model: id, max_tokens: 1200, messages: out, ...(tools.length ? { tools: tools.map((t) => ({ type: "function", function: { name: t.name, description: t.description, parameters: t.schema } })) } : {}) }),
+        body: JSON.stringify({ model: id, max_tokens: 6000, messages: out, ...(tools.length ? { tools: tools.map((t) => ({ type: "function", function: { name: t.name, description: t.description, parameters: t.schema } })) } : {}) }),
         signal: signal ?? AbortSignal.timeout(60000),
       });
       const body = await j(res);

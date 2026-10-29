@@ -45,8 +45,18 @@ export function parsePlainList(text: string): Array<{ name: string; domain: Doma
 
 export async function runPlainAi(deps: { client: QlooClient; model: Model }, resident: Resident, window: Window, ceilings: Partial<Record<Domain, number>> = {}): Promise<PlainResult> {
   const favs = resident.favourites.filter((f) => f.confirmed && f.id);
-  const prompt = `A carer needs eight things to talk about in a reminiscence session with a resident born in ${resident.birthYear}, who grew up in ${resident.hometown}. Their favourites: ${favs.map((f) => f.name).join(", ")}. Suggest eight items across music, film, tv, food and place. Reply with only a JSON array of objects with name, domain (music, film, tv, food or place) and year.`;
-  const reply = await deps.model.complete("You suggest items for a reminiscence session. Reply with JSON only.", [{ role: "user", text: prompt }], []);
+  const prompt = `A carer needs eight things to talk about in a reminiscence session with a resident born in ${resident.birthYear}, who grew up in ${resident.hometown}. Their favourites: ${favs.map((f) => f.name).join(", ")}. Suggest eight items across music, film, tv, food and place. Each name must be the name of an artist or group, a film, a TV show, a restaurant or dish, or a place, not a song title. Reply with only a JSON array of objects with name, domain (music, film, tv, food or place) and year.`;
+  // a free model rate limits and times out now and then: retry a few times before giving up
+  let reply: Awaited<ReturnType<Model["complete"]>> | null = null;
+  for (let attempt = 0; attempt < 5 && !reply; attempt++) {
+    try {
+      reply = await deps.model.complete("You suggest items for a reminiscence session. Reply with JSON only.", [{ role: "user", text: prompt }], []);
+    } catch (e) {
+      if (attempt === 4) throw e;
+      await new Promise((r) => setTimeout(r, 6000 * (attempt + 1)));
+    }
+  }
+  if (!reply) throw new Error("the model gave no answer");
   const list = parsePlainList(reply.text);
   const rows: PlainRow[] = [];
   const taken = new Set<string>();

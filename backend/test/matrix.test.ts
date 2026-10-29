@@ -11,9 +11,10 @@ test("F1: cohort-only more popular than own in most forms is significant and yie
   assert.equal(r.sign.positive, 15);
   assert.ok(r.sign.p !== null && r.sign.p < 0.001);
   assert.equal(r.supports, true);
-  const s = discoverySentence(r);
-  assert.ok(s.sentence?.startsWith("With only his generation as the signal, 3 of 8"));
-  assert.equal(s.strongest, "F1");
+  const s = discoverySentence(r, { meanOverlapPct: 20, forms: 15 });
+  assert.ok(s.sentence?.includes("Only 20 percent of what Aftersong puts on a card"));
+  assert.equal(s.strongest, "F1 and F2");
+  assert.deepEqual(discoverySentence(r, null), { sentence: null, strongest: null });
 });
 
 test("F1: a null or negative result is reported as such and writes no sentence", () => {

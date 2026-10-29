@@ -51,6 +51,9 @@ Recorded here when done, with the reviewer, the date and the counts:
 - False positive rate of the checker on the plain AI list: unmeasured.
 
 ## Misses and limits
+- **The plain AI arm of the eval has not run.** The free OpenRouter model hit its daily limit ("free-models-per-day") during the first runs, so the Aftersong arm was measured on 15 curated forms with no model (template openers), and the three-run plain AI comparison, its sign tests and the plain AI columns on /evidence are still "not measured yet". The first plain AI attempts were discarded: the model first returned empty text because it spent its token limit thinking, and then rate limited. Rerun with `npm run eval` once the model has quota; it overwrites this result.
+- The wild set has 0 forms. Curated: 15 of 15 cards built, no thin cards, 109 items, 15.7 live Qloo calls per card, 15.5 seconds per card without a model.
+- Findings F1 to F5 (see FINDINGS.md) were run once on the curated forms, before any wild form exists.
 - Abstention preset, measured live on 2026-10-29: a resident born in 1925, and even one born in 1900, with an obscure favourite (Mildred Bailey), still got a card of 6 to 7 items. Qloo has data for those years. The abstention appears per domain (television and food for 1900), not as a thin card. The preset uses 1900 for that reason.
 - Qloo's popularity is a percentile: nearly every older artist and film it returns is above 0.97. "Widely known" is therefore the top quarter of each pool, not a fixed number.
 - A search for a nonsense name still returns five near names, so "not found" means "no exact name", and nothing is used until a carer confirms.

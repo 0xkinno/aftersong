@@ -11,7 +11,7 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Node | 22.19 or newer (type stripping) |
 | Next.js | ^15.5.0 |
 | React | ^19.0.0 |
-| Model | not yet recorded: set in .env and recorded by the first eval run |
+| Model | null |
 
 ## Qloo features used
 | Feature | Call site | Status | Note |
@@ -33,7 +33,7 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Room planner re-scoring | [backend/src/agent/group.ts:2](backend/src/agent/group.ts#L2) | built in code | One pool, one re-score per resident |
 | Group planner as an agent tool | [backend/src/agent/group-agent.ts:13](backend/src/agent/group-agent.ts#L13) | built in code | The agent decides when to call plan_group_session; the server computes the plan |
 | Aftersong MCP server (stdio, official SDK) | [mcp/server.mjs:50](mcp/server.mjs#L50) | built in code | build_session_card, log_observation, plan_group_session over the same API |
-| Plain AI counterfactual lookups | [backend/src/agent/plain.ts:62](backend/src/agent/plain.ts#L62) | built in code | Each suggested item is looked up and checked by the same rules |
+| Plain AI counterfactual lookups | [backend/src/agent/plain.ts:72](backend/src/agent/plain.ts#L72) | built in code | Each suggested item is looked up and checked by the same rules |
 | Request allowlist | [backend/src/qloo/guard.ts:90](backend/src/qloo/guard.ts#L90) | built in code | Only IDs, tags, an age bracket, years, a place |
 | Rate discipline | [backend/src/qloo/client.ts:51](backend/src/qloo/client.ts#L51) | built in code | 250 ms spacing, no retry on 429, de-duplication, daily cap |
 

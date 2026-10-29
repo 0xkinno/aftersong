@@ -1,0 +1,337 @@
+{
+  "runAt": "2026-10-29T01:13:16.983Z",
+  "preregCommit": "9623a87a97893e105278ebf8bf957db4d34beba8",
+  "formsRun": 15,
+  "formsSkipped": [],
+  "findings": {
+    "F1": {
+      "film": {
+        "forms": 15,
+        "meanPopularityCohortOnly": 0.993,
+        "meanPopularityOwn": 0.901,
+        "meanWidelyKnownCohortOnly": 8,
+        "meanWidelyKnownOwn": 6.47,
+        "sign": {
+          "n": 15,
+          "positive": 15,
+          "negative": 0,
+          "ties": 0,
+          "p": 0.00006103515625000003,
+          "verdict": "significant at 0.05"
+        },
+        "supports": true,
+        "skipped": 0
+      },
+      "tv": {
+        "forms": 15,
+        "meanPopularityCohortOnly": 0.833,
+        "meanPopularityOwn": 0.517,
+        "meanWidelyKnownCohortOnly": 4,
+        "meanWidelyKnownOwn": 1,
+        "sign": {
+          "n": 15,
+          "positive": 14,
+          "negative": 1,
+          "ties": 0,
+          "p": 0.0009765625,
+          "verdict": "significant at 0.05"
+        },
+        "supports": true,
+        "skipped": 0
+      },
+      "music": {
+        "forms": 15,
+        "meanPopularityCohortOnly": 1,
+        "meanPopularityOwn": 0.956,
+        "meanWidelyKnownCohortOnly": 8,
+        "meanWidelyKnownOwn": 7.33,
+        "sign": {
+          "n": 15,
+          "positive": 15,
+          "negative": 0,
+          "ties": 0,
+          "p": 0.00006103515625000003,
+          "verdict": "significant at 0.05"
+        },
+        "supports": true,
+        "skipped": 0
+      },
+      "pooled": {
+        "forms": 15,
+        "meanPopularityCohortOnly": 0.996,
+        "meanPopularityOwn": 0.929,
+        "meanWidelyKnownCohortOnly": 16,
+        "meanWidelyKnownOwn": 13.8,
+        "sign": {
+          "n": 15,
+          "positive": 15,
+          "negative": 0,
+          "ties": 0,
+          "p": 0.00006103515625000003,
+          "verdict": "significant at 0.05"
+        },
+        "supports": true,
+        "skipped": 0
+      }
+    },
+    "F2": {
+      "forms": 15,
+      "unionSize": 214,
+      "meanOverlapPct": 20,
+      "totalItems": 90,
+      "totalInUnion": 18,
+      "perForm": [
+        {
+          "form": "c01",
+          "items": 6,
+          "inUnion": 3
+        },
+        {
+          "form": "c02",
+          "items": 6,
+          "inUnion": 3
+        },
+        {
+          "form": "c03",
+          "items": 6,
+          "inUnion": 1
+        },
+        {
+          "form": "c04",
+          "items": 6,
+          "inUnion": 0
+        },
+        {
+          "form": "c05",
+          "items": 6,
+          "inUnion": 0
+        },
+        {
+          "form": "c06",
+          "items": 6,
+          "inUnion": 2
+        },
+        {
+          "form": "c07",
+          "items": 6,
+          "inUnion": 1
+        },
+        {
+          "form": "c08",
+          "items": 6,
+          "inUnion": 2
+        },
+        {
+          "form": "c09",
+          "items": 6,
+          "inUnion": 1
+        },
+        {
+          "form": "c10",
+          "items": 6,
+          "inUnion": 0
+        },
+        {
+          "form": "c11",
+          "items": 6,
+          "inUnion": 2
+        },
+        {
+          "form": "c12",
+          "items": 6,
+          "inUnion": 1
+        },
+        {
+          "form": "c13",
+          "items": 6,
+          "inUnion": 1
+        },
+        {
+          "form": "c14",
+          "items": 6,
+          "inUnion": 1
+        },
+        {
+          "form": "c15",
+          "items": 6,
+          "inUnion": 0
+        }
+      ]
+    },
+    "F3": {
+      "forms": 13,
+      "meanTau": 0.187,
+      "formsChanged": 13,
+      "perForm": [
+        {
+          "form": "c01",
+          "tau": 0.434
+        },
+        {
+          "form": "c02",
+          "tau": 0.329
+        },
+        {
+          "form": "c03",
+          "tau": 0.287
+        },
+        {
+          "form": "c04",
+          "tau": 0.37
+        },
+        {
+          "form": "c05",
+          "tau": -0.168
+        },
+        {
+          "form": "c06",
+          "tau": 0.053
+        },
+        {
+          "form": "c08",
+          "tau": 0.338
+        },
+        {
+          "form": "c09",
+          "tau": 0.283
+        },
+        {
+          "form": "c10",
+          "tau": 0.384
+        },
+        {
+          "form": "c11",
+          "tau": 0.343
+        },
+        {
+          "form": "c12",
+          "tau": -0.113
+        },
+        {
+          "form": "c14",
+          "tau": -0.145
+        },
+        {
+          "form": "c15",
+          "tau": 0.039
+        }
+      ],
+      "skipped": 0
+    },
+    "F4": {
+      "movie": {
+        "returned": 900,
+        "dated": 900,
+        "outside": 0,
+        "violationPct": 0
+      },
+      "tv_show": {
+        "returned": 900,
+        "dated": 900,
+        "outside": 0,
+        "violationPct": 0
+      }
+    },
+    "F5": {
+      "forms": 15,
+      "placesWithAddress": 324,
+      "noAddress": 0,
+      "inHometownPct": 63.6,
+      "inCareCityPct": 18.5,
+      "perForm": [
+        {
+          "form": "c01",
+          "withAddress": 30,
+          "inHometown": 21,
+          "inCareCity": 21
+        },
+        {
+          "form": "c02",
+          "withAddress": 30,
+          "inHometown": 30,
+          "inCareCity": 0
+        },
+        {
+          "form": "c03",
+          "withAddress": 16,
+          "inHometown": 0,
+          "inCareCity": 0
+        },
+        {
+          "form": "c04",
+          "withAddress": 30,
+          "inHometown": 30,
+          "inCareCity": 0
+        },
+        {
+          "form": "c05",
+          "withAddress": 30,
+          "inHometown": 30,
+          "inCareCity": 0
+        },
+        {
+          "form": "c06",
+          "withAddress": 30,
+          "inHometown": 0,
+          "inCareCity": 30
+        },
+        {
+          "form": "c07",
+          "withAddress": 30,
+          "inHometown": 23,
+          "inCareCity": 2
+        },
+        {
+          "form": "c08",
+          "withAddress": 30,
+          "inHometown": 25,
+          "inCareCity": 1
+        },
+        {
+          "form": "c09",
+          "withAddress": 5,
+          "inHometown": 0,
+          "inCareCity": 1
+        },
+        {
+          "form": "c10",
+          "withAddress": 0,
+          "inHometown": 0,
+          "inCareCity": 0
+        },
+        {
+          "form": "c11",
+          "withAddress": 2,
+          "inHometown": 0,
+          "inCareCity": 0
+        },
+        {
+          "form": "c12",
+          "withAddress": 30,
+          "inHometown": 19,
+          "inCareCity": 1
+        },
+        {
+          "form": "c13",
+          "withAddress": 30,
+          "inHometown": 25,
+          "inCareCity": 2
+        },
+        {
+          "form": "c14",
+          "withAddress": 2,
+          "inHometown": 1,
+          "inCareCity": 0
+        },
+        {
+          "form": "c15",
+          "withAddress": 29,
+          "inHometown": 2,
+          "inCareCity": 2
+        }
+      ]
+    }
+  },
+  "discoverySentence": "Built from his generation alone, a list leans on the same famous names for everyone. Only 20 percent of what Aftersong puts on a card would be on such a list, because it starts from what his family remembered.",
+  "strongest": "F1 and F2"
+}
