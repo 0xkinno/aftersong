@@ -1,7 +1,3 @@
-<!-- shots-hero:start -->
-
-<!-- shots-hero:end -->
-
 # Aftersong
 
 <!-- badges:start -->
@@ -11,6 +7,10 @@
 **Helps an activities coordinator in a memory care home, in the twenty minutes before a session, turn three remembered favourites into a card of music, film, food and places from the years a person remembers best.**
 
 *The songs he still knows.*
+
+<!-- shots-hero:start -->
+![Aftersong landing page](docs/screens/landing-desktop-1440x900.png)
+<!-- shots-hero:end -->
 
 <!-- links:start -->
 | | |
@@ -31,23 +31,28 @@ Marisol runs activities at a 40-bed memory care home in San Antonio. A new resid
 The afternoon session starts in twenty minutes. Today Marisol would search for "music for 80 year olds" and play the same Sinatra playlist she plays for every resident. With Aftersong she opens a card instead: six to eight things from the years Walter was ten to thirty, each tied to something he loved, each with one plain question to ask. She runs the session, taps what she sees, and the next card starts from what worked.
 
 <!-- shots-grid:start -->
-
+| | |
+|---|---|
+| ![A sample card](docs/screens/sample-card.png) | ![Session mode on a phone](docs/screens/session-iphone.png) |
+| ![For judges](docs/screens/judge.png) | ![Method](docs/screens/method.png) |
 <!-- shots-grid:end -->
 
 ## The problem
 
-| What is true | Source |
-|---|---|
+Memory care staff are asked to personalise activities for people who say little, with minutes to prepare. Reminiscence is the best-supported way in, and the research below shows two things a card has to get right: the years a person remembers best, and the person's own favourites.
+
 <!-- problem:start -->
-| **57 million** people were living with dementia worldwide in 2021, with nearly 10 million new cases every year. | [World Health Organization, Dementia fact sheet](https://www.who.int/news-room/fact-sheets/detail/dementia) |
-| **42%** annual turnover among certified nursing assistants in US nursing homes in 2025 (42.34 percent, down from 44.16 percent in 2024), across 917 homes. | [AHCA, 2025-2026 Nursing Home Salary and Benefits Report summary, 9 September 2025](https://www.ahcancal.org/News-and-Communications/Blog/Pages/2025–2026-Nursing-Home-Report-Reveals-Lower-Turnover.aspx) |
-| **22 trials** of reminiscence therapy for dementia, with 1,972 people, were reviewed by Cochrane in 2018. | [Woods, O'Philbin, Farrell, Spector and Orrell, Cochrane Database of Systematic Reviews, 2018, CD001120](https://www.cochrane.org/evidence/CD001120_reminiscence-therapy-dementia) |
-| **Music memory** A 2015 study in Brain compared brain regions that hold long-term musical memory with Alzheimer's data and found they lose fewer neurons and show less metabolic decline than the rest of the brain. | [Jacobsen, Stelzer, Fritz, Chetelat, La Joie and Turner, Brain 138(8), 2438 to 2450, 2015](https://scholars.duke.edu/publication/1818925) |
-| **Ages 10 to 30** People tend to recall more personal memories from roughly ages 10 to 30, the reminiscence bump. A systematic review of 68 studies puts the span at about 10 to 30 years for important events and about 5 to 30 for word-cued memories. | [Munawar, Kuhn and Haque, Understanding the reminiscence bump: a systematic review, PLoS ONE, 2018](https://doi.org/10.1371/journal.pone.0208595) |
-| **This is me** is a free leaflet that staff, family or carers fill in to record a person's background, important events, preferences and routines, so care can be tailored to the person. | [Alzheimer's Society, This is me](https://www.alzheimers.org.uk/get-support/publications-factsheets/this-is-me) |
+| Topic | Finding | Source |
+|---|---|---|
+| **Scale** | **57 million** people were living with dementia worldwide in 2021, with nearly 10 million new cases every year. | [World Health Organization, Dementia fact sheet](https://www.who.int/news-room/fact-sheets/detail/dementia) |
+| **Care workforce** | **42%** annual turnover among certified nursing assistants in US nursing homes in 2025 (42.34 percent, down from 44.16 percent in 2024), across 917 homes. | [AHCA, 2025-2026 Nursing Home Salary and Benefits Report summary, 9 September 2025](https://www.ahcancal.org/News-and-Communications/Blog/Pages/2025–2026-Nursing-Home-Report-Reveals-Lower-Turnover.aspx) |
+| **Reminiscence therapy** | **22 trials** of reminiscence therapy for dementia, with 1,972 people, were reviewed by Cochrane in 2018. | [Woods, O'Philbin, Farrell, Spector and Orrell, Cochrane Database of Systematic Reviews, 2018, CD001120](https://www.cochrane.org/evidence/CD001120_reminiscence-therapy-dementia) |
+| **Music and memory** | A 2015 study in Brain compared brain regions that hold long-term musical memory with Alzheimer's data and found they lose fewer neurons and show less metabolic decline than the rest of the brain. | [Jacobsen, Stelzer, Fritz, Chetelat, La Joie and Turner, Brain 138(8), 2438 to 2450, 2015](https://scholars.duke.edu/publication/1818925) |
+| **Reminiscence bump** | People tend to recall more personal memories from roughly ages 10 to 30, the reminiscence bump. A systematic review of 68 studies puts the span at about 10 to 30 years for important events and about 5 to 30 for word-cued memories. | [Munawar, Kuhn and Haque, Understanding the reminiscence bump: a systematic review, PLoS ONE, 2018](https://doi.org/10.1371/journal.pone.0208595) |
+| **Current practice** | **This is me** is a free leaflet that staff, family or carers fill in to record a person's background, important events, preferences and routines, so care can be tailored to the person. | [Alzheimer's Society, This is me](https://www.alzheimers.org.uk/get-support/publications-factsheets/this-is-me) |
 <!-- problem:end -->
 
-Everyone assumes "music for old people" is one playlist. The songs that reach a person are the ones from their own years, filtered through their own taste. A generic list misses both.
+**What follows from this.** "Music for old people" is not one playlist. The songs that reach a person come from their own years and are filtered through their own favourites. A generic list misses both, and the findings further down measure how far.
 
 ## What it does
 
@@ -157,13 +162,27 @@ Every call, with file and line, is in [SDK_SURFACE.md](SDK_SURFACE.md). The plat
 | Plain AI counterfactual lookups | [backend/src/agent/plain.ts:72](backend/src/agent/plain.ts#L72) | built in code | Each suggested item is looked up and checked by the same rules |
 | Request allowlist | [backend/src/qloo/guard.ts:90](backend/src/qloo/guard.ts#L90) | built in code | Only IDs, tags, an age bracket, years, a place |
 | Rate discipline | [backend/src/qloo/client.ts:51](backend/src/qloo/client.ts#L51) | built in code | 250 ms spacing, no retry on 429, de-duplication, daily cap |
-| Model adapters (Anthropic, OpenRouter, NVIDIA over HTTP) | [backend/src/agent/model.ts:127](backend/src/agent/model.ts#L127) |
-| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:59](backend/src/agent/agent.ts#L59) |
-| Fault switch | [backend/src/agent/agent.ts:309](backend/src/agent/agent.ts#L309) |
-| Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |
+| Model adapters (Anthropic, OpenRouter, NVIDIA over HTTP) | [backend/src/agent/model.ts:127](backend/src/agent/model.ts#L127) |  |  |
+| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:59](backend/src/agent/agent.ts#L59) |  |  |
+| Fault switch | [backend/src/agent/agent.ts:309](backend/src/agent/agent.ts#L309) |  |  |
+| Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |  |  |
 <!-- surface:end -->
 
-## Measured
+## Findings from live Qloo data
+
+<!-- findings:start -->
+Pre-registered in [docs/PREREG.md](docs/PREREG.md) before the runs; every number comes from `docs/FACTS.json`. Detail and method notes are in [FINDINGS.md](FINDINGS.md).
+
+| Question | Result |
+|---|---|
+| F1. Does a generation-only signal pull results toward famous names? | Yes in film (15 of 15 forms, p below 0.001), music (15 of 15 forms, p below 0.001) and television (14 of 15 forms, p below 0.001) |
+| F2. How much of a card would a generation-only list also contain? | 20% (18 of 90 items) |
+| F3. Does one remembered favourite in music move film? | The film order changed in 13 of 13 forms (mean Kendall tau 0.187) |
+| F4. Does the year filter hold at the edges? | 0 of 900 films and 0 of 900 television results fall outside the window |
+| F5. Does a hometown signal return places from that region? | 63.6% in the hometown region, 18.5% in the care city |
+<!-- findings:end -->
+
+## Measured against a plain AI list
 
 <!-- measured:start -->
 Numbers come from `docs/FACTS.json`, generated by `scripts/facts.mjs` from `docs/eval-summary.json`.
@@ -176,7 +195,7 @@ Numbers come from `docs/FACTS.json`, generated by `scripts/facts.mjs` from `docs
 Misses recorded: 0.
 <!-- measured:end -->
 
-The questions behind these numbers were written down before the runs, in [docs/PREREG.md](docs/PREREG.md), and the findings, including any null results, are in [FINDINGS.md](FINDINGS.md) once the runs exist. Aftersong's own checks (years, connection, openers) are enforced in code, so they hold by construction and are not offered as results. The measured comparison is the plain AI list, run through the same rules. Misses and the reviewer's both error directions are in [EVIDENCE.md](EVIDENCE.md). Reproduce every number with [PROOF.md](PROOF.md).
+The questions behind these numbers were written down before the runs, in [docs/PREREG.md](docs/PREREG.md), and the findings, including any null results, are in [FINDINGS.md](FINDINGS.md). The plain AI columns stay "not measured yet" until the comparison has been run with a model that has quota; nothing is estimated in their place. Aftersong's own checks (years, connection, openers) are enforced in code, so they hold by construction and are not offered as results. The measured comparison is the plain AI list, run through the same rules. Misses and the reviewer's both error directions are in [EVIDENCE.md](EVIDENCE.md). Reproduce every number with [PROOF.md](PROOF.md).
 
 ## Use it from an agent you already have
 
@@ -198,7 +217,7 @@ Tools: `build_session_card` (a sample resident such as `sample-walter` needs no 
 
 ## Has a real person used it?
 
-Not yet run with a real person. The first consented session with an older person will be logged in the deployed app and reported in [EVIDENCE.md](EVIDENCE.md), including every "no response". Until then no claim of benefit is made.
+Not yet. The first consented session with an older person will be logged in the deployed app and reported in [EVIDENCE.md](EVIDENCE.md), including every "no response". Until then no claim of benefit is made.
 
 ## What is live, sample, and designed
 
@@ -234,7 +253,7 @@ Not yet run with a real person. The first consented session with an older person
 
 ## Limits
 
-- Qloo has no year filter for artists, so music years are checked in code from whatever year data Qloo returns. The strategy chosen is recorded in [PLATFORM_PROBE.md](PLATFORM_PROBE.md).
+- Qloo's year filter does not apply to artists, so music is windowed in code by the years an artist was active (start and end years from Qloo). The measured behaviour is recorded in [PLATFORM_PROBE.md](PLATFORM_PROBE.md).
 - Food and places have no year. They are tied to a hometown cuisine and place instead.
 - No real care home has used it yet. No pilot is claimed.
 - The Qloo monthly quota and per second rate limit shape how many live builds a visitor can run.

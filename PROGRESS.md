@@ -76,18 +76,25 @@ Comparison scores are kept locally in `reference/`.
 | Quality of the Idea | 4 | Year windows across five kinds of item, Personal against generation, carer taps as the next signal | The measured comparison against the plain AI list |
 
 Blocking questions answered "no" today: wild set or real run (none), both error directions (none),
-live Qloo observed (none), deployed on Vercel and Render (not yet), red team (not run), unattended run
-recorded (not yet), screenshots of the deployed app (none).
+plain AI comparison (needs a model with quota), deployed on Vercel and Render (not yet), red team on the deployed app
+(not run), unattended run recorded (not yet), screenshots of the deployed app (local screenshots only, in docs/screens).
+Done since the first score: live Qloo observed (probe, matrix F1 to F5, discovery run, 15 curated cards).
+
+## Session 4 (2026-10-29)
+- CI fixed: the browser job ran Playwright from the repository root, which pulled in the MCP test without its dependencies. It now runs from `web/`.
+- README rewritten: problem table reorganised (Topic, Finding, Source), landing banner and four screenshots (Playwright, Chromium), findings table generated from docs/FACTS.json, real-person section restored.
+- Screenshots taken locally against the real backend and live Qloo, with the model out of quota (cards show template openers, labelled as such).
+- DISCOVERY.md run log filled from `node scripts/discovery.mjs`.
 
 ## Blocked on Kinnoski
-1. `QLOO_API_KEY` in `.env`. Then: `npm run probe`, `node scripts/discovery.mjs`, `npm run eval`, `npm run facts`.
-2. A model key and `MODEL_ID` in `.env` (Anthropic, OpenRouter or NVIDIA). Record the model id in SDK_SURFACE.md by running `npm run docs`.
-3. Supabase project: run `supabase/schema.sql`; URL, anon key and service role key into `.env`.
-4. GitHub repo URL (`0xkinno/aftersong`). `gh` is not installed here, so push is by git remote.
-5. Vercel and Render accounts: steps in `docs/DEPLOY.md`.
-6. Wild forms: 10 to 15 consenting older relatives, first name, birth year, city, three favourites, into `data/wild/*.json` using `wild.template.json`.
+1. Vercel production deploy of `web/` (a classifier blocked my `vercel --prod`; run it yourself or allow it). The project `aftersong` exists with three env vars and no production deployment.
+2. Render service from `render.yaml`, then `BACKEND_URL` in Vercel. Until then the deployed app shows saved samples only.
+3. Supabase: run `supabase/schema.sql` (the `records` table returns 404 today).
+4. Model quota: OpenRouter credits or another key, then `npm run eval` and `node scripts/facts.mjs` for the plain AI columns and sign tests.
+5. Push: `git push origin main` if a push from here fails for credentials.
+6. Wild forms: 10 to 15 consenting older relatives into `data/wild/*.json`.
 7. Human review of the plain AI list and of Aftersong's rejections, for both error directions.
-8. The final Devpost submit click.
+8. A real consented session. The final Devpost submit click.
 
 ## Notes
 - The rules page lists a demo link, a public repository with a visible licence, and a text description. A video is not listed as required.

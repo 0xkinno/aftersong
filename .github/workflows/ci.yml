@@ -43,12 +43,14 @@ jobs:
         with:
           node-version: 22.19
       - run: npm --prefix web ci
-      - run: npx --prefix web playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium
+        working-directory: web
       - run: npm --prefix web run build
       - name: Start the web app with no backend connected, so unavailable states are checked
         run: |
           (cd web && npx next start -p 3100 &)
           npx --yes wait-on http://localhost:3100 --timeout 60000
-      - run: npm --prefix web exec playwright test
+      - run: npx playwright test
+        working-directory: web
         env:
           BASE_URL: http://localhost:3100

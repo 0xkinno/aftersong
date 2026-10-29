@@ -17,7 +17,15 @@ in 1940, and prints counts: candidates, how many fall inside the window, how man
 era or Widely known, and how much of his top ten his generation also ranks in its top ten.
 
 <!-- run:start -->
-Not yet run. It needs `QLOO_API_KEY` in `.env`.
+Run 2026-10-29T03:46:01.507Z. Resident born 1940, window 1950 to 1970, two confirmed favourites. Counts only.
+
+| Domain | Candidates | Inside the window | Personal | Shared era | Widely known | Top 10 shared with his generation | Qloo calls |
+|---|---|---|---|---|---|---|---|
+| music | 50 | 30 | 3 | 8 | 13 | 3 of 10 | 4 |
+| film | 35 | 35 | 3 | 4 | 9 | 4 of 10 | 4 |
+| tv | 47 | 47 | 9 | 6 | 11 | 2 of 10 | 4 |
+
+Command: `node scripts/discovery.mjs`
 <!-- run:end -->
 
 ## Delete test

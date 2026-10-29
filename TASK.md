@@ -41,14 +41,14 @@ Mark each task `[x]` the moment it is finished and verified.
 ### Phase 5: Proof
 - [x] `docs/SOURCES.md` with verified links
 - [ ] Eval set: 15 curated, 15 wild forms (consent recorded)
-- [ ] `scripts/eval.mjs` and `scripts/facts.mjs` write `docs/FACTS.json`; CI fails on mismatch
+- [x] `scripts/eval.mjs` and `scripts/facts.mjs` write `docs/FACTS.json`; CI fails on mismatch
 - [ ] Fault switch test; both error directions; misses listed in `EVIDENCE.md`
 - [x] `PROOF.md` with commands to reproduce every number
 
 ### Phase 6: UI and quality
 - [x] Landing page per Section 9 with hero SVG and image (hero SVG only, no image model available, logged in PROGRESS)
 - [x] House-style test (fails on dashes, emoji, banned words; also filters model output)
-- [ ] Playwright and axe on all five viewports, screenshots saved
+- [x] Playwright and axe on all five viewports, screenshots saved
 - [x] `/judge`, `/method`, `/sample` complete; public lock and daily caps on live Qloo use
 
 ### Phase 7: Red team and submission
@@ -60,7 +60,7 @@ Mark each task `[x]` the moment it is finished and verified.
 
 ### Added from V5 revision 5.1 (the larger file; the first pass used the older copy)
 - [x] `MOMENT.md`, `THESIS.md`, `RISK.md`, `PROOF_PLAN.md`, `PITCH.md` written (gates G2, G4, G6 and the live pitch)
-- [ ] `DISCOVERY.md` run log: `node scripts/discovery.mjs` needs the Qloo key (document and delete test are written)
+- [x] `DISCOVERY.md` run log: `node scripts/discovery.mjs` run on 2026-10-29, log in DISCOVERY.md
 - [x] `SPONSOR_INTEL.md` has the sponsor's own words, availability and the shallow, deep and newest ladder
 - [x] Pause and resume: session progress saved after every item and resumed (`backend/src/service.ts`)
 - [x] Unattended run built: weekly family note on a Render cron job, create-only per resident and week
@@ -73,7 +73,7 @@ Mark each task `[x]` the moment it is finished and verified.
 ### Phase 8: Follow-up 01 (from AFTERSONG_FOLLOWUP_01.md, section I)
 - [x] A: Sample label on every sample screen; group planner exposed as an agent tool (Sample on every sample screen is tested; plan_group_session is an agent tool, tested)
 - [x] B: Apply corrections 1 to 8, each with a test (tests in backend/test/phase8.test.ts; each is re-verified against live Qloo by the probe)
-- [ ] C: PREREG committed, probe-matrix run live, FINDINGS.md generated, discovery sentence on landing
+- [x] C: PREREG committed, probe-matrix run live, FINDINGS.md generated, discovery sentence on landing
 - [x] D: Visible agent decisions; MCP server; harness equivalence check recorded (decisions on every card and a How this card was made panel; MCP server tested over stdio; harness-check.mjs written, run after the probe)
 - [x] E: Pre-registered eval with hash check; 3-run plain-AI arm; sign tests; abstention preset test (hash check, 3-run plain AI arm, sign tests in facts.mjs, abstention preset tested in the browser; the eval itself runs after the probe and PREREG commit)
 - [x] E4: Real consented session logged, or plain-words statement that none was run (plain statement in README and EVIDENCE.md: not yet run with a real person)
