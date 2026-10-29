@@ -40,7 +40,7 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 ## Agent and model
 | Piece | Call site |
 |---|---|
-| Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback) | [backend/src/agent/model.ts:175](backend/src/agent/model.ts#L175) |
+| Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback) | [backend/src/agent/model.ts:241](backend/src/agent/model.ts#L241) |
 | Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:59](backend/src/agent/agent.ts#L59) |
 | Fault switch | [backend/src/agent/agent.ts:309](backend/src/agent/agent.ts#L309) |
 | Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |

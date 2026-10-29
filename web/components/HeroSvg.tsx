@@ -4,7 +4,7 @@ export default function HeroSvg({ className = "" }: { className?: string }) {
   const light = "#f6f1e8";
   const mono = "var(--font-jetbrains), monospace";
   return (
-    <svg viewBox="0 0 600 600" className={className} role="img" aria-label="A vinyl record half out of a paper sleeve labelled 1952 to 1972, with three lines leading to a film reel, a bowl and a transistor radio" fill="none" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+    <svg viewBox="0 0 600 600" className={className} role="img" aria-label="A vinyl record half out of a paper sleeve labelled 1950 to 1970, with three lines leading to a film reel, a bowl and a transistor radio" fill="none" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
       <defs>
         <radialGradient id="rec" cx="50%" cy="50%" r="50%">
           <stop offset="0" stopColor="#2b2621" />
@@ -45,7 +45,7 @@ export default function HeroSvg({ className = "" }: { className?: string }) {
         <path d="M52 196 H320" stroke={light} strokeOpacity="0.18" />
         <rect x="84" y="364" width="204" height="70" rx="5" fill="#14110e" stroke={light} strokeOpacity="0.35" />
         <text x="186" y="392" textAnchor="middle" fontFamily={mono} fontSize="12" letterSpacing="2.4" fill={light} fillOpacity="0.75" stroke="none">TO REMEMBER</text>
-        <text x="186" y="418" textAnchor="middle" fontFamily={mono} fontSize="17" letterSpacing="2.2" fill="#f4a35b" stroke="none">1952 TO 1972</text>
+        <text x="186" y="418" textAnchor="middle" fontFamily={mono} fontSize="17" letterSpacing="2.2" fill="#f4a35b" stroke="none">1950 TO 1970</text>
       </g>
       {/* constellation */}
       <g stroke="#f4a35b">

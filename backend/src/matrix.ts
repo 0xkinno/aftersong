@@ -153,7 +153,7 @@ export function computeF5(rows: F5Row[]) {
 export function discoverySentence(f1: F1Result | null, f2: { meanOverlapPct: number | null; forms: number } | null = null): { sentence: string | null; strongest: string | null } {
   if (!f1 || !f1.supports || !f2 || f2.meanOverlapPct === null || f2.forms === 0) return { sentence: null, strongest: null };
   return {
-    sentence: `Built from his generation alone, a list leans on the same famous names for everyone. Only ${f2.meanOverlapPct} percent of what Aftersong puts on a card would be on such a list, because it starts from what his family remembered.`,
+    sentence: `Built from his generation alone, a list leans on the same famous names for everyone. Only ${f2.meanOverlapPct} percent of what Aftersong puts on a card would be on such a list, built from Qloo results for the same ${f2.forms} forms with no favourites, because it starts from what his family remembered.`,
     strongest: "F1 and F2",
   };
 }

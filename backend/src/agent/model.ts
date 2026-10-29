@@ -132,21 +132,22 @@ export interface ModelEnv {
 const BASES = { openrouter: "https://openrouter.ai/api/v1", nvidia: "https://integrate.api.nvidia.com/v1", groq: "https://api.groq.com/openai/v1", gemini: "https://generativelanguage.googleapis.com/v1beta/openai" } as const;
 const DEFAULT_IDS = { groq: "llama-3.3-70b-versatile", gemini: "gemini-2.5-flash" } as const;
 
-/** Gemini model ids change often. A 404 on the configured id (a retired or mistyped name) moves to the known ids instead of failing the build. */
-export function geminiModel(key: string, id: string | undefined): Model {
-  const first = [...new Set([id, DEFAULT_IDS.gemini].filter((x): x is string => !!x))];
-  let models = first.map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
+/**
+ * Free-tier model ids are retired often. Tries the configured and default ids; when they are gone or the service is overloaded,
+ * asks the provider which models this key can use now and tries the best few. A bad key or other error is thrown at once.
+ */
+export function discoveringModel(provider: string, baseUrl: string, key: string, ids: Array<string | undefined>, pick: (all: string[]) => string[]): Model {
+  const first = [...new Set(ids.filter((x): x is string => !!x))];
+  let models = first.map((x) => openAiCompatModel(provider, baseUrl, key, x));
   let current = models[0];
   let discovered = false;
-  const notFound = (e: unknown) => e instanceof ModelError && [400, 404, 429, 500, 503].includes(e.status ?? 0);
-  /** Asks Gemini which flash models this key can use now and returns them, newest version first. */
+  const retryable = (e: unknown) => e instanceof ModelError && [400, 404, 429, 500, 503].includes(e.status ?? 0);
   const discover = async (): Promise<Model[]> => {
     try {
-      const res = await fetch(`${BASES.gemini}/models`, { headers: { authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(15000) });
+      const res = await fetch(`${baseUrl}/models`, { headers: { authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(15000) });
       const body = (await res.json()) as { data?: Array<{ id: string }> };
-      const ids = (body.data ?? []).map((m) => m.id.replace(/^models\//, "")).filter((n) => /^gemini-[\d.]+-flash$/.test(n));
-      const ver = (n: string) => parseFloat(n.split("-")[1]);
-      return ids.sort((a, b) => ver(b) - ver(a)).slice(0, 3).map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
+      const all = (body.data ?? []).map((m) => m.id.replace(/^models\//, ""));
+      return pick(all).slice(0, 3).map((x) => openAiCompatModel(provider, baseUrl, key, x));
     } catch {
       return [];
     }
@@ -165,7 +166,7 @@ export function geminiModel(key: string, id: string | undefined): Model {
             return r;
           } catch (e) {
             last = e;
-            if (signal?.aborted || !(notFound(e) || (e as Error).name === "TimeoutError")) throw e;
+            if (signal?.aborted || !(retryable(e) || (e as Error).name === "TimeoutError")) throw e;
           }
         }
         if (discovered) break;
@@ -179,12 +180,19 @@ export function geminiModel(key: string, id: string | undefined): Model {
   };
 }
 
+const flashIds = (all: string[]) => all.filter((n) => /^gemini-[\d.]+-flash$/.test(n)).sort((a, b) => parseFloat(b.split("-")[1]) - parseFloat(a.split("-")[1]));
+const groqIds = (all: string[]) => all.filter((n) => /^(llama|openai\/gpt-oss|qwen|moonshot|meta-llama)/.test(n) && !/guard|whisper|tts|prompt/i.test(n)).sort((a, b) => (/70b|120b|large/.test(b) ? 1 : 0) - (/70b|120b|large/.test(a) ? 1 : 0));
+
+export function geminiModel(key: string, id: string | undefined): Model {
+  return discoveringModel("gemini", BASES.gemini, key, [id, DEFAULT_IDS.gemini], flashIds);
+}
+
 /** One provider by name, or null when its key (or, where there is no default, its model id) is missing. */
 function one(name: string, env: ModelEnv, id: string | undefined): Model | null {
   if (name === "anthropic") return env.ANTHROPIC_API_KEY && id ? anthropicModel(env.ANTHROPIC_API_KEY, id) : null;
   if (name === "openrouter") return env.OPENROUTER_API_KEY && id ? openAiCompatModel(name, BASES.openrouter, env.OPENROUTER_API_KEY, id) : null;
   if (name === "nvidia") return env.NVIDIA_API_KEY && id ? openAiCompatModel(name, BASES.nvidia, env.NVIDIA_API_KEY, id) : null;
-  if (name === "groq") return env.GROQ_API_KEY ? openAiCompatModel(name, BASES.groq, env.GROQ_API_KEY, id || DEFAULT_IDS.groq) : null;
+  if (name === "groq") return env.GROQ_API_KEY ? discoveringModel("groq", BASES.groq, env.GROQ_API_KEY, [id, DEFAULT_IDS.groq], groqIds) : null;
   if (name === "gemini") return env.GEMINI_API_KEY ? geminiModel(env.GEMINI_API_KEY, id) : null;
   return null;
 }
@@ -202,6 +210,7 @@ export function withFallback(models: Model[]): Model {
     },
     async complete(system, messages, tools, signal) {
       let last: unknown = null;
+      const errs: string[] = [];
       // After a fallback answered, start with it for ten minutes so a dead primary does not cost its full wait on every call.
       const order = Date.now() < stickUntil ? [current, ...models.filter((x) => x !== current)] : models;
       for (const [i, m] of order.entries()) {
@@ -215,10 +224,11 @@ export function withFallback(models: Model[]): Model {
           return r;
         } catch (e) {
           last = e;
+          errs.push(`${m.provider}: ${(e as Error).message}`.slice(0, 110));
           if (signal?.aborted) throw e;
         }
       }
-      throw last;
+      throw last instanceof ModelError ? new ModelError(errs.join(" | "), last.status) : last;
     },
   };
 }

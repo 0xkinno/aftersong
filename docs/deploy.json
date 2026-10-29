@@ -1,6 +1,6 @@
 {
   "web": "https://aftersong.vercel.app",
-  "backend": "",
+  "backend": "https://aftersong-backend.onrender.com",
   "repo": "https://github.com/0xkinno/aftersong",
   "video": ""
 }

@@ -46,11 +46,11 @@ export default function Evidence() {
       </dl>
 
       <section className="mt-12">
-        <h2 className="text-28">Against a plain AI list</h2>
+        <h2 className="text-28">Aftersong and the plain AI list</h2>
         <p className="mt-2 max-w-2xl text-ink-2">The plain AI list is run through the same rules as the card. Aftersong's own checks for years and connection are enforced in code, so they hold by construction and are not offered as results.</p>
         <div tabIndex={0} role="region" aria-label="Scrollable table" className="panel mt-5 overflow-x-auto">
           <table className="tidy">
-            <thead><tr><th>Set</th><th>Cards built</th><th>Plain AI passing</th><th>Outside the years</th><th>Not in Qloo</th><th>Personal items</th></tr></thead>
+            <thead><tr><th>Set</th><th>Aftersong cards built</th><th>Plain AI passing</th><th>Outside the years</th><th>Not in Qloo</th><th>Aftersong personal items</th></tr></thead>
             <tbody>{row("Curated forms", c)}{row("Wild forms", w)}</tbody>
           </table>
         </div>

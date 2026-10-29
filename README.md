@@ -162,7 +162,7 @@ Every call, with file and line, is in [SDK_SURFACE.md](SDK_SURFACE.md). The plat
 | Plain AI counterfactual lookups | [backend/src/agent/plain.ts:72](backend/src/agent/plain.ts#L72) | built in code | Each suggested item is looked up and checked by the same rules |
 | Request allowlist | [backend/src/qloo/guard.ts:90](backend/src/qloo/guard.ts#L90) | built in code | Only IDs, tags, an age bracket, years, a place |
 | Rate discipline | [backend/src/qloo/client.ts:51](backend/src/qloo/client.ts#L51) | built in code | 250 ms spacing, no retry on 429, de-duplication, daily cap |
-| Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback) | [backend/src/agent/model.ts:175](backend/src/agent/model.ts#L175) |  |  |
+| Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback) | [backend/src/agent/model.ts:241](backend/src/agent/model.ts#L241) |  |  |
 | Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:59](backend/src/agent/agent.ts#L59) |  |  |
 | Fault switch | [backend/src/agent/agent.ts:309](backend/src/agent/agent.ts#L309) |  |  |
 | Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |  |  |
@@ -229,7 +229,7 @@ Three older participants (OP-01, OP-02, OP-03) have used it. All three said it w
 | Sample residents on `/sample` | Sample: intake only, labelled Sample. Their cards are built by the real agent |
 | Carer sign-in, saved residents, family links | Live when Supabase is configured; otherwise the app says so |
 | Weekly note to family | Live: a scheduled run on Monday, create-only per resident and week |
-| Real session with a resident | Not done. No claim is made |
+| Sessions with older people | Three participants reported ease of use (OP-01 to OP-03); no date or length supplied; no benefit claimed. No care home deployment |
 
 ## Recovery
 

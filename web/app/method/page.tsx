@@ -34,6 +34,7 @@ const CALLS = [
   ["Not repeating", "/v2/insights with filter.exclude.entities", "IDs the carer marked upset", "Results without them"],
 ];
 
+const order = GROUPS.flatMap((g) => g[2]);
 const num = (i: number) => String(i + 1).padStart(2, "0");
 
 export default function Method() {
@@ -58,7 +59,7 @@ export default function Method() {
             <ol className="rulelist">
               {ids.map((i) => (
                 <li key={RULES[i][0]}>
-                  <span className="rule-n">{num(i)}</span>
+                  <span className="rule-n">{num(order.indexOf(i))}</span>
                   <div>
                     <p className="rule-t">{RULES[i][0]}</p>
                     <p className="rule-d">{RULES[i][1]}</p>

@@ -58,7 +58,7 @@ pilot with three care homes, one session a week for a month.
 Qloo API, Next.js, React, Tailwind, Framer Motion, Node, Supabase, Vercel, Render, Playwright, axe-core.
 
 **Try it out links:**
-Live app: see `docs/deploy.json`. Judge walk: `/judge`. Repository: https://github.com/0xkinno/aftersong
+Live app: https://aftersong.vercel.app. Judge walk: `/judge`. Repository: https://github.com/0xkinno/aftersong
 
 **Testing instructions:**
 No sign-in is needed. Open `/sample`, choose a resident, open the saved card, then try "Run the session on
