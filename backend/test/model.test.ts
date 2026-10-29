@@ -55,7 +55,14 @@ test("gemini discovers a usable model when the configured and default ids are go
 test("a model that hangs does not use up the time the next model needs", async () => {
   const hang: Model = { provider: "p", id: "hang", complete: (_s, _m, _t, signal) => new Promise((_, rej) => signal?.addEventListener("abort", () => rej(new ModelError("timed out")))) };
   const t0 = Date.now();
-  const r = await withFallback([hang, ok("b")], 50).complete("", [], []);
+  // AbortSignal.timeout timers do not keep Node alive, so hold the loop open while the hung model waits for its limit.
+  const keep = setInterval(() => {}, 20);
+  let r;
+  try {
+    r = await withFallback([hang, ok("b")], 50).complete("", [], []);
+  } finally {
+    clearInterval(keep);
+  }
   assert.equal(r.text, "b");
   assert.ok(Date.now() - t0 < 5000);
 });
