@@ -99,7 +99,8 @@ export function openAiCompatModel(provider: string, baseUrl: string, key: string
         signal: signal ?? AbortSignal.timeout(60000),
       });
       const body = await j(res);
-      if (!res.ok) throw new ModelError(`${provider} ${res.status}: ${body?.error?.message?.slice?.(0, 80) ?? "error"}`, res.status);
+      // Gemini returns its error body as an array; the others return an object.
+      if (!res.ok) throw new ModelError(`${provider} ${res.status} (${id}): ${String((Array.isArray(body) ? body[0] : body)?.error?.message ?? "error").slice(0, 80)}`, res.status);
       const msg = body.choices?.[0]?.message ?? {};
       let calls_i = 0;
       const calls: ToolCall[] = (msg.tool_calls ?? []).map((t: any) => {
@@ -131,13 +132,38 @@ export interface ModelEnv {
 const BASES = { openrouter: "https://openrouter.ai/api/v1", nvidia: "https://integrate.api.nvidia.com/v1", groq: "https://api.groq.com/openai/v1", gemini: "https://generativelanguage.googleapis.com/v1beta/openai" } as const;
 const DEFAULT_IDS = { groq: "llama-3.3-70b-versatile", gemini: "gemini-2.5-flash" } as const;
 
+/** Gemini model ids change often. A 404 on the configured id (a retired or mistyped name) moves to the known ids instead of failing the build. */
+export function geminiModel(key: string, id: string | undefined): Model {
+  const ids = [...new Set([id, DEFAULT_IDS.gemini, "gemini-2.0-flash"].filter((x): x is string => !!x))];
+  const models = ids.map((x) => openAiCompatModel("gemini", BASES.gemini, key, x));
+  let current = models[0];
+  return {
+    get provider() { return current.provider; },
+    get id() { return current.id; },
+    async complete(system, messages, tools, signal) {
+      let last: unknown = null;
+      for (const m of models) {
+        try {
+          const r = await m.complete(system, messages, tools, signal);
+          current = m;
+          return r;
+        } catch (e) {
+          last = e;
+          if (!(e instanceof ModelError && (e.status === 404 || e.status === 400))) throw e;
+        }
+      }
+      throw last;
+    },
+  };
+}
+
 /** One provider by name, or null when its key (or, where there is no default, its model id) is missing. */
 function one(name: string, env: ModelEnv, id: string | undefined): Model | null {
   if (name === "anthropic") return env.ANTHROPIC_API_KEY && id ? anthropicModel(env.ANTHROPIC_API_KEY, id) : null;
   if (name === "openrouter") return env.OPENROUTER_API_KEY && id ? openAiCompatModel(name, BASES.openrouter, env.OPENROUTER_API_KEY, id) : null;
   if (name === "nvidia") return env.NVIDIA_API_KEY && id ? openAiCompatModel(name, BASES.nvidia, env.NVIDIA_API_KEY, id) : null;
   if (name === "groq") return env.GROQ_API_KEY ? openAiCompatModel(name, BASES.groq, env.GROQ_API_KEY, id || DEFAULT_IDS.groq) : null;
-  if (name === "gemini") return env.GEMINI_API_KEY ? openAiCompatModel(name, BASES.gemini, env.GEMINI_API_KEY, id || DEFAULT_IDS.gemini) : null;
+  if (name === "gemini") return env.GEMINI_API_KEY ? geminiModel(env.GEMINI_API_KEY, id) : null;
   return null;
 }
 
