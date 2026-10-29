@@ -11,18 +11,18 @@ Mark each task `[x]` the moment it is finished and verified.
 
 ### Phase 1: Sponsor intelligence and probe
 - [x] G1 `SPONSOR_INTEL.md`: Qloo thesis, harness workflows, newest releases, depth ladder
-- [ ] G5 `PLATFORM_PROBE.md`: real calls for `/search`, `/v2/tags`, `/v2/insights` per entity type, release-year filter per type, explainability, popularity, harness MCP tools; record what works and what 404s
-- [ ] Decide music era strategy from probe results and write it down
+- [x] G5 `PLATFORM_PROBE.md`: real calls for `/search`, `/v2/tags`, `/v2/insights` per entity type, release-year filter per type, explainability, popularity, harness MCP tools; record what works and what 404s (run live on 2026-10-29: 23 probes, 0 failed, measured behaviour recorded)
+- [x] Decide music era strategy from probe results and write it down (property: artists carry start_year and end_year)
 
 ### Phase 2: The card, end to end on real Qloo
 - [x] Qloo client with cache, de-duplication, spacing, typed errors (verified with tests)
 - [x] Rule engine with the six invariants and unit tests
 - [x] Agent with the five tools; model writes openers only (verified with a scripted model; first live run pending the key)
 - [x] Session Card screen and print layout (checked in the browser on stand-in data)
-- [ ] Hard-case path shows "could not find" honestly
+- [x] Hard-case path shows "could not find" honestly (checked live: a nonsense name returns near names, none used until confirmed)
 
 - [x] Personal / Shared era / Widely known split via cohort signal and same-pool rescoring (5.6.1) (unit tested; live check pending the key)
-- [ ] Hometown thread via locality resolution and coordinates (5.6.2)
+- [x] Hometown thread via locality resolution and coordinates (5.6.2) (checked live: locality chosen by region, point sent, places returned)
 - [x] Abstention screen with consented window widening (5.6.8)
 
 ### Phase 3: The human loop

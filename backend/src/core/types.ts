@@ -34,6 +34,10 @@ export interface Candidate extends QlooEntity {
   /** How many items were ranked in each pinned call, for thirds and halves. */
   personalN: number;
   cohortN: number;
+  /** Popularity at or above this is Widely known for this domain. Calibrated from the pool: Qloo's scale is a percentile, so an absolute ceiling would label everything. */
+  popCeiling: number;
+  /** Food items must carry one of these tags, or they are not tied to the hometown cuisine. */
+  requireTagIds: string[];
   /** Signals used by the calls that scored this item. */
   signalIds: string[];
   /** The signal Qloo reports as the strongest driver, when explainability says. */
@@ -65,12 +69,14 @@ export interface CardItem {
   domain: Domain;
   type: string | null;
   year: number | null;
+  /** Last year of activity for artists and television runs. */
+  yearEnd: number | null;
   label: Label;
   cohortUnknown: boolean;
   popularity: number | null;
   personalAffinity: number | null;
   cohortAffinity: number | null;
-  connectedTo: { id: string; name: string; kind: "favourite" | "observation" };
+  connectedTo: { id: string; name: string; kind: "favourite" | "observation" | "hometown" };
   /** Every confirmed signal the item was scored against. */
   connectedAll: Array<{ id: string; name: string }>;
   /** explainability: Qloo named the driver. all_signals: Qloo scored against all of them and did not say which. */

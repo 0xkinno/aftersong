@@ -10,7 +10,7 @@ import { NeedsConfirmation, runCardAgent } from "../backend/src/agent/agent.ts";
 import { modelFromEnv } from "../backend/src/agent/model.ts";
 import { runPlainAi } from "../backend/src/agent/plain.ts";
 import { QlooClient } from "../backend/src/qloo/client.ts";
-import { resolveFavourite } from "../backend/src/qloo/resolve.ts";
+import { autoConfirm } from "../backend/src/qloo/resolve.ts";
 import { bumpWindow } from "../backend/src/core/window.ts";
 import { FORMS, WILD, verifyPrereg } from "./lib/prereg.mjs";
 
@@ -44,8 +44,7 @@ for (const f of forms.slice(0, limit)) {
   try {
     const favourites = [];
     for (const text of f.favourites) {
-      const res = await resolveFavourite(client, text);
-      const m = res.status === "one" ? res.matches[0] : null;
+      const m = await autoConfirm(client, text);
       favourites.push(m ? { text, kind: m.kind, id: m.id, name: m.name, type: m.type, confirmed: true } : { text, kind: "unresolved", id: null, name: null, type: null, confirmed: false });
     }
     const resident = { id: f.id, homeId: "eval", firstName: f.firstName, birthYear: f.birthYear, careCity: f.careCity, hometown: f.hometown, favourites, offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: false, createdAt: "", updatedAt: "" };
@@ -60,7 +59,7 @@ for (const f of forms.slice(0, limit)) {
     const plainRuns = [];
     if (model) {
       for (let k = 0; k < RUNS; k++) {
-        const p = await runPlainAi({ client, model }, resident, bumpWindow(f.birthYear, resident.offsets));
+        const p = await runPlainAi({ client, model }, resident, bumpWindow(f.birthYear, resident.offsets), r.evidence.ceilings);
         plainRuns.push({
           summary: p.summary,
           passNotKnown: p.rows.filter((x) => x.passes && !x.widelyKnown).length,

@@ -17,6 +17,8 @@ export interface BuildInput {
   window: Window;
   widenedBy: number;
   favourites: Favourite[];
+  /** Hometown cuisine tags and their names. */
+  hometown?: Array<{ id: string; name: string }>;
   memory: MemorySignals;
   pools: Partial<Record<Domain, Candidate[]>>;
   seenIds: Set<string>;
@@ -32,8 +34,9 @@ export function buildCard(input: BuildInput): SessionCard {
   const confirmedIds = new Set(confirmed.map((f) => f.id as string));
   const positiveIds = new Set(input.memory.positive.map((o) => o.entityId));
   const upsetIds = new Set(input.memory.upset.map((o) => o.entityId));
-  const ctx: RuleContext = { window: input.window, confirmedIds, positiveIds, upsetIds, seenIds: input.seenIds };
-  const nameOf = new Map<string, string>([...confirmed.map((f) => [f.id as string, f.name ?? f.text] as [string, string]), ...input.memory.positive.map((o) => [o.entityId, o.entityName] as [string, string])]);
+  const hometownIds = new Set((input.hometown ?? []).map((h) => h.id));
+  const ctx: RuleContext = { window: input.window, confirmedIds, positiveIds, hometownIds, upsetIds, seenIds: input.seenIds };
+  const nameOf = new Map<string, string>([...confirmed.map((f) => [f.id as string, f.name ?? f.text] as [string, string]), ...input.memory.positive.map((o) => [o.entityId, o.entityName] as [string, string]), ...(input.hometown ?? []).map((h) => [h.id, h.name] as [string, string])]);
 
   const rejections: Rejection[] = [];
   const abstentions: Abstention[] = [];
@@ -72,9 +75,9 @@ export function buildCard(input: BuildInput): SessionCard {
     for (const c of picked) {
       const { label: lab, cohortUnknown } = labelFor(c);
       const label = lab ?? "overlap";
-      const known = c.signalIds.filter((s) => positiveIds.has(s) || confirmedIds.has(s));
+      const known = c.signalIds.filter((s) => positiveIds.has(s) || confirmedIds.has(s) || hometownIds.has(s));
       const via = (c.driverId && known.includes(c.driverId) ? c.driverId : undefined) ?? known.find((s) => positiveIds.has(s)) ?? known[0] ?? c.signalIds[0];
-      const kind: "favourite" | "observation" = positiveIds.has(via) ? "observation" : "favourite";
+      const kind: "favourite" | "observation" | "hometown" = positiveIds.has(via) ? "observation" : hometownIds.has(via) && !confirmedIds.has(via) ? "hometown" : "favourite";
       const obs = input.memory.positive.find((o) => o.entityId === via);
       const item: CardItem = {
         entityId: c.id,
@@ -82,6 +85,7 @@ export function buildCard(input: BuildInput): SessionCard {
         domain,
         type: c.type,
         year: c.year,
+        yearEnd: c.yearEnd,
         label,
         cohortUnknown,
         popularity: c.popularity,

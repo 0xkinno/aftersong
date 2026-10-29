@@ -43,7 +43,7 @@ export function parsePlainList(text: string): Array<{ name: string; domain: Doma
   }
 }
 
-export async function runPlainAi(deps: { client: QlooClient; model: Model }, resident: Resident, window: Window): Promise<PlainResult> {
+export async function runPlainAi(deps: { client: QlooClient; model: Model }, resident: Resident, window: Window, ceilings: Partial<Record<Domain, number>> = {}): Promise<PlainResult> {
   const favs = resident.favourites.filter((f) => f.confirmed && f.id);
   const prompt = `A carer needs eight things to talk about in a reminiscence session with a resident born in ${resident.birthYear}, who grew up in ${resident.hometown}. Their favourites: ${favs.map((f) => f.name).join(", ")}. Suggest eight items across music, film, tv, food and place. Reply with only a JSON array of objects with name, domain (music, film, tv, food or place) and year.`;
   const reply = await deps.model.complete("You suggest items for a reminiscence session. Reply with JSON only.", [{ role: "user", text: prompt }], []);
@@ -84,6 +84,8 @@ export async function runPlainAi(deps: { client: QlooClient; model: Model }, res
         cohortRank: null,
         personalN: affinity !== null ? 1 : 0,
         cohortN: 0,
+        popCeiling: ceilings[it.domain] ?? 0.85,
+        requireTagIds: [],
         signalIds: affinity !== null ? favIds : [],
         driverId: null,
         callIds: [],

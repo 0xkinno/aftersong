@@ -10,7 +10,29 @@ Updated at the end of every working session.
 - House style: no dashes as punctuation, no emoji, no hype words.
 - Study `HACKATHON_WINNING_SYSTEM_V5 (1).md` (revision 5.1, the larger file), not the older copy.
 
-## Where things stand (session 2, 2026-10-28)
+## Session 3, 2026-10-29: Phase 8 and the first live run
+Done and verified:
+- Follow-up 01 added as Phase 8 in TASK.md. A, B, D, E (code and hash check), F, G, H are built with tests: 72 backend tests, 2 MCP tests, 71 browser checks.
+- Pushed to https://github.com/0xkinno/aftersong. Every commit is authored by 0xkinno. `.env` is ignored; only `.env.example` is tracked.
+- Vercel project `aftersong` linked from `web/`; production variables set: SUPABASE_URL, SUPABASE_ANON_KEY, BACKEND_SHARED_SECRET. Git auto-deploy is switched off (`vercel.json`). **Not deployed.**
+- First live run: `npm run probe` (23 probes, 0 failed) and a live build of the sample card for Walter with the real model: 8 items, six offline checks pass on the exported card. Measured behaviour is in PLATFORM_PROBE.md and each item became a rule with a test.
+
+What the live run changed (each now a rule with a test):
+- Artists carry start_year and end_year, so music is windowed by active years. Music strategy: property.
+- The age signal alone is refused by Qloo (400). The cohort ranking runs over a pinned pool.
+- Page size is capped at 50, which had left half of a pinned pool unranked.
+- A locality id for San Antonio, Texas resolved to a village in Mexico and returned no places; the resolver now picks by region and sends a point.
+- Popularity is a percentile (most results above 0.97), so Widely known is the top quarter of each pool.
+- Food abstains when no nearby place carries the hometown cuisine tag, instead of showing an unrelated place.
+- The abstention preset uses birth year 1900: even 1925 still returned a full card. Abstention happens per domain.
+
+Not done, on purpose:
+- `scripts/probe-matrix.mjs` and `scripts/eval.mjs` have not been run. They refuse until `docs/PREREG.md` and `data/eval/PREREG.sha256.json` are committed (commit them first, then run). FACTS.json, FINDINGS.md and the landing discovery sentence stay empty until then.
+- No Vercel production deploy, and no Render service. The backend is a separate Node service (see the architecture note in the session report).
+- harness-check.mjs is written and not run.
+- No real session with an older person.
+
+## Where things stood after session 2, 2026-10-28
 Phases 0 to 7 are built as far as they can be without keys and accounts. Everything that needs the
 Qloo key, a model key, Supabase, GitHub, Vercel or Render is listed under "Blocked on Kinnoski".
 

@@ -77,6 +77,18 @@ test.describe("E5: abstention preset", () => {
     await expect(box.getByText("Not enough from these years yet").first()).toBeVisible();
     expect(await box.locator("ol li h3").count(), "no item beyond the two returned").toBe(2);
   });
+  test("a domain with nothing in those years abstains and nothing is added in its place", async ({ page }) => {
+    const c = card(6, { abstentions: [{ domain: "tv", message: "Not enough from these years yet.", canWiden: true }, { domain: "food", message: "Not enough from these years yet.", canWiden: true }] });
+    c.items = c.items.filter((i: { domain: string }) => i.domain !== "tv" && i.domain !== "food").concat([item(10, { domain: "music" }), item(11, { domain: "film" })]);
+    await page.route("**/api/try", (r) => r.fulfill({ contentType: "application/x-ndjson", body: ndjson([{ type: "card", card: c, modelNote: null }]) }));
+    await page.goto("/judge", { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: "Run the abstention preset" }).click();
+    const box = page.getByTestId("abstention-preset");
+    await expect(box.getByText(/Nothing placed for: Television, Food/)).toBeVisible();
+    expect(await box.locator("ol li h3").count()).toBe(c.items.length);
+    expect(await box.locator("ol li").filter({ hasText: /Television|Food/ }).count()).toBe(0);
+  });
+
   test("when the favourite cannot be matched, no card is built", async ({ page }) => {
     await page.route("**/api/try", (r) => r.fulfill({ contentType: "application/x-ndjson", body: ndjson([{ type: "error", status: 409, error: "confirm", code: "NEEDS_CONFIRMATION" }]) }));
     await page.goto("/judge", { waitUntil: "networkidle" });

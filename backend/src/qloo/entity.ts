@@ -21,6 +21,10 @@ export interface QlooEntity {
   birthYear: number | null;
   /** Address text for places, flattened from properties.address. */
   address: string | null;
+  /** Names of the places this place sits inside, for example a state and a country. */
+  ancestors: string[];
+  /** WKT point from the entity's coordinates, lon then lat. */
+  point: string | null;
   tags: Tag[];
   affinity: number | null;
   explainability: unknown;
@@ -61,7 +65,14 @@ export function yearOf(props: Record<string, unknown> | null): { year: number | 
   ];
   const hit = order.find(([, y]) => y !== null && y >= 1000 && y <= 2100);
   const end = num(props.finale_year) ?? num(props.latest_known_year);
-  return { year: hit ? (hit[1] as number) : null, yearEnd: end, source: hit ? `property:${hit[0]}` : null };
+  if (hit) return { year: hit[1] as number, yearEnd: end, source: `property:${hit[0]}` };
+  // Artists carry a career span. Measured on the hackathon API: start_year, and end_year or year_of_death when it ended.
+  const start = num(props.start_year);
+  if (start !== null && start >= 1000 && start <= 2100) {
+    const last = num(props.end_year) ?? num(props.year_of_death) ?? new Date().getUTCFullYear();
+    return { year: start, yearEnd: Math.max(last, start), source: "property:start_year" };
+  }
+  return { year: null, yearEnd: end, source: null };
 }
 
 /** Items with no year property can still carry a decade tag such as "1960s". That is a span, not a point. */
@@ -92,6 +103,24 @@ function flatten(v: unknown, depth = 0): string | null {
   return parts.length ? parts.join(", ") : null;
 }
 
+function ancestorNames(v: unknown): string[] {
+  if (!Array.isArray(v)) return [];
+  const out: string[] = [];
+  for (const a of v) {
+    const r = asRecord(a);
+    if (!r) continue;
+    for (const k of ["name", "abbreviation"]) if (typeof r[k] === "string") out.push(r[k] as string);
+  }
+  return out;
+}
+
+function pointOf(v: unknown): string | null {
+  const r = asRecord(v);
+  const lat = num(r?.lat ?? r?.latitude);
+  const lon = num(r?.lon ?? r?.lng ?? r?.longitude);
+  return lat !== null && lon !== null ? `POINT(${Math.round(lon * 1e5) / 1e5} ${Math.round(lat * 1e5) / 1e5})` : null;
+}
+
 export function normalizeEntity(raw: unknown): QlooEntity | null {
   const e = asRecord(raw);
   if (!e) return null;
@@ -117,6 +146,8 @@ export function normalizeEntity(raw: unknown): QlooEntity | null {
     yearSource: era ? era.source : y.source,
     birthYear: yearFromDate(props?.date_of_birth) ?? yearFromDate(props?.birth_date) ?? null,
     address: flatten(props?.address),
+    ancestors: ancestorNames(props?.ancestors),
+    point: pointOf(e.location) ?? pointOf(e.geocode) ?? pointOf(props?.geocode) ?? pointOf(props?.location),
     tags,
     // Affinity is read only from query.affinity. popularity is a different field and is never a fallback.
     affinity: num(q?.affinity),

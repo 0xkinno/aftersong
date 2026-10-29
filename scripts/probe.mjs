@@ -80,8 +80,8 @@ if (artist) {
     return { count: b.entities.length, ignored: same, note: same ? "year filter ignored for artists (same results)" : "year filter changed artist results" };
   });
   await attempt("insights.artist.cohort", "artist with signal.demographics.age=55_and_older only", async () => {
-    const r = await client.insights({ "filter.type": "urn:entity:artist", "signal.demographics.age": "55_and_older", take: 30 });
-    return { count: r.entities.length, note: `${r.entities.length} results` };
+    const r = await client.insights({ "filter.type": "urn:entity:artist", "signal.demographics.age": "55_and_older", "filter.popularity.max": "1", take: 30 });
+    return { count: r.entities.length, note: `${r.entities.length} results (needs a second filter, see cohort.alone)` };
   });
   await attempt("insights.artist.rescore", "artist re-score with filter.results.entities", async () => {
     const base = await client.insights({ "filter.type": "urn:entity:artist", "signal.interests.entities": artist.id, take: 10 });
@@ -90,7 +90,7 @@ if (artist) {
     return { count: r.entities.length, asked: ids.length, note: `asked ${ids.length}, got ${r.entities.length} back` };
   });
   await attempt("insights.person.dob", "person born in a window (musician fallback)", async () => {
-    const r = await client.insights({ "filter.type": "urn:entity:person", "signal.interests.entities": artist.id, "filter.date_of_birth.min": 1915, "filter.date_of_birth.max": 1950, take: 20 });
+    const r = await client.insights({ "filter.type": "urn:entity:person", "signal.interests.entities": artist.id, "filter.date_of_birth.min": "1915-01-01", "filter.date_of_birth.max": "1950-12-31", take: 20 });
     return { count: r.entities.length, note: `${r.entities.length} results` };
   });
 }
@@ -109,26 +109,45 @@ if (tv) {
   });
 }
 if (artist && loc) {
-  await attempt("insights.place.cuisine", "place with cuisine tag and signal.location (locality id)", async () => {
+  await attempt("locality.pick", "locality chosen by the region typed (San Antonio, Texas) and its point", async () => {
+    const { resolveLocality } = await import("../backend/src/qloo/resolve.ts");
+    const l = await resolveLocality(client, "San Antonio, Texas");
+    return { count: l ? 1 : 0, hasPoint: Boolean(l?.point), note: l ? `picked a locality, point ${l.point ? "present" : "missing"}` : "no locality" };
+  });
+  await attempt("insights.place.cuisine", "place with cuisine tags as a signal and signal.location as a point (care city)", async () => {
+    const { resolveLocality } = await import("../backend/src/qloo/resolve.ts");
     const tags = await client.tags("West African cuisine", 10);
     const cuisine = tags.tags.filter((t) => /cuisine/i.test(t.id)).slice(0, 2).map((t) => t.id);
-    const san = await client.search("San Antonio, Texas", "urn:entity:locality", 1);
-    if (!san.entities[0]) return { count: 0, note: "no locality for the care city" };
-    const p = { "filter.type": "urn:entity:place", "signal.location": san.entities[0].id, take: 10 };
-    if (cuisine.length) p["filter.tags"] = cuisine.join(",");
+    const san = await resolveLocality(client, "San Antonio, Texas");
+    if (!san) return { count: 0, note: "no locality for the care city" };
+    const p = { "filter.type": "urn:entity:place", "signal.location": san.point ?? san.id, take: 10 };
+    if (cuisine.length) p["signal.interests.tags"] = cuisine.join(",");
     else p["signal.interests.entities"] = artist.id;
     const r = await client.insights(p);
-    return { count: r.entities.length, cuisineTags: cuisine.length, note: `${r.entities.length} places; cuisine tags used ${cuisine.length}` };
+    const hasAddress = r.entities.filter((e) => e.address).length;
+    return { count: r.entities.length, cuisineTags: cuisine.length, withAddress: hasAddress, note: `${r.entities.length} places; ${hasAddress} with an address; cuisine tags used ${cuisine.length}` };
   });
-  await attempt("insights.destination.hometown", "destination with signal.location (hometown) and favourite", async () => {
+  await attempt("insights.destination.hometown", "destination with signal.location (hometown locality id) and a favourite", async () => {
     const r = await client.insights({ "filter.type": "urn:entity:destination", "signal.interests.entities": artist.id, "signal.location": loc.id, take: 10 });
     return { count: r.entities.length, note: `${r.entities.length} destinations` };
   });
-  await attempt("insights.artist.hometown", "artist with signal.location (hometown) added", async () => {
-    const r = await client.insights({ "filter.type": "urn:entity:artist", "signal.interests.entities": artist.id, "signal.location": loc.id, take: 10 });
-    return { count: r.entities.length, note: `${r.entities.length} results` };
+  await attempt("guard.location.artist", "location on an artist query is refused by our own rule (it is for places only)", async () => {
+    try {
+      await client.insights({ "filter.type": "urn:entity:artist", "signal.interests.entities": artist.id, "signal.location": loc.id, take: 10 });
+      return { ok: false, note: "unexpectedly allowed" };
+    } catch (e) {
+      return { count: 0, note: `refused before sending: ${e.code}` };
+    }
   });
 }
+await attempt("cohort.alone", "the age signal with no other signal or filter (expected: refused by Qloo with a 400)", async () => {
+  try {
+    await client.get("/v2/insights", { "filter.type": "urn:entity:movie", "signal.demographics.age": "55_and_older", take: 5 });
+    return { ok: false, note: "unexpectedly accepted: the age signal alone is valid" };
+  } catch (e) {
+    return { count: 0, status: e.status ?? null, note: e.status === 400 ? "400, as measured: needs a second filter" : `error ${e.code}` };
+  }
+});
 if (artist && movie) {
   await attempt("compare.groups", "/v2/analysis/compare with two groups of entities", async () => {
     const r = await client.compare([artist.id], [movie.id]);
@@ -155,7 +174,7 @@ await attempt("guard.unsupported", "an unsupported type is refused before sendin
 
 const decision = {
   musicEraStrategy: musicStrategy,
-  rationale: { property: "artist results carry a year property; used as the era", "decade-tag": "artist results carry decade tags such as 1960s; used as a span", none: "artists carry no era; music needs the person route or must be reported as limited", unknown: "no artist probe ran" }[musicStrategy],
+  rationale: { property: "artist results carry a career span (start_year, and end_year or year_of_death); an artist counts when their career overlapped the window", "decade-tag": "artist results carry decade tags such as 1960s; used as a span", none: "artists carry no era; music needs the person route or must be reported as limited", unknown: "no artist probe ran" }[musicStrategy],
 };
 const summary = { at: new Date().toISOString(), host: process.env.QLOO_HOST || "https://hackathon.api.qloo.com", liveCalls: client.liveCallsToday(), rateHeaders: client.lastRateHeaders, decision, results };
 mkdirSync("data/probe", { recursive: true });

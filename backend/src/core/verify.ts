@@ -11,6 +11,8 @@ export interface Evidence {
   currentYear: number;
   confirmedIds: string[];
   positiveIds: string[];
+  /** Hometown cuisine tag ids that were a valid connection base for food and places. */
+  hometownIds?: string[];
   upsetIds: string[];
   entities: Record<string, { name: string; year: number | null; yearEnd: number | null }>;
   seenNames: string[];
@@ -48,7 +50,7 @@ export function verifyCard(card: SessionCard, ev: Evidence): { ok: boolean; chec
   }
   add(2, "dated items sit inside the bump window", f2);
 
-  const known = new Set([...ev.confirmedIds, ...ev.positiveIds]);
+  const known = new Set([...ev.confirmedIds, ...ev.positiveIds, ...(ev.hometownIds ?? [])]);
   add(3, "every item traces to a confirmed favourite or confirmed reaction", card.items.filter((i) => !known.has(i.connectedTo.id)).map((i) => `${i.name}: connected to ${i.connectedTo.id}, which is not confirmed`));
 
   const upset = new Set(ev.upsetIds);

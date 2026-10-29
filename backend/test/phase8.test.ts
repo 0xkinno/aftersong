@@ -102,7 +102,7 @@ test("B6: a dish is never a signal for films; food favourites drive only food an
   for (const u of seen.filter((x) => x.pathname === "/v2/insights" && ["urn:entity:movie", "urn:entity:tv_show", "urn:entity:artist"].includes(typeOf(x)))) {
     assert.ok(!(u.searchParams.get("signal.interests.tags") ?? "").includes("jollof"), "film, TV and music calls carry no food signal");
   }
-  assert.ok(seen.some((x) => x.searchParams.get("filter.type") === "urn:entity:place" && (x.searchParams.get("filter.tags") ?? "").includes("cuisine")));
+  assert.ok(seen.some((x) => x.searchParams.get("filter.type") === "urn:entity:place" && (x.searchParams.get("signal.interests.tags") ?? "").includes("cuisine")));
   assert.ok(out.card.decisions.some((d) => d.decision === "route_signals"));
 });
 
@@ -173,4 +173,58 @@ test("A: the agent decides which residents go into plan_group_session; the serve
 test("typed errors still carry their code", async () => {
   const c = new QlooClient({ key: undefined });
   await assert.rejects(() => c.compare(["AAAAAA-1"], ["BBBBBB-2"]), (e: QlooError) => e.code === "QLOO_NOT_CONFIGURED");
+});
+
+// ---- measured on the live API (probe, 2026-10-29) ----
+import { yearOf } from "../src/qloo/entity.ts";
+import { pickLocality } from "../src/qloo/resolve.ts";
+
+test("measured: artists carry a career span, used as the years they were active", () => {
+  const y = yearOf({ start_year: 1958, end_year: 1967, year_of_death: 1967 });
+  assert.deepEqual(y, { year: 1958, yearEnd: 1967, source: "property:start_year" });
+  assert.equal(yearOf({ start_year: 1960 }).yearEnd, new Date().getUTCFullYear(), "still active: runs to this year");
+  assert.equal(yearOf({ start_year: 1953, year_of_death: 1984 }).yearEnd, 1984);
+  assert.equal(yearOf({ release_year: 1960, start_year: 1900 }).source, "property:release_year", "a release year wins");
+});
+
+test("measured: the age signal alone is invalid, so open cohort queries carry a popularity ceiling or a year window", async () => {
+  const seen: URL[] = [];
+  await findDomain({ client: mk(seen), domain: "music", signalEntityIds: ["SYN-FAV-001"], window: W, excludeIds: [] });
+  const cohortOpen = seen.filter((u) => u.searchParams.has("signal.demographics.age") && !u.searchParams.has("filter.results.entities"));
+  assert.ok(cohortOpen.length >= 1);
+  assert.ok(cohortOpen.every((u) => u.searchParams.get("filter.popularity.max") === "1"));
+  const seenFilm: URL[] = [];
+  await findDomain({ client: mk(seenFilm), domain: "film", signalEntityIds: ["SYN-FAV-001"], window: W, excludeIds: [] });
+  assert.ok(seenFilm.filter((u) => u.searchParams.has("signal.demographics.age") && !u.searchParams.has("filter.results.entities")).every((u) => u.searchParams.has("filter.release_year.min")));
+});
+
+test("measured: the people route sends full dates, because a bare year makes the API answer 500", async () => {
+  const seen: URL[] = [];
+  await findDomain({ client: mk(seen), domain: "music", musicStrategy: "person", signalEntityIds: ["SYN-FAV-001"], window: W, excludeIds: [] });
+  const p = seen.find((u) => u.searchParams.has("filter.date_of_birth.min"))!;
+  assert.match(p.searchParams.get("filter.date_of_birth.min")!, /^\d{4}-01-01$/);
+  assert.match(p.searchParams.get("filter.date_of_birth.max")!, /^\d{4}-12-31$/);
+});
+
+test("measured: a locality is chosen by the region typed, not by the first name match", () => {
+  const mexico = { id: "MX", name: "San Antonio Texas", ancestors: ["Silao de la Victoria", "Guanajuato", "Mexico"], point: "POINT(-101.5 20.98)" };
+  const texas = { id: "TX", name: "San Antonio", ancestors: ["Bexar", "Texas", "United States"], point: "POINT(-98.52 29.46)" };
+  assert.equal(pickLocality("San Antonio, Texas", [mexico, texas])!.id, "TX");
+  assert.equal(pickLocality("San Antonio, Texas", [mexico, texas])!.point, "POINT(-98.52 29.46)");
+  assert.equal(pickLocality("Kingston", [mexico, texas])!.id, "MX", "no region typed: Qloo's first result");
+  assert.equal(pickLocality("Nowhere, Atlantis", [mexico, texas])!.id, "MX", "no match: Qloo's first result");
+  assert.equal(pickLocality("X", []), null);
+});
+
+test("measured: page size above 50 is refused before sending (the API answers 400)", () => {
+  assert.throws(() => assertSafeParams("/v2/insights", { "filter.type": "urn:entity:movie", "signal.interests.entities": "AAAAAA-1", take: 60 }));
+  assert.doesNotThrow(() => assertSafeParams("/v2/insights", { "filter.type": "urn:entity:movie", "signal.interests.entities": "AAAAAA-1", take: 50 }));
+});
+
+test("measured: a pinned pool is capped at 50 and asks for that many results", async () => {
+  const seen: URL[] = [];
+  await findDomain({ client: mk(seen), domain: "film", signalEntityIds: ["SYN-FAV-001"], window: W, excludeIds: [] });
+  for (const u of seen) assert.ok(Number(u.searchParams.get("take") ?? 1) <= 50);
+  const pinned = seen.filter((u) => u.searchParams.has("filter.results.entities"));
+  for (const u of pinned) assert.equal(Number(u.searchParams.get("take")), u.searchParams.get("filter.results.entities")!.split(",").length);
 });

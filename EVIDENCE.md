@@ -51,6 +51,9 @@ Recorded here when done, with the reviewer, the date and the counts:
 - False positive rate of the checker on the plain AI list: unmeasured.
 
 ## Misses and limits
+- Abstention preset, measured live on 2026-10-29: a resident born in 1925, and even one born in 1900, with an obscure favourite (Mildred Bailey), still got a card of 6 to 7 items. Qloo has data for those years. The abstention appears per domain (television and food for 1900), not as a thin card. The preset uses 1900 for that reason.
+- Qloo's popularity is a percentile: nearly every older artist and film it returns is above 0.97. "Widely known" is therefore the top quarter of each pool, not a fixed number.
+- A search for a nonsense name still returns five near names, so "not found" means "no exact name", and nothing is used until a carer confirms.
 - Qloo has no year filter for artists. How music years are obtained is decided by the probe and recorded in `PLATFORM_PROBE.md`.
 - The harness was not used; see `SPONSOR_INTEL.md` for the reason.
 - Carer sign-in and saved residents were tested with a stand-in sign-in and an in-memory store; they are untested against Supabase until a project is connected.

@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildCard } from "../src/core/card.ts";
-import { labelFor } from "../src/core/classify.ts";
+import { labelFor, popularityCeiling } from "../src/core/classify.ts";
 import { houseStyleViolations, claimViolations } from "../src/core/house-style.ts";
 import { memorySignals, neighbourWeight, type Observation } from "../src/core/memory.ts";
 import { openerViolations, settleOpener } from "../src/core/openers.ts";
@@ -186,4 +186,14 @@ test("room planner: maximin, veto, and per-resident coverage", () => {
   assert.ok(plan.excluded.some((e) => e.id === "X-veto" && e.reason.includes("upset")));
   assert.ok(plan.excluded.some((e) => e.id === "sparse"));
   assert.equal(plan.coverage.length, 4);
+});
+
+test("Widely known is calibrated from the pool, because Qloo's popularity is a percentile (measured: 44 of 50 artists at 0.99 or above)", () => {
+  const pops = [1, 1, 1, 1, 1, 1, 0.999, 0.998, 0.997, 0.995, 0.99, 0.985];
+  assert.equal(popularityCeiling(pops), 1, "top quarter boundary");
+  assert.equal(popularityCeiling([0.5, 0.6]), 0.85, "too small a pool: the floor");
+  assert.equal(popularityCeiling([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.82]), 0.85, "never below the floor");
+  const r = (pop: number) => ({ domain: "film" as const, popularity: pop, personalRank: 2, cohortRank: 10, personalN: 12, cohortN: 12, popCeiling: 1 });
+  assert.equal(labelFor(r(0.995)).label, "personal", "0.995 is not widely known when the pool's ceiling is 1.0");
+  assert.equal(labelFor(r(1)).label, "widely_known");
 });

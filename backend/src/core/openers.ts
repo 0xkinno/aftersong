@@ -41,7 +41,7 @@ export function templateOpener(item: Pick<CardItem, "name" | "domain" | "year">)
   const y = item.year;
   switch (item.domain) {
     case "music":
-      return y ? `Do you remember hearing ${item.name} around ${y}?` : `Did you ever hear ${item.name} on the radio?`;
+      return `Did you ever hear ${item.name} on the radio?`;
     case "film":
       return y ? `Do you remember seeing ${item.name}, from ${y}?` : `Do you remember seeing ${item.name}?`;
     case "tv":

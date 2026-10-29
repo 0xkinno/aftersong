@@ -1,0 +1,193 @@
+{
+  "at": "2026-10-29T00:16:11.003Z",
+  "host": "https://hackathon.api.qloo.com",
+  "liveCalls": 24,
+  "rateHeaders": {},
+  "decision": {
+    "musicEraStrategy": "property",
+    "rationale": "artist results carry a career span (start_year, and end_year or year_of_death); an artist counts when their career overlapped the window"
+  },
+  "results": [
+    {
+      "id": "search.artist",
+      "what": "/search with types=urn:entity:artist",
+      "ok": true,
+      "count": 5,
+      "note": "5 results; fields: type=urn:entity:artist"
+    },
+    {
+      "id": "search.untyped",
+      "what": "/search without types",
+      "ok": true,
+      "count": 5,
+      "note": "5 results; top type=urn:entity:movie"
+    },
+    {
+      "id": "search.locality",
+      "what": "/search types=urn:entity:locality",
+      "ok": true,
+      "count": 3,
+      "note": "3 results"
+    },
+    {
+      "id": "search.tvshow",
+      "what": "/search types=urn:entity:tv_show",
+      "ok": true,
+      "count": 3,
+      "note": "3 results"
+    },
+    {
+      "id": "tags.search",
+      "what": "/v2/tags filter.query with semantic search",
+      "ok": true,
+      "count": 10,
+      "tagTypesSeen": [
+        "urn:tag:cuisine:qloo",
+        "urn:tag:interests:qloo"
+      ],
+      "note": "10 tags; cuisine-like: 7"
+    },
+    {
+      "id": "tags.era",
+      "what": "/v2/tags for a decade word",
+      "ok": true,
+      "count": 10,
+      "note": "10 tags; decade-like: 7"
+    },
+    {
+      "id": "entities.batch",
+      "what": "/entities?entity_ids= batch",
+      "ok": true,
+      "count": 2,
+      "note": "2 of 2; year on movie: 1942; tags on artist: 49"
+    },
+    {
+      "id": "insights.artist.entities",
+      "what": "insights artist from favourite",
+      "ok": true,
+      "count": 30,
+      "withYearPct": 100,
+      "withDecadeTagPct": 0,
+      "inWindowPctOfDated": 100,
+      "explainability": true,
+      "popularity": true,
+      "affinity": true,
+      "note": "30 results; year property 100%, decade tag 0%; explainability true"
+    },
+    {
+      "id": "insights.artist.releaseyear",
+      "what": "artist with filter.release_year (expect ignored)",
+      "ok": true,
+      "count": 30,
+      "ignored": true,
+      "note": "year filter ignored for artists (same results)"
+    },
+    {
+      "id": "insights.artist.cohort",
+      "what": "artist with signal.demographics.age=55_and_older only",
+      "ok": true,
+      "count": 30,
+      "note": "30 results (needs a second filter, see cohort.alone)"
+    },
+    {
+      "id": "insights.artist.rescore",
+      "what": "artist re-score with filter.results.entities",
+      "ok": true,
+      "count": 5,
+      "asked": 5,
+      "note": "asked 5, got 5 back"
+    },
+    {
+      "id": "insights.person.dob",
+      "what": "person born in a window (musician fallback)",
+      "ok": true,
+      "count": 20,
+      "note": "20 results"
+    },
+    {
+      "id": "insights.movie.releaseyear",
+      "what": "movie with filter.release_year.min/max",
+      "ok": true,
+      "count": 30,
+      "inWindowPct": 100,
+      "datedPct": 100,
+      "explainability": true,
+      "note": "30 results; 100% in window of those with a year"
+    },
+    {
+      "id": "insights.tv.releaseyear",
+      "what": "tv_show with filter.release_year.min/max",
+      "ok": true,
+      "count": 30,
+      "inWindowPct": 100,
+      "note": "30 results; in window 100%"
+    },
+    {
+      "id": "locality.pick",
+      "what": "locality chosen by the region typed (San Antonio, Texas) and its point",
+      "ok": true,
+      "count": 1,
+      "hasPoint": true,
+      "note": "picked a locality, point present"
+    },
+    {
+      "id": "insights.place.cuisine",
+      "what": "place with cuisine tags as a signal and signal.location as a point (care city)",
+      "ok": true,
+      "count": 10,
+      "cuisineTags": 2,
+      "withAddress": 10,
+      "note": "10 places; 10 with an address; cuisine tags used 2"
+    },
+    {
+      "id": "insights.destination.hometown",
+      "what": "destination with signal.location (hometown locality id) and a favourite",
+      "ok": true,
+      "count": 10,
+      "note": "10 destinations"
+    },
+    {
+      "id": "guard.location.artist",
+      "what": "location on an artist query is refused by our own rule (it is for places only)",
+      "ok": true,
+      "count": 0,
+      "note": "refused before sending: QLOO_CONTRACT"
+    },
+    {
+      "id": "cohort.alone",
+      "what": "the age signal with no other signal or filter (expected: refused by Qloo with a 400)",
+      "ok": true,
+      "count": 0,
+      "status": 400,
+      "note": "400, as measured: needs a second filter"
+    },
+    {
+      "id": "compare.groups",
+      "what": "/v2/analysis/compare with two groups of entities",
+      "ok": true,
+      "count": 1,
+      "note": "answered, 13579 bytes"
+    },
+    {
+      "id": "trending.entities",
+      "what": "/v2/trending with entities and a date range",
+      "ok": true,
+      "count": 0,
+      "note": "0 results"
+    },
+    {
+      "id": "audiences.filter",
+      "what": "/v2/audiences with one audience filter",
+      "ok": true,
+      "count": 1,
+      "note": "answered, 1515 bytes"
+    },
+    {
+      "id": "guard.unsupported",
+      "what": "an unsupported type is refused before sending",
+      "ok": true,
+      "count": 0,
+      "note": "Qloo refused or guard refused: QLOO_CONTRACT"
+    }
+  ]
+}

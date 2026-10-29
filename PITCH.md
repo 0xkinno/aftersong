@@ -19,7 +19,7 @@ come from `docs/FACTS.json` and `FINDINGS.md` on the day of the pitch. None is w
 2. The saved Walter card is already there. Scroll once, point at "Because of" and a **Personal** tag. 0:20
 3. Open **How this card was made** and show one decision (for example, a favourite that was dropped and why). 0:35
 4. Tap **Run the session on a phone**. Tap **Lit up** on the first item, **Next**. Turn the phone offline and tap again: "1 waiting to sync". Turn it back on. 1:05
-5. Back on `/judge`, tap **Run the abstention preset**. The card says "Not enough from these years yet" and adds nothing. 1:25
+5. Back on `/judge`, tap **Run the abstention preset**. Where Qloo has nothing in those years, such as television, the card says "Not enough from these years yet" and adds nothing. 1:25
 
 If the connection fails, the saved sample and the recorded run (below) still work.
 

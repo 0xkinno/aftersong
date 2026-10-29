@@ -2,7 +2,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import GlowCard from "./GlowCard";
 import { playUrl } from "@/lib/play";
-import { DOMAIN_LABEL, FRIENDLY_TOOL, LABEL_TEXT, OBSERVATIONS, type SessionCard } from "@/lib/types";
+import { DOMAIN_LABEL, FRIENDLY_TOOL, LABEL_TEXT, OBSERVATIONS, yearLabel, type SessionCard } from "@/lib/types";
 
 const REASON: Record<string, string> = {
   not_qloo_entity: "Not an entity Qloo returned in this build",
@@ -57,7 +57,7 @@ export default function CardView({ card, sample = false, residentName, onWiden, 
           <motion.li key={it.entityId} initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: reduce ? 0 : i * 0.08, duration: 0.35 }}>
             <GlowCard className="p-5 h-full">
               <div className="flex items-center justify-between gap-2">
-                <span className="kicker">{DOMAIN_LABEL[it.domain]}{it.year ? `  ${it.year}` : ""}</span>
+                <span className="kicker">{DOMAIN_LABEL[it.domain]}{it.year ? `  ${yearLabel(it)}` : ""}</span>
                 <span className={TAG_CLASS[it.label]}>{LABEL_TEXT[it.label]}</span>
               </div>
               <h3 className="text-28 mt-2">{it.name}</h3>

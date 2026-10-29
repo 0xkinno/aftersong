@@ -4,7 +4,7 @@ import OfflineSupport from "./OfflineSupport";
 import { api } from "@/lib/client";
 import { enqueue, flush, isNetworkError, readQueue } from "@/lib/offline";
 import { playUrl } from "@/lib/play";
-import { DOMAIN_LABEL, OBSERVATIONS, type ObservationValue, type SessionCard } from "@/lib/types";
+import { DOMAIN_LABEL, OBSERVATIONS, yearLabel, type ObservationValue, type SessionCard } from "@/lib/types";
 
 /**
  * Phone first and one handed. One item per screen, large type, every tap target at least 56 px, the
@@ -102,7 +102,7 @@ export default function SessionMode({ card, startIndex = 0, sample = false, tapP
         <div className="fill-bar" style={{ width: `${((i + 1) / card.items.length) * 100}%`, transition: "width 250ms ease" }} />
       </div>
       <article className="mt-8" aria-live="polite">
-        <p className="kicker">{DOMAIN_LABEL[item!.domain]}{item!.year ? `  ${item!.year}` : ""}</p>
+        <p className="kicker">{DOMAIN_LABEL[item!.domain]}{item!.year ? `  ${yearLabel(item!)}` : ""}</p>
         <h1 className="text-40 mt-2" style={{ fontSize: "clamp(32px, 9vw, 48px)" }}>{item!.name}</h1>
         <p className="mt-6 font-display" style={{ fontSize: "clamp(24px, 6.5vw, 32px)", lineHeight: 1.25 }}>&ldquo;{item!.opener.text}&rdquo;</p>
         <p className="mt-4 text-16">

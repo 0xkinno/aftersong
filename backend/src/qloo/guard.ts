@@ -30,7 +30,7 @@ const INSIGHTS: Record<string, (v: string) => boolean> = {
   "filter.date_of_birth.min": (v) => /^\d{4}(-\d{2}-\d{2})?$/.test(v),
   "filter.date_of_birth.max": (v) => /^\d{4}(-\d{2}-\d{2})?$/.test(v),
   "feature.explainability": (v) => v === "true",
-  take: (v) => /^\d{1,3}$/.test(v),
+  take: (v) => /^([1-9]|[1-4]\d|50)$/.test(v), // measured: the API refuses take above 50
   offset: (v) => /^\d{1,4}$/.test(v),
 };
 

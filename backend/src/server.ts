@@ -9,7 +9,7 @@ import { modelFromEnv } from "./agent/model.ts";
 import { authenticate } from "./auth.ts";
 import { Limiter, limitConfigFromEnv } from "./limits.ts";
 import { QlooClient, QlooError } from "./qloo/client.ts";
-import { resolveFavourite } from "./qloo/resolve.ts";
+import { autoConfirm, resolveFavourite } from "./qloo/resolve.ts";
 import { HttpError, Service, type Actor } from "./service.ts";
 import { measuredStatus } from "./status.ts";
 import { storeFromEnv } from "./store/store.ts";
@@ -148,12 +148,14 @@ on("POST", "/sample/hard-case", async (c) => {
   if (!t.ok) throw new HttpError(429, t.reason);
   const text = "Zxqv Unfindable Nothing 91";
   const res = await resolveFavourite(client, text);
+  const norm = (x: string) => x.toLowerCase().replace(/[^a-z0-9 ]/g, "").trim();
+  const exact = res.matches.filter((m) => norm(m.name) === norm(text)).length;
   return {
     birthYear: 1925,
     favourite: text,
     status: res.status,
     matches: res.matches.length,
-    message: res.matches.length === 0 ? `Qloo has no entity or tag for "${text}". With no confirmed favourite, Aftersong does not build a card and does not guess.` : "Qloo returned matches; the carer would be asked to confirm one.",
+    message: exact === 0 ? `Qloo has no entity called "${text}"${res.matches.length ? `. It returned ${res.matches.length} near names, and none is used until a carer confirms one` : ""}. With no confirmed favourite, Aftersong does not build a card and does not guess.` : "Qloo has an exact match; the carer would be asked to confirm which one.",
   };
 });
 on("POST", "/try", async (c) => {
@@ -165,9 +167,8 @@ on("POST", "/try", async (c) => {
   if (texts.length === 0 || texts.some(bad) || bad(String(b.hometown ?? "")) || bad(String(b.careCity ?? "")) || !Number.isInteger(b.birthYear)) throw new HttpError(400, "Give a birth year, a home city, a hometown and up to three short favourites.");
   const favourites: Resident["favourites"] = [];
   for (const text of texts) {
-    const res = await resolveFavourite(client, text);
-    const m = res.status === "one" ? res.matches[0] : null;
-    favourites.push(m ? { text, kind: m.kind, id: m.id, name: m.name, type: m.type, confirmed: true } : { text, kind: "unresolved" as const, id: null, name: null, type: null, confirmed: false });
+    const m = await autoConfirm(client, text);
+    favourites.push(m ? { text, kind: m.kind, id: m.id, name: m.name, type: m.type, confirmed: true } : { text, kind: "unresolved" as const, id: null, name: null, type: null, confirmed: false, reason: "Qloo has no exact match for it" });
   }
   const now = new Date().toISOString();
   const resident: Resident = { id: "try", homeId: "try", firstName: "Guest", birthYear: b.birthYear, careCity: String(b.careCity), hometown: String(b.hometown), favourites, offsets: { from: 10, to: 30 }, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: false, createdAt: now, updatedAt: now };

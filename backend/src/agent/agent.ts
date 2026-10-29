@@ -50,6 +50,9 @@ export interface CardEvidence {
   requests: Array<{ path: string; params: Record<string, string | number | boolean | undefined> }>;
   confirmedIds: string[];
   positiveIds: string[];
+  hometownIds: string[];
+  /** Widely known ceiling per domain, from the pools. The plain AI arm is judged against the same ceilings. */
+  ceilings: Record<string, number>;
   upsetIds: string[];
 }
 
@@ -64,7 +67,7 @@ export const TOOLS: ToolDef[] = [
 const SYSTEM = `You prepare a reminiscence session card for a carer in a memory care home.
 Call the tools in this order: resolve_favourites, find_era_items for each of music, film, tv, food and place, build_card, then write_openers with one line per item on the card.
 You never choose which items are on the card; the tools do, under rules. You only decide the order of calls and write openers.
-An opener is one short question the carer can say aloud, using only the item's own name and year. Do not name anything else. Do not claim any health effect. Do not use dashes or emoji. Stop after write_openers.`;
+An opener is one short question the carer can say aloud, using only the item's own name. For music never give a year, because the years shown are an artist's active years. For film and television you may give the year. Do not name anything else. Do not claim any health effect. Do not use dashes or emoji. Stop after write_openers.`;
 
 const asText = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
@@ -97,9 +100,10 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
     seenIds: new Set<string>(),
     seenNames: new Set<string>(),
     entities: {} as CardEvidence["entities"],
-    careLocality: null as { id: string; name: string } | null,
-    homeLocality: null as { id: string; name: string } | null,
+    careLocality: null as { id: string; name: string; point: string | null } | null,
+    homeLocality: null as { id: string; name: string; point: string | null } | null,
     cuisineTagIds: [] as string[],
+    cuisineNames: {} as Record<string, string>,
     resolved: false,
     card: null as SessionCard | null,
     openersDone: false,
@@ -132,6 +136,7 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
           const region = resident.hometown.split(",").pop()?.trim() || resident.hometown;
           const cuisines = await resolveCuisineTags(deps.client, region).catch(() => []);
           state.cuisineTagIds = cuisines.map((t) => t.id);
+          state.cuisineNames = Object.fromEntries(cuisines.map((t) => [t.id, `${t.name} cuisine, from his hometown`]));
           state.resolved = true;
           for (const f of resident.favourites.filter((x) => !x.confirmed)) decide(f.reason ? "drop_favourite" : "ask_confirm", f.reason ? `Dropped "${f.text}": ${f.reason}. It is not used.` : `"${f.text}" is waiting for the carer to confirm a match, so this card is built without it.`, null, null);
           if (widenBy > 0) decide("widen_window", `The window was widened by ${widenBy} years after the carer agreed.`, null, null);
@@ -147,7 +152,8 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
           if (!state.resolved) return "ERROR: call resolve_favourites first.";
           const domain = args.domain as Domain;
           if (!DOMAINS.includes(domain)) return "ERROR: unknown domain.";
-          const location = domain === "food" ? state.careLocality?.id : domain === "place" ? state.homeLocality?.id : undefined;
+          const loc = domain === "food" ? state.careLocality : domain === "place" ? state.homeLocality : null;
+          const location = loc ? (loc.point ?? loc.id) : undefined;
           if ((domain === "food" || domain === "place") && !location) {
             state.pools[domain] = [];
             emit(name, `${domain}: the ${domain === "food" ? "home city" : "hometown"} could not be found in Qloo, so nothing was searched.`);
@@ -156,15 +162,17 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
           const media = routes.media;
           const food = routes.food;
           const dated = DATED[domain];
-          const sigE = dated ? media.entityIds : domain === "food" ? food.entityIds : food.entityIds.length ? food.entityIds : media.entityIds;
-          const sigT = dated ? media.tagIds : domain === "food" ? food.tagIds : [];
-          const cuisine = domain === "food" ? state.cuisineTagIds : [];
+          const sigE = dated ? media.entityIds : food.entityIds;
+          // cuisine tags are a signal, not a hard filter: a hard filter plus a location can return nothing
+          const cuisine = domain === "food" || domain === "place" ? state.cuisineTagIds : [];
+          const cuisineHere = domain === "food" || domain === "place" ? state.cuisineTagIds : [];
+          const sigT = dated ? media.tagIds : [...food.tagIds, ...cuisineHere];
           if (sigE.length + sigT.length + cuisine.length === 0) {
             state.pools[domain] = [];
             decide("abstain_domain", `${domain}: no favourite of the right kind to search from, so nothing was searched.`, null, 0);
             return `${domain}: no usable signal, 0 candidates`;
           }
-          const args0 = { client: deps.client, domain, signalEntityIds: sigE, signalTagIds: sigT, filterTagIds: domain === "food" ? cuisine : undefined, window, excludeIds: memory.upset.map((o) => o.entityId), location };
+          const args0 = { client: deps.client, domain, signalEntityIds: sigE, signalTagIds: sigT, window, excludeIds: memory.upset.map((o) => o.entityId), location, requireTagIds: domain === "food" ? [...food.tagIds, ...cuisine] : undefined, connectionIds: domain === "place" && state.homeLocality ? [state.homeLocality.id] : undefined };
           let r = await findDomain(args0);
           if (domain === "music" && r.candidates.length > 0 && r.datedShare < 0.3) {
             const alt = await findDomain({ ...args0, musicStrategy: "person" });
@@ -186,13 +194,13 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
         if (name === "build_card") {
           const missing = DOMAINS.filter((d) => !state.pools[d]);
           if (missing.length) return `ERROR: call find_era_items for: ${missing.join(", ")}`;
-          state.card = buildCard({ cardId: input.cardId, residentId: resident.id, window, widenedBy: widenBy, favourites: resident.favourites, memory, pools: state.pools, seenIds: state.seenIds, model: deps.model ? { provider: deps.model.provider, id: deps.model.id } : null, trail: [], calls: [], now: new Date(now).toISOString() });
+          state.card = buildCard({ cardId: input.cardId, residentId: resident.id, window, widenedBy: widenBy, favourites: resident.favourites, hometown: [...state.cuisineTagIds.map((id) => ({ id, name: state.cuisineNames[id] ?? "his hometown cuisine" })), ...(state.homeLocality ? [{ id: state.homeLocality.id, name: `his hometown, ${resident.hometown}` }] : [])], memory, pools: state.pools, seenIds: state.seenIds, model: deps.model ? { provider: deps.model.provider, id: deps.model.id } : null, trail: [], calls: [], now: new Date(now).toISOString() });
           const c = state.card;
           for (const ab of c.abstentions.filter((x) => x.domain !== "card")) decide("abstain_domain", `${ab.domain}: not enough from these years yet, so nothing was added from a guess.`, null, 0);
           const skipped = c.rejections.filter((x) => x.failures.some((f) => f.rule === "no_affinity")).length;
           if (skipped) decide("skip_item", `${skipped} items were skipped because Qloo returned no affinity for them.`, null, skipped);
           emit(name, `${c.items.length} items placed, ${c.rejections.length} candidates rejected under the rules${c.status === "thin" ? ". Not enough from these years yet." : "."}`);
-          return `card items:\n${c.items.map((i) => `${i.entityId} | ${i.domain} | ${i.name} | ${i.year ?? "no year"}`).join("\n")}`;
+          return `card items:\n${c.items.map((i) => `${i.entityId} | ${i.domain} | ${i.name} | ${i.domain === "music" ? "active " + i.year + " to " + (i.yearEnd ?? "now") : (i.year ?? "no year")}`).join("\n")}`;
         }
         if (name === "write_openers") {
           if (!state.card) return "ERROR: call build_card first.";
@@ -288,6 +296,8 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
       requests: traced.calls.map((c) => ({ path: c.path, params: c.params })),
       confirmedIds: confirmed.map((f) => f.id as string),
       positiveIds: memory.positive.map((o) => o.entityId),
+      hometownIds: [...state.cuisineTagIds, ...(state.homeLocality ? [state.homeLocality.id] : [])],
+      ceilings: Object.fromEntries(Object.entries(state.pools).map(([d, p]) => [d, (p as Candidate[])[0]?.popCeiling ?? 0.85])),
       upsetIds: memory.upset.map((o) => o.entityId),
     },
     usage: traced.value.usage,

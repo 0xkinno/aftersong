@@ -28,9 +28,10 @@ export function makeMock(o: MockOptions = {}): Transport {
       const cohort = p.has("signal.demographics.age");
       const only = p.get("filter.results.entities")?.split(",");
       const min = Number(p.get("filter.release_year.min") ?? 1950);
-      const dobMin = Number(p.get("filter.date_of_birth.min") ?? 1920);
+      const dobMin = parseInt(p.get("filter.date_of_birth.min") ?? "1920", 10);
       const ids = Array.from({ length: 10 }, (_, i) => i);
       const order = cohort ? [...ids].reverse().map((i) => (i + 3) % 10) : ids;
+      if (cohort && !p.has("filter.results.entities") && !p.has("filter.release_year.min") && !p.has("filter.popularity.max") && !p.has("filter.date_of_birth.min")) return { status: 400, headers: { get: () => null }, json: async () => ({ errors: [{ message: "at least one valid signal or filter is required for entity insights" }] }) };
       const list = order
         .map((i, rank) => ({
           entity_id: `SYN-${short.replace("_", "")}-${i}`,

@@ -6,6 +6,7 @@
 import type { QlooClient } from "./client.ts";
 import type { QlooEntity } from "./entity.ts";
 import type { Params } from "./guard.ts";
+import { popularityCeiling } from "../core/classify.ts";
 import { DATED, type Candidate, type Domain, type Window } from "../core/types.ts";
 
 export const DOMAIN_TYPE: Record<Domain, string> = {
@@ -13,7 +14,7 @@ export const DOMAIN_TYPE: Record<Domain, string> = {
   film: "urn:entity:movie",
   tv: "urn:entity:tv_show",
   food: "urn:entity:place",
-  place: "urn:entity:destination",
+  place: "urn:entity:place",
 };
 const YEAR_FILTER: Record<Domain, boolean> = { music: false, film: true, tv: true, food: false, place: false };
 export const COHORT_BRACKET = "55_and_older";
@@ -30,6 +31,10 @@ export interface FindArgs {
   /** Locality id. Only used for food and places, as an open query. */
   location?: string;
   take?: number;
+  /** Food items must carry one of these tags. */
+  requireTagIds?: string[];
+  /** Overrides what an item is said to be connected to (for places: the hometown). */
+  connectionIds?: string[];
   /** "person" asks for people born so they were adults in the window, when artists carry no years. */
   musicStrategy?: MusicStrategy;
 }
@@ -57,14 +62,15 @@ export async function findDomain(a: FindArgs): Promise<FindResult> {
   const dated = DATED[a.domain];
   const strategy: MusicStrategy | null = a.domain === "music" ? (a.musicStrategy ?? "artist") : null;
   const type = strategy === "person" ? "urn:entity:person" : DOMAIN_TYPE[a.domain];
-  const base: Params = { "filter.type": type, take: a.take ?? 30 };
+  const base: Params = { "filter.type": type, take: a.take ?? 25 };
   if (YEAR_FILTER[a.domain]) {
     base["filter.release_year.min"] = a.window.start;
     base["filter.release_year.max"] = a.window.end;
   }
   if (strategy === "person") {
-    base["filter.date_of_birth.min"] = a.window.start - 45;
-    base["filter.date_of_birth.max"] = a.window.end - 15;
+    // full dates: the API answers 500 to a bare year
+    base["filter.date_of_birth.min"] = `${a.window.start - 45}-01-01`;
+    base["filter.date_of_birth.max"] = `${a.window.end - 15}-12-31`;
   }
   if (a.excludeIds.length) base["filter.exclude.entities"] = join(a.excludeIds.slice(0, 60));
   if (!dated) {
@@ -89,17 +95,23 @@ export async function findDomain(a: FindArgs): Promise<FindResult> {
   let pinnedC: QlooEntity[] = [];
   let open: QlooEntity[] = personal.entities;
   if (dated) {
-    const cohort = await a.client.insights({ ...base, ...cohortSignals });
+    // The age signal alone is not a valid query (the API answers 400). It needs another filter: the year
+    // window where the type honours one, otherwise a popularity ceiling that excludes nothing.
+    const cohortOpen: Params = { ...base, ...cohortSignals };
+    if (!YEAR_FILTER[a.domain] && cohortOpen["filter.popularity.max"] === undefined) cohortOpen["filter.popularity.max"] = "1";
+    const cohort = await a.client.insights(cohortOpen);
     callIds.push(cohort.callId);
     const pool: string[] = [];
     for (const e of [...personal.entities, ...cohort.entities]) if (!pool.includes(e.id)) pool.push(e.id);
-    const pin: Params = { "filter.results.entities": join(pool.slice(0, 60)) };
+    // ask for as many results as the pool holds: the default page size would leave half the pool unranked
+    const pinIds = pool.slice(0, 50); // the API accepts take 1 to 50
+    const pin: Params = { "filter.results.entities": join(pinIds), take: pinIds.length };
     const p = await a.client.insights({ ...base, ...personalSignals, ...pin });
     const c = await a.client.insights({ ...base, ...cohortSignals, ...pin });
     callIds.push(p.callId, c.callId);
     pinnedP = p.entities;
     pinnedC = c.entities;
-    notes.push(`Ranked ${Math.min(pool.length, 60)} items twice over the same pool, once for him and once for his generation`);
+    notes.push(`Ranked ${Math.min(pool.length, 50)} items twice over the same pool, once for him and once for his generation`);
     open = [...personal.entities, ...cohort.entities];
   }
 
@@ -111,6 +123,7 @@ export async function findDomain(a: FindArgs): Promise<FindResult> {
   const P = rankByAffinity(dated ? pinnedP : personal.entities);
   const C = dated ? rankByAffinity(pinnedC) : { ranks: new Map<string, number>(), n: 0, aff: new Map<string, number>() };
 
+  const popCeiling = popularityCeiling([...byId.values()].map((e) => e.popularity));
   const candidates: Candidate[] = [...byId.values()].map((e) => ({
     ...e,
     domain: a.domain,
@@ -120,7 +133,9 @@ export async function findDomain(a: FindArgs): Promise<FindResult> {
     cohortRank: C.ranks.get(e.id) ?? null,
     personalN: P.n,
     cohortN: C.n,
-    signalIds: P.ranks.has(e.id) ? [...a.signalEntityIds] : [],
+    popCeiling,
+    signalIds: P.ranks.has(e.id) ? (a.connectionIds ?? [...a.signalEntityIds, ...(a.signalTagIds ?? [])]) : [],
+    requireTagIds: a.requireTagIds ?? [],
     driverId: topDriver(explainOf.get(e.id), a.signalEntityIds),
     callIds: [...callIds],
   }));

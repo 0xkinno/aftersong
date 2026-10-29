@@ -6,7 +6,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { runCardAgent, NeedsConfirmation } from "../backend/src/agent/agent.ts";
 import { QlooClient } from "../backend/src/qloo/client.ts";
-import { resolveCuisineTags, resolveFavourite, resolveLocality } from "../backend/src/qloo/resolve.ts";
+import { autoConfirm, resolveCuisineTags, resolveLocality } from "../backend/src/qloo/resolve.ts";
 import { DOMAIN_TYPE, COHORT_BRACKET } from "../backend/src/qloo/find.ts";
 import { bumpWindow } from "../backend/src/core/window.ts";
 import { routeSignals } from "../backend/src/core/route.ts";
@@ -49,8 +49,7 @@ for (const f of forms) {
   try {
     const favourites = [];
     for (const text of f.favourites) {
-      const res = await resolveFavourite(client, text);
-      const m = res.status === "one" ? res.matches[0] : null;
+      const m = await autoConfirm(client, text);
       favourites.push(m ? { text, kind: m.kind, id: m.id, name: m.name, type: m.type, confirmed: true } : { text, kind: "unresolved", id: null, name: null, type: null, confirmed: false });
     }
     const confirmed = favourites.filter((x) => x.confirmed);

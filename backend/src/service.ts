@@ -15,7 +15,7 @@ import { bumpWindow, DEFAULT_OFFSETS } from "./core/window.ts";
 import type { Evidence } from "./core/verify.ts";
 import type { Limiter } from "./limits.ts";
 import type { QlooClient } from "./qloo/client.ts";
-import { resolveFavourite, type Resolution } from "./qloo/resolve.ts";
+import { autoConfirm, resolveFavourite, type Resolution } from "./qloo/resolve.ts";
 import { lifeStoryPdf, type LifeStory } from "./pdf.ts";
 import type { Store } from "./store/store.ts";
 import type { Digest, Resident, Session } from "./store/types.ts";
@@ -399,9 +399,8 @@ export class Service {
       if (!r) {
         const favourites: Favourite[] = [];
         for (const t of s.favourites) {
-          const res = await resolveFavourite(this.d.client, t);
-          const pick = res.status === "one" ? res.matches[0] : null;
-          favourites.push(pick ? { text: t, kind: pick.kind, id: pick.id, name: pick.name, type: pick.type, confirmed: true } : { text: t, kind: "unresolved", id: null, name: null, type: null, confirmed: false, reason: "No single exact match" });
+          const pick = await autoConfirm(this.d.client, t);
+          favourites.push(pick ? { text: t, kind: pick.kind, id: pick.id, name: pick.name, type: pick.type, confirmed: true } : { text: t, kind: "unresolved", id: null, name: null, type: null, confirmed: false, reason: "Qloo has no exact match for it" });
         }
         const now = new Date().toISOString();
         r = { id: s.id, homeId: "sample", firstName: s.firstName, birthYear: s.birthYear, careCity: s.careCity, hometown: s.hometown, favourites, offsets: DEFAULT_OFFSETS, consent: true, consentRecord: null, intakeBy: "carer", familySubmittedAt: null, isSample: true, createdAt: now, updatedAt: now };

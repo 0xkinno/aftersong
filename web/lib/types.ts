@@ -7,10 +7,11 @@ export interface CardItem {
   name: string;
   domain: Domain;
   year: number | null;
+  yearEnd?: number | null;
   label: Label;
   cohortUnknown: boolean;
   popularity: number | null;
-  connectedTo: { id: string; name: string; kind: "favourite" | "observation" };
+  connectedTo: { id: string; name: string; kind: "favourite" | "observation" | "hometown" };
   connectedAll: Array<{ id: string; name: string }>;
   connectionBasis: "explainability" | "all_signals";
   tags: Array<{ id: string; name: string }>;
@@ -60,3 +61,12 @@ export const FRIENDLY_TOOL: Record<string, string> = {
   agent: "Agent note",
   decision: "Decision",
 };
+
+/** Music years are an artist's active years, so they are shown that way. Television shows a run. */
+export function yearLabel(i: { domain: Domain; year: number | null; yearEnd?: number | null }): string {
+  if (!i.year) return "";
+  const now = new Date().getUTCFullYear();
+  if (i.domain === "music") return i.yearEnd && i.yearEnd < now ? `active ${i.year} to ${i.yearEnd}` : `active since ${i.year}`;
+  if (i.domain === "tv") return i.yearEnd && i.yearEnd !== i.year && i.yearEnd < now ? `${i.year} to ${i.yearEnd}` : `from ${i.year}`;
+  return String(i.year);
+}

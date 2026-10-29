@@ -138,28 +138,28 @@ Every call, with file and line, is in [SDK_SURFACE.md](SDK_SURFACE.md). The plat
 <!-- surface:start -->
 | Feature | Call site | Status | Note |
 |---|---|---|---|
-| Resolve favourites with /search | [backend/src/qloo/client.ts:215](backend/src/qloo/client.ts#L215) | built, not yet called on a live key | Carer confirms the match on screen |
-| Resolve a place to a locality with /search | [backend/src/qloo/resolve.ts:37](backend/src/qloo/resolve.ts#L37) | built, not yet called on a live key | Sent onward as an ID, never as the typed name |
-| Cuisine and genre tags with /v2/tags | [backend/src/qloo/client.ts:220](backend/src/qloo/client.ts#L220) | built, not yet called on a live key | feature.semantic_search on |
-| Batch lookup with /entities | [backend/src/qloo/client.ts:225](backend/src/qloo/client.ts#L225) | built, not yet called on a live key | One call for many IDs |
-| Insights for the person's own signals | [backend/src/qloo/find.ts:82](backend/src/qloo/find.ts#L82) | built, not yet called on a live key | signal.interests.entities, artist, movie, tv_show, place, destination |
-| Year window | [backend/src/qloo/find.ts:62](backend/src/qloo/find.ts#L62) | built, not yet called on a live key | Film and television only; enforced again in code for every domain |
-| Cohort signal | [backend/src/qloo/find.ts:78](backend/src/qloo/find.ts#L78) | built, not yet called on a live key | 55_and_older, the oldest bracket |
-| Explainability | [backend/src/qloo/find.ts:75](backend/src/qloo/find.ts#L75) | built, not yet called on a live key | Driver extraction is best effort (topDriver) |
+| Resolve favourites with /search | [backend/src/qloo/client.ts:215](backend/src/qloo/client.ts#L215) | live, probed 2026-10-29 | Carer confirms the match on screen |
+| Resolve a place to a locality with /search | [backend/src/qloo/resolve.ts:61](backend/src/qloo/resolve.ts#L61) | live, probed 2026-10-29 | Sent onward as an ID, never as the typed name |
+| Cuisine and genre tags with /v2/tags | [backend/src/qloo/client.ts:220](backend/src/qloo/client.ts#L220) | live, probed 2026-10-29 | feature.semantic_search on |
+| Batch lookup with /entities | [backend/src/qloo/client.ts:225](backend/src/qloo/client.ts#L225) | live, probed 2026-10-29 | One call for many IDs |
+| Insights for the person's own signals | [backend/src/qloo/find.ts:88](backend/src/qloo/find.ts#L88) | live, probed 2026-10-29 | signal.interests.entities, artist, movie, tv_show, place, destination |
+| Year window | [backend/src/qloo/find.ts:67](backend/src/qloo/find.ts#L67) | live, probed 2026-10-29 | Film and television only; enforced again in code for every domain |
+| Cohort signal | [backend/src/qloo/find.ts:84](backend/src/qloo/find.ts#L84) | live, probed 2026-10-29 | 55_and_older, the oldest bracket |
+| Explainability | [backend/src/qloo/find.ts:81](backend/src/qloo/find.ts#L81) | live, probed 2026-10-29 | Driver extraction is best effort (topDriver) |
 | Popularity as a label | [backend/src/core/classify.ts:3](backend/src/core/classify.ts#L3) | built in code | Qloo's popularity field marks Widely known |
-| Hometown thread | [backend/src/qloo/find.ts:71](backend/src/qloo/find.ts#L71) | built, not yet called on a live key | Locality ID as the location signal |
-| Exclude what upset | [backend/src/qloo/find.ts:69](backend/src/qloo/find.ts#L69) | built in code | Also enforced in code |
-| Cuisine tags as a filter | [backend/src/qloo/find.ts:72](backend/src/qloo/find.ts#L72) | built, not yet called on a live key | Food near the care home |
-| Pinned pool, two rankings (his signals and the cohort) | [backend/src/qloo/find.ts:96](backend/src/qloo/find.ts#L96) | built, not yet called on a live key | Ranks compared inside each call, never raw affinities across calls |
-| Compare two residents in one line | [backend/src/qloo/client.ts:232](backend/src/qloo/client.ts#L232) | built, not yet called on a live key | /v2/analysis/compare, used by the room planner |
+| Hometown thread | [backend/src/qloo/find.ts:77](backend/src/qloo/find.ts#L77) | live, probed 2026-10-29 | Locality ID as the location signal |
+| Exclude what upset | [backend/src/qloo/find.ts:75](backend/src/qloo/find.ts#L75) | built in code | Also enforced in code |
+| Cuisine tags as a filter | [backend/src/qloo/find.ts:78](backend/src/qloo/find.ts#L78) | live, probed 2026-10-29 | Food near the care home |
+| Pinned pool, two rankings (his signals and the cohort) | [backend/src/qloo/find.ts:108](backend/src/qloo/find.ts#L108) | live, probed 2026-10-29 | Ranks compared inside each call, never raw affinities across calls |
+| Compare two residents in one line | [backend/src/qloo/client.ts:232](backend/src/qloo/client.ts#L232) | live, probed 2026-10-29 | /v2/analysis/compare, used by the room planner |
 | Room planner re-scoring | [backend/src/agent/group.ts:2](backend/src/agent/group.ts#L2) | built in code | One pool, one re-score per resident |
 | Group planner as an agent tool | [backend/src/agent/group-agent.ts:13](backend/src/agent/group-agent.ts#L13) | built in code | The agent decides when to call plan_group_session; the server computes the plan |
 | Plain AI counterfactual lookups | [backend/src/agent/plain.ts:62](backend/src/agent/plain.ts#L62) | built in code | Each suggested item is looked up and checked by the same rules |
 | Request allowlist | [backend/src/qloo/guard.ts:90](backend/src/qloo/guard.ts#L90) | built in code | Only IDs, tags, an age bracket, years, a place |
 | Rate discipline | [backend/src/qloo/client.ts:51](backend/src/qloo/client.ts#L51) | built in code | 250 ms spacing, no retry on 429, de-duplication, daily cap |
 | Model adapters (Anthropic, OpenRouter, NVIDIA over HTTP) | [backend/src/agent/model.ts:127](backend/src/agent/model.ts#L127) |
-| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:56](backend/src/agent/agent.ts#L56) |
-| Fault switch | [backend/src/agent/agent.ts:299](backend/src/agent/agent.ts#L299) |
+| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:59](backend/src/agent/agent.ts#L59) |
+| Fault switch | [backend/src/agent/agent.ts:309](backend/src/agent/agent.ts#L309) |
 | Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |
 <!-- surface:end -->
 

@@ -7,6 +7,8 @@ export interface RuleContext {
   window: Window;
   confirmedIds: Set<string>;
   positiveIds: Set<string>;
+  /** Cuisine tags of the hometown: a valid base for food and places, named in the card as the hometown. */
+  hometownIds?: Set<string>;
   upsetIds: Set<string>;
   /** Every entity id that came back from a Qloo call in this build. */
   seenIds: Set<string>;
@@ -28,8 +30,9 @@ export function vetCandidate(c: Candidate, ctx: RuleContext, taken: Set<string>)
   }
   // abstain on an item whose affinity Qloo did not return, rather than inventing one
   if (c.personalAffinity === null) f.push({ rule: "no_affinity", detail: "Qloo returned no query.affinity for this item" });
+  if (c.requireTagIds?.length && !c.tags.some((t) => c.requireTagIds.includes(t.id))) f.push({ rule: "not_connected", detail: "does not carry the hometown cuisine tag" });
   const connected = c.personalAffinity !== null || c.personalRank !== null;
-  const viaKnown = c.signalIds.some((s) => ctx.confirmedIds.has(s) || ctx.positiveIds.has(s));
+  const viaKnown = c.signalIds.some((s) => ctx.confirmedIds.has(s) || ctx.positiveIds.has(s) || ctx.hometownIds?.has(s));
   if (!connected || !viaKnown) f.push({ rule: "not_connected", detail: "not scored against a confirmed favourite or confirmed reaction" });
   return f;
 }
