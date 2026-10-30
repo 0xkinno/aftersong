@@ -71,3 +71,19 @@ Open after the final round (disclosed, not fixed):
 - Pages show Loading for a few seconds before data arrives.
 - Free text typed into the try form reaches Qloo search; the filter is light.
 - The fault switch result on /judge is a recorded offline run.
+
+## Round after the model, sample and harness changes (2026-10-30, live URL)
+Five fresh judges. Fixed the same day:
+- The new "Rebuild live" flag could have replaced the saved sample card for everyone. A rebuild is now built for that visitor only and is never saved; the saved card is unchanged and the export link is hidden for a fresh build.
+- Card text used "his hometown" for every resident. It now says "the resident's hometown"; all five sample cards were rebuilt and carry model-written openers (one card has one template line).
+- Birth year on the try form is range checked before a build credit is taken.
+- Harness wording: the check shows our top entity and our 10 recommended ids were among the harness results for one lookup and one recommendation; order was not compared.
+- Stale lines in PROGRESS.md, the model named for the plain AI run, and the pre-registration wording.
+Open, disclosed, not fixed:
+- Openers can still assert small invented context ("as a child", "at a party"); the filter checks names and listed health claims, not biography or years in music lines.
+- Places and food have no era check; the years claim applies to music, film and television.
+- The model prompt carries first names, birth year, hometown and favourites to the model provider that answers (Groq, Gemini, OpenRouter or NVIDIA); retention terms are the providers' own.
+- Public caps are per IP and in memory; about fifteen visitors could use the daily budget.
+- /trace and /stats are public by design and unmetered.
+- Some Qloo tags read oddly on cards.
+- The comparison table on the landing page and the 20 percent sentence are explained on the evidence and method pages, but the landing page shows them without the full context.

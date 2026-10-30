@@ -143,3 +143,4 @@ Open:
 - Harness equivalence check run with @qloo/qloo-harness 0.1.26 on our key: one lookup and one recommendation; our top entity and all 10 of our ids were among the harness results (order not compared). Recorded in SDK_SURFACE.md and PLATFORM_PROBE.md; the surface table has no empty Status cell.
 - README: the measured block says the wild set is not run yet; a line explains that links cross domains.
 - Demo film built in reference/video (gitignored): 1920x1080, 170 s, about 40 MB, voice about 2:40. Not yet uploaded; the README Video row stays "not recorded yet" until a public link exists.
+- A rebuild of a sample card is shown to that visitor only and is never saved. Pronoun-neutral card text; sample cards rebuilt. Another red team round on the live URL is logged in REDTEAM_LOG.md.
