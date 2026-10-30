@@ -20,7 +20,7 @@ same without Qloo, you're building the wrong thing." We chose the use where "act
 An activities coordinator confirms up to five favourites for a resident. Aftersong works out the years
 the resident remembers best (ages 10 to 30) and asks Qloo for music, film, television, food and places
 inside those years, each tied to a favourite and tagged Personal, Shared era or Widely known by
-comparing his favourites with the 55 and older audience's. The carer runs the session on a phone and taps one of six
+comparing his favourites with Qloo's 55 and older audience, which is today's audience and a proxy for his generation, not the generation itself. The carer runs the session on a phone and taps one of six
 reactions per item. Only her taps become memory: what lit up becomes the next signal, what upset is
 never shown again. The family sees a weekly note and can delete anything logged. A one page "about me"
 sheet goes to the next carer. A plain AI list for the same resident is checked by the same rules beside

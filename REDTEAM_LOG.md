@@ -29,7 +29,7 @@ Round 1 run on 2026-10-29 against https://aftersong.vercel.app, five fresh judge
 ## Local pre-checks done before the first round
 These are not red-team rounds and do not count as one.
 - Five viewports, axe, no horizontal scroll, no overlap, hover glow: `web/e2e/quality.spec.ts`, 51 tests.
-- Rules, memory, room planner, agent loop, fault switch, verifier: `npm test`, 35 tests.
+- Rules, memory, room planner, agent loop, fault switch, verifier: `npm test` (35 tests at the time; 78 backend and 2 MCP now).
 
 ## Round 2 (2026-10-30, against https://aftersong.vercel.app and the repo)
 Five fresh judge agents. The round was not clean. Most defects are open and are listed honestly rather than hidden.

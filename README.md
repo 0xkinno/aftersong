@@ -149,9 +149,9 @@ Every call, with file and line, is in [SDK_SURFACE.md](SDK_SURFACE.md). The plat
 | Batch lookup with /entities | [backend/src/qloo/client.ts:225](backend/src/qloo/client.ts#L225) | live, probed 2026-10-29 | One call for many IDs |
 | Insights for the person's own signals | [backend/src/qloo/find.ts:88](backend/src/qloo/find.ts#L88) | live, probed 2026-10-29 | signal.interests.entities, artist, movie, tv_show, place, destination |
 | Year window | [backend/src/qloo/find.ts:67](backend/src/qloo/find.ts#L67) | live, probed 2026-10-29 | Film and television only; enforced again in code for every domain |
-| Cohort signal | [backend/src/qloo/find.ts:84](backend/src/qloo/find.ts#L84) | live, probed 2026-10-29 | 55_and_older, the oldest bracket |
+| Cohort signal | [backend/src/qloo/find.ts:84](backend/src/qloo/find.ts#L84) | live, probed 2026-10-29 | 55_and_older, the oldest bracket: today's audience, used as a proxy |
 | Explainability | [backend/src/qloo/find.ts:81](backend/src/qloo/find.ts#L81) | live, probed 2026-10-29 | Driver extraction is best effort (topDriver) |
-| Popularity as a label | [backend/src/core/classify.ts:3](backend/src/core/classify.ts#L3) | built in code | Qloo's popularity field marks Widely known |
+| Popularity as a label | [backend/src/core/classify.ts:3](backend/src/core/classify.ts#L3) | built in code | Popularity is read from Qloo; the Widely known cut-off is Aftersong's own, relative to the pool |
 | Hometown thread | [backend/src/qloo/find.ts:77](backend/src/qloo/find.ts#L77) | live, probed 2026-10-29 | A point for the place when the locality ID returns nothing (see PLATFORM_PROBE.md) |
 | Exclude what upset | [backend/src/qloo/find.ts:75](backend/src/qloo/find.ts#L75) | built in code | Also enforced in code |
 | Cuisine tags as a signal | [backend/src/qloo/find.ts:83](backend/src/qloo/find.ts#L83) | live, probed 2026-10-29 | Food near the care home; as a hard filter with a location the probe returned nothing |

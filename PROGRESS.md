@@ -32,7 +32,7 @@ Not done:
 - `scripts/probe-matrix.mjs` and `scripts/eval.mjs` have not been run. They refuse until `docs/PREREG.md` and `data/eval/PREREG.sha256.json` are committed (commit them first, then run). FACTS.json, FINDINGS.md and the landing discovery sentence stay empty until then.
 - No Vercel production deploy, and no Render service. The backend is a separate Node service (see the architecture note in the session report).
 - harness-check.mjs is written and not run.
-- Three older participants recorded on 2026-10-29 (see Session 5); no date or length supplied, no measured outcome.
+- Three older participants recorded on 2026-10-29 (see Session 5); session on 2026-10-29, 1 hour, no measured outcome.
 
 ## Where things stood after session 2, 2026-10-28
 Phases 0 to 7 are built as far as they can be without keys and accounts. Everything that needs the
@@ -50,7 +50,7 @@ Qloo key, a model key, Supabase, GitHub, Vercel or Render is listed under "Block
 | 7 Red team and submission | README, SUBMISSION_DEVPOST.md, PITCH.md written. Red team, submit and tag wait for the deploy |
 
 ## Verification so far
-- `npm test`: 35 tests pass (client, rules, memory, agent with a scripted model, fault switch, room planner, plain AI check, service roles).
+- `npm test`: 78 backend and 2 MCP tests pass at the last run (35 at first write) (client, rules, memory, agent with a scripted model, fault switch, room planner, plain AI check, service roles).
 - `npm run verify:fixtures`: honest synthetic card passes all six checks; tampered card fails as expected.
 - `web/e2e/quality.spec.ts`: 51 tests pass on a stack running a synthetic Qloo stand-in: no horizontal scroll, no overlap, axe with no serious violations, hover glow, at 375x812, 412x915, 768x1024, 1280x800 and 1440x900.
 - `npm run check`: house style, no study material in committed files, FACTS, SDK_SURFACE and README current.
