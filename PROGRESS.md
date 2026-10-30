@@ -12,7 +12,7 @@ Updated at the end of every working session.
 
 ## Session 3, 2026-10-29: Phase 8 and the first live run
 Done and verified:
-- Follow-up 01 added as Phase 8 in TASK.md. A, B, D, E (code and hash check), F, G, H are built with tests: 72 backend tests, 2 MCP tests, 71 browser checks.
+- Follow-up 01 added as Phase 8 of the task list. A, B, D, E (code and hash check), F, G, H are built with tests: 72 backend tests, 2 MCP tests, 71 browser checks.
 - Pushed to https://github.com/0xkinno/aftersong. Every commit is authored by 0xkinno. `.env` is ignored; only `.env.example` is tracked.
 - Vercel project `aftersong` linked from `web/`; production variables set: SUPABASE_URL, SUPABASE_ANON_KEY, BACKEND_SHARED_SECRET. Git auto-deploy is switched off (`vercel.json`). **Not deployed.**
 - First live run: `npm run probe` (23 probes, 0 failed) and a live build of the sample card for Walter with the real model: 8 items, six offline checks pass on the exported card. Measured behaviour is in PLATFORM_PROBE.md and each item became a rule with a test.

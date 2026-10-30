@@ -2,8 +2,8 @@
   "note": "Session records for older participants. IDs are anonymous. Source for the sessions block in docs/FACTS.json. Only what was reported by the project lead is recorded here; empty fields mean it was not supplied.",
   "formTarget": 15,
   "recordedOn": "2026-10-29",
-  "sessionDate": null,
-  "durationMinutes": null,
+  "sessionDate": "2026-10-29",
+  "durationMinutes": 60,
   "reportedBy": "0xkinno",
   "participants": [
     {
@@ -19,5 +19,6 @@
       "summary": "Was confused and felt lost at first, and understood the app by the second day."
     }
   ],
-  "humanReview": null
+  "humanReview": null,
+  "humanReviewNote": "No human error review was carried out before submission. No counts exist, and none are claimed."
 }

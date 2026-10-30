@@ -79,7 +79,7 @@ const facts = {
   wild: summary ? forSet(summary.rows.filter((r) => r.set === "wild")) : null,
   findings: matrix ? matrix.findings : null,
   review: review ?? null,
-  sessions: sessionsSrc ? { participants: sessionsSrc.participants.length, formTarget: sessionsSrc.formTarget, shortfall: Math.max(0, sessionsSrc.formTarget - sessionsSrc.participants.length), recordedOn: sessionsSrc.recordedOn, sessionDate: sessionsSrc.sessionDate, durationMinutes: sessionsSrc.durationMinutes, reportedBy: sessionsSrc.reportedBy, entries: sessionsSrc.participants, humanReview: sessionsSrc.humanReview } : null,
+  sessions: sessionsSrc ? { participants: sessionsSrc.participants.length, formTarget: sessionsSrc.formTarget, shortfall: Math.max(0, sessionsSrc.formTarget - sessionsSrc.participants.length), recordedOn: sessionsSrc.recordedOn, sessionDate: sessionsSrc.sessionDate, durationMinutes: sessionsSrc.durationMinutes, reportedBy: sessionsSrc.reportedBy, entries: sessionsSrc.participants, humanReview: sessionsSrc.humanReview, humanReviewNote: sessionsSrc.humanReviewNote ?? null } : null,
   misses: summary ? summary.rows.filter((r) => r.status !== "built").map((r) => ({ id: r.id, set: r.set, status: r.status, reason: r.reason })) : [],
 };
 

@@ -280,4 +280,4 @@ Deploy steps for Vercel, Render and Supabase are in [docs/DEPLOY.md](docs/DEPLOY
 
 MIT licence. See [LICENSE](LICENSE).
 
-More: [EVIDENCE.md](EVIDENCE.md), [PROOF.md](PROOF.md), [TASK.md](TASK.md), [PROGRESS.md](PROGRESS.md), [MILESTONES.md](MILESTONES.md), [SDK_SURFACE.md](SDK_SURFACE.md), [JUDGE.md](JUDGE.md), [docs/SOURCES.md](docs/SOURCES.md).
+More: [EVIDENCE.md](EVIDENCE.md), [PROOF.md](PROOF.md), [PROGRESS.md](PROGRESS.md), [MILESTONES.md](MILESTONES.md), [SDK_SURFACE.md](SDK_SURFACE.md), [JUDGE.md](JUDGE.md), [docs/SOURCES.md](docs/SOURCES.md).
