@@ -136,7 +136,7 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
           const region = resident.hometown.split(",").pop()?.trim() || resident.hometown;
           const cuisines = await resolveCuisineTags(deps.client, region).catch(() => []);
           state.cuisineTagIds = cuisines.map((t) => t.id);
-          state.cuisineNames = Object.fromEntries(cuisines.map((t) => [t.id, `${t.name} cuisine, from his hometown`]));
+          state.cuisineNames = Object.fromEntries(cuisines.map((t) => [t.id, `${t.name} cuisine, from the resident's hometown`]));
           state.resolved = true;
           for (const f of resident.favourites.filter((x) => !x.confirmed)) decide(f.reason ? "drop_favourite" : "ask_confirm", f.reason ? `Dropped "${f.text}": ${f.reason}. It is not used.` : `"${f.text}" is waiting for the carer to confirm a match, so this card is built without it.`, null, null);
           if (widenBy > 0) decide("widen_window", `The window was widened by ${widenBy} years after the carer agreed.`, null, null);
@@ -194,7 +194,7 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
         if (name === "build_card") {
           const missing = DOMAINS.filter((d) => !state.pools[d]);
           if (missing.length) return `ERROR: call find_era_items for: ${missing.join(", ")}`;
-          state.card = buildCard({ cardId: input.cardId, residentId: resident.id, window, widenedBy: widenBy, favourites: resident.favourites, hometown: [...state.cuisineTagIds.map((id) => ({ id, name: state.cuisineNames[id] ?? "his hometown cuisine" })), ...(state.homeLocality ? [{ id: state.homeLocality.id, name: `his hometown, ${resident.hometown}` }] : [])], memory, pools: state.pools, seenIds: state.seenIds, model: deps.model ? { provider: deps.model.provider, id: deps.model.id } : null, trail: [], calls: [], now: new Date(now).toISOString() });
+          state.card = buildCard({ cardId: input.cardId, residentId: resident.id, window, widenedBy: widenBy, favourites: resident.favourites, hometown: [...state.cuisineTagIds.map((id) => ({ id, name: state.cuisineNames[id] ?? "the resident's hometown cuisine" })), ...(state.homeLocality ? [{ id: state.homeLocality.id, name: `the resident's hometown, ${resident.hometown}` }] : [])], memory, pools: state.pools, seenIds: state.seenIds, model: deps.model ? { provider: deps.model.provider, id: deps.model.id } : null, trail: [], calls: [], now: new Date(now).toISOString() });
           const c = state.card;
           for (const ab of c.abstentions.filter((x) => x.domain !== "card")) decide("abstain_domain", `${ab.domain}: not enough from these years yet, so nothing was added from a guess.`, null, 0);
           const skipped = c.rejections.filter((x) => x.failures.some((f) => f.rule === "no_affinity")).length;

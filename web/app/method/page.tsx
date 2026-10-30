@@ -92,7 +92,7 @@ export default function Method() {
       <h2 className="text-28 mt-14">Two labelled layers on every item</h2>
       <div className="grid gap-6 mt-5 md:grid-cols-2">
         <div className="panel p-5"><p className="kicker">From Qloo</p><p className="mt-2">The item, its year, its tags and its affinity. Shown as returned.</p></div>
-        <div className="panel p-5"><p className="kicker">Added by Aftersong</p><p className="mt-2">The Personal, Shared era or Widely known tag, and the opener. Personal means the item ranks clearly higher for this person than for Qloo's 55 and older audience. Widely known means Qloo reports high popularity.</p></div>
+        <div className="panel p-5"><p className="kicker">Added by Aftersong</p><p className="mt-2">The Personal, Shared era or Widely known tag, and the opener. Personal means the item ranks clearly higher for this person than for Qloo's 55 and older audience. Widely known means it ranks high for popularity in the pool Qloo returned.</p></div>
       </div>
     </div>
   );

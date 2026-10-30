@@ -119,7 +119,7 @@ async function sampleCard(c: Ctx, id: string, emit?: (e: unknown) => void) {
   if (cached && c.body?.rebuild !== true) return { card: cached, modelNote: null, cached: true };
   const t = limiter.take(c.ip);
   if (!t.ok) throw new HttpError(429, t.reason);
-  const out = await svc.buildCard(id, { actor: "sample", onEvent: emit ? (e) => emit({ type: "trail", ...e }) : undefined });
+  const out = await svc.buildCard(id, { actor: "sample", persist: c.body?.rebuild === true ? false : undefined, onEvent: emit ? (e) => emit({ type: "trail", ...e }) : undefined });
   return { ...out, cached: false };
 }
 on("POST", "/sample/residents/:id/card", async (c) => streamCard(c, async (emit) => sampleCard(c, c.params[0]!, emit)), true);
@@ -162,7 +162,7 @@ on("POST", "/try", async (c) => {
   const b = c.body;
   const texts: string[] = Array.isArray(b.favourites) ? b.favourites.slice(0, 3).map(String) : [];
   const bad = (s: string) => !s.trim() || s.length > 80 || /[@<>]/.test(s) || /\d{6,}/.test(s);
-  if (texts.length === 0 || texts.some(bad) || bad(String(b.hometown ?? "")) || bad(String(b.careCity ?? "")) || !Number.isInteger(b.birthYear)) throw new HttpError(400, "Give a birth year, a home city, a hometown and up to three short favourites.");
+  if (texts.length === 0 || texts.some(bad) || bad(String(b.hometown ?? "")) || bad(String(b.careCity ?? "")) || !Number.isInteger(b.birthYear) || b.birthYear < 1900 || b.birthYear > new Date().getUTCFullYear() - 40) throw new HttpError(400, "Give a birth year, a home city, a hometown and up to three short favourites.");
   const t = limiter.take(c.ip);
   if (!t.ok) throw new HttpError(429, t.reason);
   const favourites: Resident["favourites"] = [];

@@ -22,6 +22,7 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fresh, setFresh] = useState(false);
 
   useEffect(() => {
     api<{ residents: SampleResident[] }>("/sample/residents")
@@ -31,6 +32,7 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
   }, []);
 
   useEffect(() => {
+    setFresh(false);
     setCard(null);
     setTrail([]);
     api<{ card: SessionCard | null }>(`/sample/residents/${id}/card`)
@@ -45,6 +47,7 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
     try {
       const r = await streamCard(`/sample/residents/${id}/card`, rebuild ? { rebuild: true } : {}, false, { onTrail: (e) => setTrail((t) => [...t, e]) });
       setCard(r.card);
+      setFresh(rebuild);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -80,12 +83,12 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
             )}
             <div className="mt-4 grid gap-3">
               {!card && <button className="btn btn-primary" disabled={running} onClick={() => build()}>{running ? "Building" : "Build this card live"}</button>}
-              {card && <p className="text-14 text-ink-2">Saved card, built {card.createdAt.slice(0, 10)} with the live model and Qloo. It opens at once.</p>}
+              {card && <p className="text-14 text-ink-2">{fresh ? "Fresh build for you only; the saved card is unchanged." : `Saved card, built ${card.createdAt.slice(0, 10)} with the live model and Qloo. It opens at once.`}</p>}
               {card && <button className="btn" disabled={running} onClick={() => build(true)}>{running ? "Building" : "Rebuild live"}</button>}
               <p className="text-12 text-ink-2">Live builds are limited per visitor and per day so the public link cannot spend the Qloo quota.</p>
               {card && <a className="btn" href={`/sample/${id}/session`}>Run the session on a phone</a>}
               {card && <a className="btn" href={`/compare?r=${id}`}>Compare with a plain AI list</a>}
-              {card && <a className="btn" href={`/api/sample/cards/${card.id}/export`} download={`${card.id}.json`}>Download for the offline verifier</a>}
+              {card && !fresh && <a className="btn" href={`/api/sample/cards/${card.id}/export`} download={`${card.id}.json`}>Download for the offline verifier</a>}
             </div>
           </div>
           <div>
