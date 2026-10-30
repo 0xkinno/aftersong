@@ -67,7 +67,7 @@ export const TOOLS: ToolDef[] = [
 const SYSTEM = `You prepare a reminiscence session card for a carer in a memory care home.
 Call the tools in this order: resolve_favourites, find_era_items for each of music, film, tv, food and place, build_card, then write_openers with one line per item on the card.
 You never choose which items are on the card; the tools do, under rules. You only decide the order of calls and write openers.
-An opener is one short question the carer can say aloud, using only the item's own name. For music never give a year, because the years shown are an artist's active years. For film and television you may give the year. Do not name anything else. Do not claim any health effect. Do not use dashes or emoji. Stop after write_openers.`;
+An opener is one warm question of 7 to 16 words that the carer can say aloud. It names the item exactly once, for example: Did you ever hear Sam Cooke on the radio? Use only the item's own name. For music never give a year, because the years shown are an artist's active years. For film and television you may give the year. Do not name anything else. Do not claim any health effect. Do not use dashes or emoji. Stop after write_openers.`;
 
 const asText = (e: unknown) => (e instanceof Error ? e.message : String(e));
 
