@@ -5,7 +5,7 @@ skeptic), run on the deployed URL only, using the prompt in V5 Appendix B. Fix, 
 round comes back clean.
 
 ## Status
-Round 1 run on 2026-10-29 against https://aftersong.vercel.app, five fresh judge agents, one role each. Round 1 was not clean. Fixes are listed below; a second round has not been run.
+Round 1 run on 2026-10-29 against https://aftersong.vercel.app, five fresh judge agents, one role each. Round 1 was not clean. Fixes are listed below; Round 2 was run on 2026-10-30 and was not clean either; see below.
 
 ## Round template
 | Round | Date | Role | Scores (1 to 5 per criterion) | Defects found | Fixes | Re-score |
@@ -30,3 +30,27 @@ Round 1 run on 2026-10-29 against https://aftersong.vercel.app, five fresh judge
 These are not red-team rounds and do not count as one.
 - Five viewports, axe, no horizontal scroll, no overlap, hover glow: `web/e2e/quality.spec.ts`, 51 tests.
 - Rules, memory, room planner, agent loop, fault switch, verifier: `npm test`, 35 tests.
+
+## Round 2 (2026-10-30, against https://aftersong.vercel.app and the repo)
+Five fresh judge agents. The round was not clean. Most defects are open and are listed honestly rather than hidden.
+
+Fixed after round 2:
+- EVIDENCE.md had a stale hand-typed line (15 of 15 cards built); it now points to the generated FACTS.json.
+- README said no session date or length and called the weekly note live; both corrected.
+- /evidence now explains the nine model-error misses.
+- A single-favourite card was labelled as using Qloo's explainability; it now says all signals (card.ts).
+- Health claim check extended to might, may, could, can, feel better and help him relax.
+- Opener claim wording in README and /method no longer says it blocks any name; one word names Qloo never returned are not caught.
+- "always works" and "always opens" wording replaced; landing card tag "Some overlap" replaced with a real tag; "1 decisions" grammar; two stray screenshots untracked.
+- Cohort wording: "his generation" replaced with Qloo's 55 and older audience everywhere; EVIDENCE.md states the proxy.
+- `genericOverlapPct` renamed `commonItemsPct`; SDK_SURFACE notes for cuisine and the place point corrected.
+
+Open after round 2 (not fixed before submission):
+- The plain AI comparison ran on 6 of 15 forms because the free model hit its daily limit; the baseline model is not the deployed one, and the rules favour a Qloo-connected list by construction. Disclosed in EVIDENCE.md.
+- Single word and lowercase names in openers are not caught; the health claim check is a list, not a proof.
+- Upset items are blocked by Qloo ID only; a family link can delete an upset record; the plain AI arm does not exclude upset items.
+- Music years accept any artist whose career overlaps the window.
+- Family links have no expiry or revoke route; the public limiter is in memory.
+- Pages show Loading for a few seconds before data arrives; /sample has no saved card, the saved card is on /compare.
+- Explainability response shape is read heuristically; filter.location is not used.
+- Human error review was not carried out; the 12 missing real forms are planned after submission.

@@ -31,7 +31,9 @@ export function houseStyleViolations(text: string): string[] {
 }
 
 const CLAIMS = [
-  /\b(will|would|should)\s+(calm|soothe|relax|help|improve|restore|cure|heal|reduce|ease)\b/i,
+  /\b(will|would|should|might|may|could|can)\s+(calm|soothe|relax|help|improve|restore|cure|heal|reduce|ease|lift|boost)\b/i,
+  /\b(feel|feels|feeling)\s+(better|calmer|happier|less)\b/i,
+  /\b(help|helps)\s+(him|her|them)\s+(relax|sleep|calm|feel)\b/i,
   /\b(calm|calms|calming|soothe|soothes|soothing)\b/i,
   /\b(cure|cures|treat|treats|treatment|therapy|therapeutic|diagnos\w*|symptom\w*|medicat\w*)\b/i,
   /\b(reduce|reduces|lower|lowers|ease|eases)\s+(agitation|anxiety|stress|confusion)\b/i,

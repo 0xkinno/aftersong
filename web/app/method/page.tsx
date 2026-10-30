@@ -5,7 +5,7 @@ const RULES = [
   ["Real entities only", "Every item must be an entity Qloo returned in this build. A name the model makes up cannot become an item.", "backend/src/core/rules.ts"],
   ["Tied to a favourite", "Every item must be scored by Qloo against a favourite the carer confirmed, or against something the carer saw work.", "backend/src/core/rules.ts"],
   ["Nothing that upset", "An item marked upset is removed for that resident for good, and items that share two or more tags with it count for less.", "backend/src/core/memory.ts"],
-  ["Openers name nothing else", "The model writes one line per item. A line that names anything not on the card, makes a health claim, or breaks house style is replaced by a template line, and the card says so.", "backend/src/core/openers.ts"],
+  ["Openers name nothing else", "The model writes one line per item. A line that names a person or title Qloo returned elsewhere, a multi word name not on the card, a listed health claim, or breaks house style is replaced by a template line, and the card says so.", "backend/src/core/openers.ts"],
   ["Qloo sees only IDs", "Requests to Qloo may carry entity IDs, tag IDs, an age bracket, years, and a place as an ID or a point. Names and health details cannot leave.", "backend/src/qloo/guard.ts"],
   ["Not enough is an answer", "When fewer than six items survive, the card says so and offers a five year widening. It never pads.", "backend/src/core/card.ts"],
   ["Why upset never expires", "Every other reaction fades after 90 days unless it is logged again. An upset reaction does not fade, because a painful association should not lapse with the calendar. Only the family or the carer can delete it.", "backend/src/core/memory.ts"],

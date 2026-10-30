@@ -72,7 +72,7 @@ The carer is the agent's eyes and ears. Only she can see a smile or a turned hea
 | Show an item outside his years, or without a year | `backend/src/core/rules.ts` |
 | Show an item that Qloo did not link to a confirmed favourite or a confirmed reaction | `backend/src/core/rules.ts` |
 | Repeat something that upset him | `backend/src/core/memory.ts` |
-| Let a model line name anything not on the card, or claim a health effect | `backend/src/core/openers.ts`, `backend/src/core/house-style.ts` |
+| Let a model line name a name Qloo returned elsewhere, a run of capitalised names not on the card, or a listed health claim. A one word name Qloo never returned is not caught by the check | `backend/src/core/openers.ts`, `backend/src/core/house-style.ts` |
 | Send names or health details to Qloo | `backend/src/qloo/guard.ts` |
 | Pad a thin result with guesses | `backend/src/core/card.ts` |
 | Let the family write the carer's reactions, or the carer overwrite the family's intake | `backend/src/service.ts` |
@@ -228,8 +228,8 @@ Three older participants (OP-01, OP-02, OP-03) have used it. One found it easy t
 | Rules, memory policy, room planner, verifier | Live code, covered by tests |
 | Sample residents on `/sample` | Sample: intake only, labelled Sample. Their cards are built by the real agent |
 | Carer sign-in, saved residents, family links | Live when Supabase is configured; otherwise the app says so |
-| Weekly note to family | Live: a scheduled run on Monday, create-only per resident and week |
-| Sessions with older people | Three participants reported ease of use (OP-01 to OP-03); no date or length supplied; no benefit claimed. No care home deployment |
+| Weekly note to family | Scheduled on Monday in render.yaml, create-only per resident and week; no run is recorded yet |
+| Sessions with older people | Three participants reported ease of use (OP-01 to OP-03); one session on 2026-10-29 lasting 1 hour; no benefit claimed. No care home deployment |
 
 ## Recovery
 

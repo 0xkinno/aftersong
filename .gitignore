@@ -35,3 +35,5 @@ data/harness/
 # planning and task files stay in the reference folder
 TASK.md
 AFTERSONG_FOLLOWUP_01.md
+.cmp.png
+.ev2.png

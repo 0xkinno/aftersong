@@ -31,4 +31,4 @@ Read [SDK_SURFACE.md](SDK_SURFACE.md) for every Qloo call with file and line.
 
 ## What is sample and what is live
 Sample residents are labelled Sample. Their cards are built by the real agent from real Qloo results.
-Live builds are capped per visitor and per day; the saved sample card always opens.
+Live builds are capped per visitor and per day; the saved sample card is shown on /compare without a build.

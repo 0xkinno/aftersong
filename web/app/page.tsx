@@ -43,7 +43,7 @@ export default function Home() {
               <p className="kicker">Sample · Music · 1958 to 1967</p>
               <p className="fc-title">Otis Redding</p>
               <p className="fc-sub">Because of Sam Cooke</p>
-              <span className="tag fc-tag">Some overlap</span>
+              <span className="tag fc-tag">Shared era</span>
             </div>
             <div className="float-card float-b" aria-hidden="true">
               <p className="kicker">Sample · Film · 1962</p>

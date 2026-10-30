@@ -21,7 +21,7 @@ export default function Judge() {
     <div className="wrap py-10">
       <p className="kicker">For judges</p>
       <h1 className="text-40 md:text-64">Sixty seconds, no sign-in</h1>
-      <p className="mt-3 max-w-2xl text-ink-2">Everything on this page works without an account. Sample residents are labelled Sample. Live builds are limited per visitor and per day; the saved sample always works.</p>
+      <p className="mt-3 max-w-2xl text-ink-2">Everything on this page works without an account. Sample residents are labelled Sample. Live builds are limited per visitor and per day; the saved sample card is shown on /compare without a build.</p>
 
       <ol className="grid gap-3 mt-8" style={{ listStyle: "none", padding: 0 }}>
         {WALK.map((w, i) => (

@@ -94,7 +94,10 @@ export default function Evidence() {
       <section className="mt-12">
         <h2 className="text-28">Misses, by form</h2>
         {F.misses.length === 0 ? <p className="mt-3 text-ink-2">No misses recorded. Every form in the curated set built a card.</p> : (
+          <>
+          <p className="mt-2 max-w-2xl text-ink-2">Every miss here stopped with a model error: the free model used for this run reached its daily limit. These forms were not retried and nothing is estimated for them.</p>
           <div className="panel mt-5 overflow-x-auto"><table className="tidy"><thead><tr><th>Form</th><th>Set</th><th>Result</th><th>Why</th></tr></thead><tbody>{F.misses.map((m) => <tr key={m.id}><td>{m.id}</td><td>{m.set}</td><td>{m.status}</td><td>{m.reason}</td></tr>)}</tbody></table></div>
+          </>
         )}
       </section>
 

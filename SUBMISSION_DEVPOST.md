@@ -63,7 +63,7 @@ Live app: https://aftersong.vercel.app. Judge walk: `/judge`. Repository: https:
 **Testing instructions:**
 No sign-in is needed. Open `/sample`, choose a resident, open the saved card, then try "Run the session on
 a phone", "Compare with a plain AI list" and `/group`. Live builds are capped per visitor and per day;
-the saved sample always opens. Offline checks: see JUDGE.md.
+the saved sample card is shown on /compare without a build. Offline checks: see JUDGE.md.
 
 **Video:** not required by the rules text; link here if one is recorded.
 

@@ -93,7 +93,7 @@ export function buildCard(input: BuildInput): SessionCard {
         cohortAffinity: c.cohortAffinity,
         connectedTo: { id: via, name: nameOf.get(via) ?? via, kind },
         connectedAll: known.map((s) => ({ id: s, name: nameOf.get(s) ?? s })),
-        connectionBasis: c.driverId && known.includes(c.driverId) ? "explainability" : "all_signals",
+        connectionBasis: known.length > 1 && c.driverId && known.includes(c.driverId) ? "explainability" : "all_signals",
         tags: c.tags.slice(0, 6),
         opener: { text: "", source: "template" },
         callIds: c.callIds,

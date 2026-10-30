@@ -92,7 +92,7 @@ export default function CardView({ card, sample = false, residentName, onWiden, 
       )}
 
       <details className="mt-8 no-print" data-testid="how-made">
-        <summary className="cursor-pointer kicker" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>How this card was made ({(card.decisions ?? []).length} decisions)</summary>
+        <summary className="cursor-pointer kicker" style={{ minHeight: 44, display: "inline-flex", alignItems: "center" }}>How this card was made ({(card.decisions ?? []).length} {(card.decisions ?? []).length === 1 ? "decision" : "decisions"})</summary>
         <div className="mt-3 grid gap-3">
           {(card.decisions ?? []).length === 0 ? <p className="text-14 text-ink-2">The agent made no decisions beyond the fixed steps below.</p> : (
             <ol className="grid gap-2" style={{ listStyle: "none", padding: 0 }}>
