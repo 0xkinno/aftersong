@@ -2,7 +2,7 @@ import facts from "@/lib/facts.json";
 
 type SetFacts = {
   forms: number; cardsBuilt: number; cardsThin: number; errors: number; aftersongItems: number;
-  personalRatePct: number | null; genericOverlapPct: number | null; plainAiItems: number;
+  personalRatePct: number | null; commonItemsPct: number | null; plainAiItems: number;
   plainAiPassingRulesPct: number | null; plainAiOutsideYearsPct: number | null; plainAiNotInQlooPct: number | null; plainAiNotConnectedPct: number | null;
   meanLiveQlooCallsPerCard: number | null; meanBuildSeconds: number | null;
 } | null;

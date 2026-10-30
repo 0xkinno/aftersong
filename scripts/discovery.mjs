@@ -33,7 +33,7 @@ for (const domain of ["music", "film", "tv"]) {
   console.log(domain, { candidates: r.candidates.length, inWindow, personal, shared, known, overlapTop10: overlap });
 }
 const stamp = new Date().toISOString();
-const table = `Run ${stamp}. Resident born 1940, window ${window.start} to ${window.end}, two confirmed favourites. Counts only.\n\n| Domain | Candidates | Inside the window | Personal | Shared era | Widely known | Top 10 shared with his generation | Qloo calls |\n|---|---|---|---|---|---|---|---|\n${log.join("\n")}\n\nCommand: \`node scripts/discovery.mjs\``;
+const table = `Run ${stamp}. Resident born 1940, window ${window.start} to ${window.end}, two confirmed favourites. Counts only.\n\n| Domain | Candidates | Inside the window | Personal | Shared era | Widely known | Top 10 shared with the 55 and older audience | Qloo calls |\n|---|---|---|---|---|---|---|---|\n${log.join("\n")}\n\nCommand: \`node scripts/discovery.mjs\``;
 let md = readFileSync("DISCOVERY.md", "utf8");
 md = md.replace(/(<!-- run:start -->)[\s\S]*?(<!-- run:end -->)/, `$1\n${table}\n$2`);
 writeFileSync("DISCOVERY.md", md);

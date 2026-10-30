@@ -72,7 +72,7 @@ export default function Evidence() {
                 <div key={e.id} className="panel p-5"><p className="kicker">{e.id}</p><p className="mt-2">{e.summary}</p></div>
               ))}
             </div>
-            <p className="mt-4 max-w-2xl text-14 text-ink-2">Recorded {s.recordedOn}. These are the participants' own reports about ease of use. They are not a measure of benefit, and no claim of benefit is made.</p>
+            <p className="mt-4 max-w-2xl text-14 text-ink-2">Session held {s.sessionDate ?? s.recordedOn}. These are the participants' own reports about ease of use. They are not a measure of benefit, and no claim of benefit is made.</p>
           </>
         ) : <p className="mt-3 text-ink-2">No session has been recorded.</p>}
       </section>
@@ -87,7 +87,7 @@ export default function Evidence() {
             <div><dt>Date</dt><dd>{s.humanReview.date}</dd></div>
           </dl>
         ) : (
-          <div className="panel p-5 mt-5"><p>Not recorded yet. A human reviewer has to check both what Aftersong rejected and what it kept; the counts, reviewer and date appear here once they exist. The plain AI false positive rate is not reported until it has been measured.</p></div>
+          <div className="panel p-5 mt-5"><p>No human error review was carried out before submission, so there are no counts and none are claimed. A review of both what Aftersong rejected and what it kept is planned after submission.</p></div>
         )}
       </section>
 

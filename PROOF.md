@@ -25,7 +25,7 @@ repository, so no real response is committed.
 ## Reading the numbers
 - Aftersong's own era-fit and connection rates are enforced in code, so they are 100 percent by construction. They are not reported as results.
 - The measured result is the plain AI list run through the same rules against Qloo's data: how many of its items pass, fall outside the years, are not in Qloo, or are not linked to the favourites.
-- Personal rate: the share of card items that rank clearly higher for the person than for his generation.
+- Personal rate: the share of card items that rank clearly higher for the person than for the 55 and older audience.
 - Generic overlap: the share of card items that appear on more than half of all cards in a set. Lower is more personal.
 - Curated and wild sets are reported separately. The curated set was written by us and is flattering by construction.
 - Both error directions (false rejections and false keeps) come from a human reviewer and are in `EVIDENCE.md` when recorded; until then they are stated as unmeasured.

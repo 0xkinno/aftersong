@@ -111,7 +111,7 @@ export async function findDomain(a: FindArgs): Promise<FindResult> {
     callIds.push(p.callId, c.callId);
     pinnedP = p.entities;
     pinnedC = c.entities;
-    notes.push(`Ranked ${Math.min(pool.length, 50)} items twice over the same pool, once for him and once for his generation`);
+    notes.push(`Ranked ${Math.min(pool.length, 50)} items twice over the same pool, once for him and once for the 55 and older audience`);
     open = [...personal.entities, ...cohort.entities];
   }
 

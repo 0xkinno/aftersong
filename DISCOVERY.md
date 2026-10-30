@@ -14,12 +14,12 @@ logged reactions fed back as the next `signal.interests.entities`.
 ## Minimal script
 `node scripts/discovery.mjs` resolves two favourites, builds the three dated pools for a resident born
 in 1940, and prints counts: candidates, how many fall inside the window, how many are Personal, Shared
-era or Widely known, and how much of his top ten his generation also ranks in its top ten.
+era or Widely known, and how much of his top ten the 55 and older audience also ranks in its top ten.
 
 <!-- run:start -->
 Run 2026-10-29T03:46:01.507Z. Resident born 1940, window 1950 to 1970, two confirmed favourites. Counts only.
 
-| Domain | Candidates | Inside the window | Personal | Shared era | Widely known | Top 10 shared with his generation | Qloo calls |
+| Domain | Candidates | Inside the window | Personal | Shared era | Widely known | Top 10 shared with the 55 and older audience | Qloo calls |
 |---|---|---|---|---|---|---|---|
 | music | 50 | 30 | 3 | 8 | 13 | 3 of 10 | 4 |
 | film | 35 | 35 | 3 | 4 | 9 | 4 of 10 | 4 |

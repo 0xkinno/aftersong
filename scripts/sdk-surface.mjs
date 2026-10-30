@@ -17,9 +17,9 @@ const FEATURES = [
   ["Cohort signal", "backend/src/qloo/find.ts", "signal.demographics.age", "insights.artist.cohort", "55_and_older, the oldest bracket"],
   ["Explainability", "backend/src/qloo/find.ts", "feature.explainability", "insights.artist.entities", "Driver extraction is best effort (topDriver)"],
   ["Popularity as a label", "backend/src/core/classify.ts", "POPULARITY_CEILING", null, "Qloo's popularity field marks Widely known"],
-  ["Hometown thread", "backend/src/qloo/find.ts", "signal.location", "insights.destination.hometown", "Locality ID as the location signal"],
+  ["Hometown thread", "backend/src/qloo/find.ts", "signal.location", "insights.destination.hometown", "A point for the place when the locality ID returns nothing (see PLATFORM_PROBE.md)"],
   ["Exclude what upset", "backend/src/qloo/find.ts", "filter.exclude.entities", null, "Also enforced in code"],
-  ["Cuisine tags as a filter", "backend/src/qloo/find.ts", "filter.tags", "insights.place.cuisine", "Food near the care home"],
+  ["Cuisine tags as a signal", "backend/src/qloo/find.ts", "signal.interests.tags", "insights.place.cuisine", "Food near the care home; as a hard filter with a location the probe returned nothing"],
   ["Pinned pool, two rankings (his signals and the cohort)", "backend/src/qloo/find.ts", "const pin: Params", "insights.artist.rescore", "Ranks compared inside each call, never raw affinities across calls"],
   ["Compare two residents in one line", "backend/src/qloo/client.ts", "async compare(", "compare.groups", "/v2/analysis/compare, used by the room planner"],
   ["Room planner re-scoring", "backend/src/agent/group.ts", "filter.results.entities", null, "One pool, one re-score per resident"],
@@ -90,7 +90,7 @@ ${mrows}
 - The Qloo harness in production. It is used only for the equivalence check above. Reason: the event rate limit and our own spacing, caching and request allowlist are easier to enforce on direct calls. See SPONSOR_INTEL.md.
 - \`/v2/trending\` and \`/v2/audiences\`: client methods and allowlist entries exist for the probe; the product does not call them.
 - The Vercel AI SDK. The tool-calling loop is our own, over each provider's HTTP API.
-- Qloo trends, audiences, analysis compare, heatmaps; books, podcasts, brands and video games as card items.
+- Qloo trends, audiences, heatmaps; books, podcasts, brands and video games as card items.
 - Storing Qloo response bodies in the repository (the developer guide forbids it). Committed fixtures are synthetic.
 `;
 

@@ -49,7 +49,7 @@ function forSet(rows) {
     aftersongItems: items,
     personalRatePct: pct(built.reduce((a, r) => a + r.personal, 0), items),
     widelyKnownRatePct: pct(built.reduce((a, r) => a + r.widelyKnown, 0), items),
-    genericOverlapPct: pct(commonItems, items),
+    commonItemsPct: pct(commonItems, items),
     plainRunsPerForm: runs.length && withPlain.length ? Math.round(runs.length / withPlain.length) : 0,
     plainAiItems: plainItems,
     plainAiPassingRulesPct: pct(sum("passing"), plainItems),

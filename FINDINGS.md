@@ -15,7 +15,7 @@ Forms run: 15. Skipped: 0.
 | Music | 15 | 1 | 0.956 | 8 | 7.33 | 15 / 0 / 0 | 0.0001 | significant at 0.05 |
 | Film and music pooled | 15 | 0.996 | 0.929 | 16 | 13.8 | 15 / 0 / 0 | 0.0001 | significant at 0.05 |
 
-Discovery sentence (written because F1 is significant in the predicted direction; it quotes F2): Built from his generation alone, a list leans on the same famous names for everyone. Only 20 percent of what Aftersong puts on a card would be on such a list, because it starts from what his family remembered.
+Discovery sentence (written because F1 is significant in the predicted direction; it quotes F2): Built from the 55 and older audience alone, a list leans on the same famous names for everyone. Only 20 percent of what Aftersong puts on a card would be on such a list, because it starts from what his family remembered.
 
 ## F2. How many of the items Aftersong places would a generic oldies list contain?
 

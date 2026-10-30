@@ -11,7 +11,7 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Node | 22.19 or newer (type stripping) |
 | Next.js | ^15.5.0 |
 | React | ^19.0.0 |
-| Model | null |
+| Model | {"provider":"openrouter","id":"nvidia/nemotron-3.5-super-vl:free"} |
 
 ## Qloo features used
 | Feature | Call site | Status | Note |
@@ -25,9 +25,9 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Cohort signal | [backend/src/qloo/find.ts:84](backend/src/qloo/find.ts#L84) | live, probed 2026-10-29 | 55_and_older, the oldest bracket |
 | Explainability | [backend/src/qloo/find.ts:81](backend/src/qloo/find.ts#L81) | live, probed 2026-10-29 | Driver extraction is best effort (topDriver) |
 | Popularity as a label | [backend/src/core/classify.ts:3](backend/src/core/classify.ts#L3) | built in code | Qloo's popularity field marks Widely known |
-| Hometown thread | [backend/src/qloo/find.ts:77](backend/src/qloo/find.ts#L77) | live, probed 2026-10-29 | Locality ID as the location signal |
+| Hometown thread | [backend/src/qloo/find.ts:77](backend/src/qloo/find.ts#L77) | live, probed 2026-10-29 | A point for the place when the locality ID returns nothing (see PLATFORM_PROBE.md) |
 | Exclude what upset | [backend/src/qloo/find.ts:75](backend/src/qloo/find.ts#L75) | built in code | Also enforced in code |
-| Cuisine tags as a filter | [backend/src/qloo/find.ts:78](backend/src/qloo/find.ts#L78) | live, probed 2026-10-29 | Food near the care home |
+| Cuisine tags as a signal | [backend/src/qloo/find.ts:83](backend/src/qloo/find.ts#L83) | live, probed 2026-10-29 | Food near the care home; as a hard filter with a location the probe returned nothing |
 | Pinned pool, two rankings (his signals and the cohort) | [backend/src/qloo/find.ts:108](backend/src/qloo/find.ts#L108) | live, probed 2026-10-29 | Ranks compared inside each call, never raw affinities across calls |
 | Compare two residents in one line | [backend/src/qloo/client.ts:232](backend/src/qloo/client.ts#L232) | live, probed 2026-10-29 | /v2/analysis/compare, used by the room planner |
 | Room planner re-scoring | [backend/src/agent/group.ts:2](backend/src/agent/group.ts#L2) | built in code | One pool, one re-score per resident |
@@ -49,5 +49,5 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 - The Qloo harness in production. It is used only for the equivalence check above. Reason: the event rate limit and our own spacing, caching and request allowlist are easier to enforce on direct calls. See SPONSOR_INTEL.md.
 - `/v2/trending` and `/v2/audiences`: client methods and allowlist entries exist for the probe; the product does not call them.
 - The Vercel AI SDK. The tool-calling loop is our own, over each provider's HTTP API.
-- Qloo trends, audiences, analysis compare, heatmaps; books, podcasts, brands and video games as card items.
+- Qloo trends, audiences, heatmaps; books, podcasts, brands and video games as card items.
 - Storing Qloo response bodies in the repository (the developer guide forbids it). Committed fixtures are synthetic.
