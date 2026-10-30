@@ -8,6 +8,8 @@ const ALLOWED = new Set(["sample", "try", "residents", "cards", "group", "family
 async function forward(req: Request, ctx: { params: Promise<{ path: string[] }> }) {
   const { path } = await ctx.params;
   if (!ALLOWED.has(path[0] ?? "")) return Response.json({ error: "Not found." }, { status: 404 });
+  // no dot segments, slashes or odd characters: a path must stay under its allowed prefix
+  if (path.some((s) => !/^[A-Za-z0-9_\-:~@.]+$/.test(s) || /^\.+$/.test(s))) return Response.json({ error: "Not found." }, { status: 404 });
   const base = process.env.BACKEND_URL;
   if (!base) return Response.json({ error: "The backend address is not configured on the web app." }, { status: 503 });
   const url = new URL(req.url);

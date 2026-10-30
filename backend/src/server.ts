@@ -159,12 +159,12 @@ on("POST", "/sample/hard-case", async (c) => {
   };
 });
 on("POST", "/try", async (c) => {
-  const t = limiter.take(c.ip);
-  if (!t.ok) throw new HttpError(429, t.reason);
   const b = c.body;
   const texts: string[] = Array.isArray(b.favourites) ? b.favourites.slice(0, 3).map(String) : [];
   const bad = (s: string) => !s.trim() || s.length > 80 || /[@<>]/.test(s) || /\d{6,}/.test(s);
   if (texts.length === 0 || texts.some(bad) || bad(String(b.hometown ?? "")) || bad(String(b.careCity ?? "")) || !Number.isInteger(b.birthYear)) throw new HttpError(400, "Give a birth year, a home city, a hometown and up to three short favourites.");
+  const t = limiter.take(c.ip);
+  if (!t.ok) throw new HttpError(429, t.reason);
   const favourites: Resident["favourites"] = [];
   for (const text of texts) {
     const m = await autoConfirm(client, text);

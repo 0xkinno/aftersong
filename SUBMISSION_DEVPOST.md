@@ -24,7 +24,7 @@ comparing his favourites with Qloo's 55 and older audience, which is today's aud
 reactions per item. Only her taps become memory: what lit up becomes the next signal, what upset is
 never shown again. The family sees a weekly note and can delete anything logged. A one page "about me"
 sheet goes to the next carer. A plain AI list for the same resident is checked by the same rules beside
-the card, and a group planner finds items for a room of four to eight.
+the card, and a group planner finds items for a room of two to eight.
 
 **How we built it:**
 Next.js on Vercel, a Node service on Render that holds the Qloo key, Supabase for storage and carer

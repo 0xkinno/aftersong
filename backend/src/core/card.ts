@@ -6,6 +6,8 @@ import { nameKey, vetCandidate, type RuleContext } from "./rules.ts";
 import { DOMAINS, type Abstention, type Candidate, type CardItem, type Domain, type Favourite, type Rejection, type SessionCard, type Window } from "./types.ts";
 import { templateOpener } from "./openers.ts";
 
+/** Tags from Qloo that do not belong on a card shown to a person with dementia. */
+const UNSUITABLE_TAG = /\b(adult|adultery|affair|sex\w*|nud\w*|erotic\w*|murder\w*|kill\w*|suicid\w*|rape\w*|violen\w*|abus\w*|drug\w*|alcohol\w*|slip|death|dying|cancer|dementia)\b/i;
 export const QUOTA: Record<Domain, number> = { music: 3, film: 2, tv: 1, food: 1, place: 1 };
 export const MIN_ITEMS = 6;
 export const MAX_ITEMS = 8;
@@ -94,7 +96,7 @@ export function buildCard(input: BuildInput): SessionCard {
         connectedTo: { id: via, name: nameOf.get(via) ?? via, kind },
         connectedAll: known.map((s) => ({ id: s, name: nameOf.get(s) ?? s })),
         connectionBasis: known.length > 1 && c.driverId && known.includes(c.driverId) ? "explainability" : "all_signals",
-        tags: c.tags.slice(0, 6),
+        tags: c.tags.filter((t) => !UNSUITABLE_TAG.test(t.name)).slice(0, 6),
         opener: { text: "", source: "template" },
         callIds: c.callIds,
         ...(obs ? { walk: { fromEntityId: obs.entityId, fromName: obs.entityName, fromObservation: obs.value } } : {}),

@@ -106,7 +106,7 @@ export default function Home() {
           {[
             "It does not diagnose, and no line on a card claims a health effect.",
             "It does not add anything the model merely thinks he would like. Every item is a Qloo result inside his years.",
-            "It does not send names or health details to Qloo. Qloo receives entity IDs, tags, years and a place.",
+            "No resident name, note or health detail goes to Qloo. It receives entity IDs, tags, years and a place, plus the typed favourite or place name once, to confirm a match.",
             "It does not guess when Qloo has too little. The card says so and offers to widen the window.",
             "It does not remember what the carer did not see. Only her taps are memory, and they expire after 90 days unless repeated.",
             "It does not repeat something that upset him.",
