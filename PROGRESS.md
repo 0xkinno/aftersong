@@ -142,5 +142,5 @@ Open:
 - Sample cards: all five are built with the live model and Qloo, saved, and open at once with a "Saved card, built <date>" line and a "Rebuild live" button. A GitHub Actions job pings the Render backend every ten minutes to keep it warm. deploy-check passes on the web app and the backend.
 - Harness equivalence check run with @qloo/qloo-harness 0.1.26 on our key: one lookup and one recommendation; our top entity and all 10 of our ids were among the harness results (order not compared). Recorded in SDK_SURFACE.md and PLATFORM_PROBE.md; the surface table has no empty Status cell.
 - README: the measured block says the wild set is not run yet; a line explains that links cross domains.
-- Demo film built in reference/video (gitignored): 1920x1080, 170 s, about 40 MB, voice about 2:40. Not yet uploaded; the README Video row stays "not recorded yet" until a public link exists.
+- Demo film built in reference/video (gitignored): 1920x1080, 170 s, about 40 MB, voice about 2:40. Uploaded to YouTube (https://youtu.be/pup_175j4Rk); the link is in docs/deploy.json, the README Video row and SUBMISSION_DEVPOST.md.
 - A rebuild of a sample card is shown to that visitor only and is never saved. Pronoun-neutral card text; sample cards rebuilt. Another red team round on the live URL is logged in REDTEAM_LOG.md.

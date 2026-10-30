@@ -21,7 +21,7 @@
 | Method | [/method](https://aftersong.vercel.app/method) |
 | Evidence | [EVIDENCE.md](EVIDENCE.md) |
 | Repository | [https://github.com/0xkinno/aftersong](https://github.com/0xkinno/aftersong) |
-| Video | not recorded yet |
+| Video | [https://youtu.be/pup_175j4Rk?si=W2ByYYEU3jS_BwsJ](https://youtu.be/pup_175j4Rk?si=W2ByYYEU3jS_BwsJ) |
 <!-- links:end -->
 
 ## Tuesday, 2:30 pm

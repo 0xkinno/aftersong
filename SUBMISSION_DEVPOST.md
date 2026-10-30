@@ -65,7 +65,7 @@ No sign-in is needed. Open `/sample`, choose a resident, open the saved card, th
 a phone", "Compare with a plain AI list" and `/group`. Live builds are capped per visitor and per day;
 the saved sample card is shown on /compare without a build. Offline checks: see JUDGE.md.
 
-**Video:** not required by the rules text; link here if one is recorded.
+**Video:** https://youtu.be/pup_175j4Rk?si=W2ByYYEU3jS_BwsJ.
 
 **Image gallery:** docs/screens (real screenshots of the deployed app).
 
