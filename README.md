@@ -171,7 +171,7 @@ Every call, with file and line, is in [SDK_SURFACE.md](SDK_SURFACE.md). The plat
 ## Findings from live Qloo data
 
 <!-- findings:start -->
-Pre-registered in [docs/PREREG.md](docs/PREREG.md) before the runs; every number comes from `docs/FACTS.json`. Detail and method notes are in [FINDINGS.md](FINDINGS.md).
+The questions were written down in [docs/PREREG.md](docs/PREREG.md) before the runs (the eval itself was re-run once after partial results); every number comes from `docs/FACTS.json`. Detail and method notes are in [FINDINGS.md](FINDINGS.md).
 
 | Question | Result |
 |---|---|

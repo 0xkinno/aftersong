@@ -7,7 +7,7 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Piece | Version |
 |---|---|
 | Qloo API | hackathon host, `https://hackathon.api.qloo.com`, no version string exposed |
-| Qloo harness (`@qloo/qloo-harness`) | 0.1.26, run by scripts/harness-check.mjs on 2026-10-30. Resolve: same top entity id as our REST client. Recommend: 10 of 10 ids shared (100 percent). Production calls use REST for rate-limit reasons. |
+| Qloo harness (`@qloo/qloo-harness`) | 0.1.26, run by scripts/harness-check.mjs on 2026-10-30. Resolve: our top entity id was among the ids the harness returned. Recommend: 10 of our 10 ids were among the 12 the harness returned (one query, order not compared). Production calls use REST for rate-limit reasons. |
 | Node | 22.19 or newer (type stripping) |
 | Next.js | ^15.5.0 |
 | React | ^19.0.0 |

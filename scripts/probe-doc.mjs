@@ -9,7 +9,7 @@ const h = existsSync("docs/harness-check.json") ? JSON.parse(readFileSync("docs/
 const harness = h
   ? `## Harness equivalence check
 
-Run on ${h.at.slice(0, 10)} with the sponsor harness (@qloo/qloo-harness ${h.harnessVersion}) on our own key, against ${s.host}, by scripts/harness-check.mjs. Resolve: ${h.resolve?.sameTopId ? "the harness and our REST client return the same top entity id for Sam Cooke" : "no match"}. Recommend: ${h.recommend?.shared ?? 0} of our ${h.recommend?.ours ?? 0} ids were also returned by the harness (${h.recommend?.sharePct ?? 0} percent). The product still calls the REST API directly, for the rate limit, spacing and allowlist.
+Run on ${h.at.slice(0, 10)} with the sponsor harness (@qloo/qloo-harness ${h.harnessVersion}) on our own key, against ${s.host}, by scripts/harness-check.mjs. Resolve: ${h.resolve?.sameTopId ? "our top entity id for Sam Cooke was among the ids the harness returned" : "no match"}. Recommend: ${h.recommend?.shared ?? 0} of our ${h.recommend?.ours ?? 0} ids were among the ${h.recommend?.harness ?? 0} the harness returned (one query; order was not compared). The product still calls the REST API directly, for the rate limit, spacing and allowlist.
 `
   : `## Harness equivalence check
 

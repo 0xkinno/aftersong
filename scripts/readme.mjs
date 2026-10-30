@@ -38,7 +38,7 @@ const F = facts.findings;
 const pf = (p) => (p < 0.001 ? "below 0.001" : String(Math.round(p * 1000) / 1000));
 const sg = (x) => `${x.sign.positive} of ${x.sign.n} forms, p ${pf(x.sign.p)}`;
 region("findings", F ? [
-  "Pre-registered in [docs/PREREG.md](docs/PREREG.md) before the runs; every number comes from `docs/FACTS.json`. Detail and method notes are in [FINDINGS.md](FINDINGS.md).",
+  "The questions were written down in [docs/PREREG.md](docs/PREREG.md) before the runs (the eval itself was re-run once after partial results); every number comes from `docs/FACTS.json`. Detail and method notes are in [FINDINGS.md](FINDINGS.md).",
   "",
   "| Question | Result |",
   "|---|---|",

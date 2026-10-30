@@ -33,8 +33,8 @@ const hc = existsSync("docs/harness-check.json") ? JSON.parse(readFileSync("docs
 const harnessCell = hc
   ? [
       hc.harnessVersion + ", run by scripts/harness-check.mjs on " + hc.at.slice(0, 10) + ".",
-      "Resolve: " + (hc.resolve?.error ? "failed (" + hc.resolve.error + ")" : hc.resolve?.sameTopId ? "same top entity id as our REST client" : "different top entity id") + ".",
-      "Recommend: " + (hc.recommend?.error ? "failed (" + hc.recommend.error + ")" : hc.recommend?.shared + " of " + hc.recommend?.ours + " ids shared (" + hc.recommend?.sharePct + " percent)") + ".",
+      "Resolve: " + (hc.resolve?.error ? "failed (" + hc.resolve.error + ")" : hc.resolve?.sameTopId ? "our top entity id was among the ids the harness returned" : "different top entity id") + ".",
+      "Recommend: " + (hc.recommend?.error ? "failed (" + hc.recommend.error + ")" : hc.recommend?.shared + " of our " + hc.recommend?.ours + " ids were among the " + hc.recommend?.harness + " the harness returned (one query, order not compared)") + ".",
       "Production calls use REST for rate-limit reasons.",
     ].join(" ")
   : "0.1.26, equivalence check written (scripts/harness-check.mjs), not yet run";

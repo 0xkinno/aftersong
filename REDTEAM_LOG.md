@@ -46,7 +46,7 @@ Fixed after round 2:
 - `genericOverlapPct` renamed `commonItemsPct`; SDK_SURFACE notes for cuisine and the place point corrected.
 
 Open after round 2 (not fixed before submission):
-- The plain AI comparison now covers all 15 forms (Gemini). The rules favour a Qloo-connected list by construction and the forms and checker are the authors' own. Disclosed in EVIDENCE.md.
+- The plain AI comparison now covers all 15 forms (Groq gpt-oss-120b). The rules favour a Qloo-connected list by construction and the forms and checker are the authors' own. Disclosed in EVIDENCE.md.
 - Single word and lowercase names in openers are not caught; the health claim check is a list, not a proof.
 - Upset items are blocked by Qloo ID only; a family link can delete an upset record; the plain AI arm does not exclude upset items.
 - Music years accept any artist whose career overlaps the window.

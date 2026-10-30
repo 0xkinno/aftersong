@@ -2,6 +2,14 @@
 
 Updated at the end of every working session.
 
+## Current status, 2026-10-30
+The sections below are dated session records; where they say something was not yet done, this block and Session 7 at the end supersede them.
+- Deployed: web on Vercel, backend on Render, Supabase storage; CI green. Probe, matrix and eval have all run; docs/FACTS.json is generated from them.
+- Plain AI comparison: all 15 curated forms, one run, model Groq openai/gpt-oss-120b (recorded in docs/eval-summary.json). Card openers on the deployed app use the model that answers first in the fallback order.
+- Red team: rounds 1, 2 and a final round run; none fully clean; open items listed in REDTEAM_LOG.md.
+- Not done: human error review (no counts), 12 of the 15 target real forms, an unattended weekly run record, a public link for the film.
+- Test counts are not generated: at the last run 78 backend and 2 MCP tests passed; browser checks were 71 at the last full run.
+
 ## Standing rules (from Kinnoski, apply to every phase)
 - All files and folders live inside `AFTERSONG/`.
 - Nothing about other entries appears in committed code, UI, README or docs. Study material stays in `reference/` (gitignored). `scripts/check-clean.mjs` enforces this from `reference/blocked-terms.txt`, in the pre-commit hook.
@@ -26,7 +34,7 @@ What the live run changed (each now a rule with a test):
 - Food abstains when no nearby place carries the hometown cuisine tag, instead of showing an unrelated place.
 - The abstention preset uses birth year 1900: even 1925 still returned a full card. Abstention happens per domain.
 
-First measured results (2026-10-29, curated forms only): FINDINGS.md F1 to F5 are generated and docs/FACTS.json is filled for the Aftersong arm. The plain AI arm ran on 2026-10-30 for all 15 curated forms with Gemini, see EVIDENCE.md.
+First measured results (2026-10-29, curated forms only): FINDINGS.md F1 to F5 are generated and docs/FACTS.json is filled for the Aftersong arm. The plain AI arm ran on 2026-10-30 for all 15 curated forms with Groq gpt-oss-120b, see EVIDENCE.md.
 
 Not done:
 - `scripts/probe-matrix.mjs` and `scripts/eval.mjs` have not been run. They refuse until `docs/PREREG.md` and `data/eval/PREREG.sha256.json` are committed (commit them first, then run). FACTS.json, FINDINGS.md and the landing discovery sentence stay empty until then.
@@ -132,6 +140,6 @@ Open:
 - Red team round 2 and a final round run against the live site; fixes and open items are in REDTEAM_LOG.md. Fixed here: proxy path traversal, stale evidence lines, openers must be real questions that name the item, unsuitable tags hidden, validation before a build credit.
 - Model reliability: a free-tier model id (":free") is now tried after any credited key; model notes on cards no longer carry provider error text (it goes to the server log).
 - Sample cards: all five are built with the live model and Qloo, saved, and open at once with a "Saved card, built <date>" line and a "Rebuild live" button. A GitHub Actions job pings the Render backend every ten minutes to keep it warm. deploy-check passes on the web app and the backend.
-- Harness equivalence check run with @qloo/qloo-harness 0.1.26 on our key: same top entity for a lookup, 10 of 10 recommended ids shared. Recorded in SDK_SURFACE.md and PLATFORM_PROBE.md; the surface table has no empty Status cell.
+- Harness equivalence check run with @qloo/qloo-harness 0.1.26 on our key: one lookup and one recommendation; our top entity and all 10 of our ids were among the harness results (order not compared). Recorded in SDK_SURFACE.md and PLATFORM_PROBE.md; the surface table has no empty Status cell.
 - README: the measured block says the wild set is not run yet; a line explains that links cross domains.
 - Demo film built in reference/video (gitignored): 1920x1080, 170 s, about 40 MB, voice about 2:40. Not yet uploaded; the README Video row stays "not recorded yet" until a public link exists.
