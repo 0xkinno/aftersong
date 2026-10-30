@@ -5,7 +5,7 @@ skeptic), run on the deployed URL only, using the prompt in V5 Appendix B. Fix, 
 round comes back clean.
 
 ## Status
-Round 1 run on 2026-10-29 against https://aftersong.vercel.app, five fresh judge agents, one role each. Round 1 was not clean. Fixes are listed below; Round 2 was run on 2026-10-30 and was not clean either; see below.
+Round 1 run on 2026-10-29 against https://aftersong.vercel.app, five fresh judge agents, one role each. Round 1 was not clean. Fixes are listed below; Round 2 and a final round were run on 2026-10-30; neither was fully clean. The final round's open items are listed at the end, and no further round is planned before submission.
 
 ## Round template
 | Round | Date | Role | Scores (1 to 5 per criterion) | Defects found | Fixes | Re-score |
@@ -54,3 +54,20 @@ Open after round 2 (not fixed before submission):
 - Pages show Loading for a few seconds before data arrives; /sample has no saved card, the saved card is on /compare.
 - Explainability response shape is read heuristically; filter.location is not used.
 - Human error review was not carried out; the 12 missing real forms are planned after submission.
+
+## Final round (2026-10-30, against https://aftersong.vercel.app after the round 2 fixes)
+Five fresh judges again. Defects found and fixed the same day:
+- Web proxy let a path with encoded dot segments reach backend routes that were not on the allowlist (for example `/api/sample/%2e%2e/health`). The proxy now rejects dot segments and odd characters; both example paths return 404 on the deployed app.
+- EVIDENCE.md named Gemini as the plain AI model; the run file records Groq `openai/gpt-oss-120b`. The text now names the recorded model, and says the eval was re-run once after partial results.
+- Stale lines (6 forms, test counts, "no date or length supplied") corrected.
+- A request that failed validation still used a build credit; validation now comes first.
+- Unsuitable Qloo tags (for example sexual or violent themes) are dropped from cards.
+- Opener lines must now be questions of six words or more that name the item, and the model is asked for a warm 7 to 16 word question. The five saved sample cards were rebuilt: all 35 items carry model-written lines.
+- Method and landing text no longer say Qloo never sees names; the typed favourite and place name go to search once so a match can be confirmed.
+- The proxy claim in the submission about the 55 and older audience now says it is today's audience and a proxy.
+Open after the final round (disclosed, not fixed):
+- The plain AI comparison is internal: authors' forms, authors' checker, one model, and a connection rule a plain list cannot meet.
+- Live builds are capped per visitor and per day, and the limiter is in memory; a judge may meet the cap, and the saved sample card is always shown.
+- Pages show Loading for a few seconds before data arrives.
+- Free text typed into the try form reaches Qloo search; the filter is light.
+- The fault switch result on /judge is a recorded offline run.
