@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-30T21:01:11.592Z",
+  "harnessVersion": "0.1.26",
+  "resolve": {
+    "ourTopId": "present",
+    "harnessReturnedIds": 6,
+    "sameTopId": true
+  },
+  "recommend": {
+    "ours": 10,
+    "harness": 12,
+    "shared": 10,
+    "sharePct": 100
+  }
+}

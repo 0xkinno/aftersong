@@ -39,10 +39,10 @@ const harnessCell = hc
     ].join(" ")
   : "0.1.26, equivalence check written (scripts/harness-check.mjs), not yet run";
 const MODEL = [
-  ["Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback)", "backend/src/agent/model.ts", "export function modelFromEnv"],
-  ["Tool-calling loop with five tools and a write_openers channel", "backend/src/agent/agent.ts", "export const TOOLS"],
-  ["Fault switch", "backend/src/agent/agent.ts", "function sabotageReply"],
-  ["Opener filter (invariant 5)", "backend/src/core/openers.ts", "export function openerViolations"],
+  ["Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback)", "backend/src/agent/model.ts", "export function modelFromEnv", "Not a Qloo call. A free-tier model id is tried after any credited key"],
+  ["Tool-calling loop with five tools and a write_openers channel", "backend/src/agent/agent.ts", "export const TOOLS", "Not a Qloo call. The agent picks tools; rules in code decide the card"],
+  ["Fault switch", "backend/src/agent/agent.ts", "function sabotageReply", "Not a Qloo call. Lets a model try an off-card line so the filter can be shown"],
+  ["Opener filter (invariant 5)", "backend/src/core/openers.ts", "export function openerViolations", "Not a Qloo call. Blocks names Qloo returned elsewhere and listed health claims"],
 ];
 
 const line = (file, pat) => {
@@ -59,7 +59,7 @@ const rows = FEATURES.map(([f, file, pat, pid, note]) => {
   const status = pid ? (r ? (r.ok ? `live, probed ${probe.at.slice(0, 10)}` : `built, probe failed: ${r.note}`) : "built, not yet called on a live key") : "built in code";
   return `| ${f} | [${file}:${line(file, pat)}](${file}#L${line(file, pat)}) | ${status} | ${note} |`;
 }).join("\n");
-const mrows = MODEL.map(([f, file, pat]) => `| ${f} | [${file}:${line(file, pat)}](${file}#L${line(file, pat)}) |`).join("\n");
+const mrows = MODEL.map(([f, file, pat, note]) => `| ${f} | [${file}:${line(file, pat)}](${file}#L${line(file, pat)}) | built in code | ${note} |`).join("\n");
 
 const md = `# SDK_SURFACE.md
 
@@ -82,8 +82,8 @@ Status says "live" only when \`docs/probe-summary.json\` shows the matching prob
 ${rows}
 
 ## Agent and model
-| Piece | Call site |
-|---|---|
+| Piece | Call site | Status | Note |
+|---|---|---|---|
 ${mrows}
 
 ## Not used, so not claimed

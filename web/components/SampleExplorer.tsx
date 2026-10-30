@@ -38,12 +38,12 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
       .catch(() => setCard(null));
   }, [id]);
 
-  const build = useCallback(async () => {
+  const build = useCallback(async (rebuild = false) => {
     setRunning(true);
     setError(null);
     setTrail([]);
     try {
-      const r = await streamCard(`/sample/residents/${id}/card`, {}, false, { onTrail: (e) => setTrail((t) => [...t, e]) });
+      const r = await streamCard(`/sample/residents/${id}/card`, rebuild ? { rebuild: true } : {}, false, { onTrail: (e) => setTrail((t) => [...t, e]) });
       setCard(r.card);
     } catch (e) {
       setError((e as Error).message);
@@ -58,7 +58,7 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
     <div className="wrap py-10">
       <p className="kicker no-print">Sample</p>
       <h1 className="text-40 md:text-64 no-print">Try a sample resident</h1>
-      <p className="mt-3 max-w-2xl text-ink-2 no-print">These residents are samples, shown with their intake and no personal data. The cards are built by the real agent from real Qloo results. Nothing here is saved.</p>
+      <p className="mt-3 max-w-2xl text-ink-2 no-print">These residents are samples, shown with their intake and no personal data. The cards are built by the real agent from real Qloo results and saved, so they open at once. Nothing a visitor does here is stored.</p>
 
       {loading && <p className="mt-8 text-ink-2">Loading</p>}
       {error && <p role="alert" className="card p-4 mt-6" style={{ color: "var(--clay-text)" }}>{error}</p>}
@@ -79,7 +79,9 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
               </div>
             )}
             <div className="mt-4 grid gap-3">
-              {!card && <button className="btn btn-primary" disabled={running} onClick={build}>{running ? "Building" : "Build this card live"}</button>}
+              {!card && <button className="btn btn-primary" disabled={running} onClick={() => build()}>{running ? "Building" : "Build this card live"}</button>}
+              {card && <p className="text-14 text-ink-2">Saved card, built {card.createdAt.slice(0, 10)} with the live model and Qloo. It opens at once.</p>}
+              {card && <button className="btn" disabled={running} onClick={() => build(true)}>{running ? "Building" : "Rebuild live"}</button>}
               <p className="text-12 text-ink-2">Live builds are limited per visitor and per day so the public link cannot spend the Qloo quota.</p>
               {card && <a className="btn" href={`/sample/${id}/session`}>Run the session on a phone</a>}
               {card && <a className="btn" href={`/compare?r=${id}`}>Compare with a plain AI list</a>}
@@ -89,6 +91,7 @@ export default function SampleExplorer({ initialId = "sample-walter" }: { initia
           <div>
             {(running || trail.length > 0) && <div className="mb-6 no-print"><BuildTrail events={trail.length ? trail : card?.trail ?? []} running={running} /></div>}
             {card && <CardView card={card} sample residentName={r?.firstName} />}
+            {card && <p className="mt-4 text-14 text-ink-2 no-print">Links cross domains: a film favourite can lead to a musician, and a hometown to a place. Each item names the favourite it came from.</p>}
             {!card && !running && !error && <p className="card p-6 text-ink-2">No saved card for this sample yet. Build it live to see the agent work.</p>}
           </div>
         </div>

@@ -73,7 +73,7 @@ review in both directions is planned after submission:
 - Qloo's popularity is a percentile: nearly every older artist and film it returns is above 0.97. "Widely known" is therefore the top quarter of each pool, not a fixed number.
 - A search for a nonsense name still returns five near names, so "not found" means "no exact name", and nothing is used until a carer confirms.
 - Qloo has no year filter for artists. How music years are obtained is decided by the probe and recorded in `PLATFORM_PROBE.md`.
-- The harness was not used; see `SPONSOR_INTEL.md` for the reason.
+- The harness is not used by the product (see `SPONSOR_INTEL.md` for the reason). It was run once as an equivalence check on 2026-10-30: same top entity for a lookup, and 10 of 10 of our recommended ids also returned by the harness. See `PLATFORM_PROBE.md`.
 - Carer sign-in and saved residents were tested with a stand-in sign-in and an in-memory store; they are untested against Supabase until a project is connected.
 - Three older participants are recorded, from a one hour session on 2026-10-29, with no measured outcome. See Real session.
 

@@ -60,7 +60,8 @@ export async function runGroupAgent(deps: { model: Model | null }, residents: Gr
       }
     } catch (e) {
       if ((e as { name?: string }).name === "QlooError") throw e;
-      modelNote = `The model was unavailable (${(e as Error).message}). The room was planned for everyone listed.`;
+      console.error(`[model] unavailable: ${(e as Error).message}`);
+      modelNote = "The model was unavailable, so the room was planned for everyone listed.";
       note("agent", modelNote);
     }
     if (!result) {

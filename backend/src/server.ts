@@ -116,7 +116,7 @@ async function sampleCard(c: Ctx, id: string, emit?: (e: unknown) => void) {
   const r = await store.get<Resident>("residents", id);
   if (!r || !r.isSample) throw new HttpError(404, "No such sample resident.");
   const cached = (await store.list<SessionCard>("cards", { residentId: id })).pop();
-  if (cached) return { card: cached, modelNote: null, cached: true };
+  if (cached && c.body?.rebuild !== true) return { card: cached, modelNote: null, cached: true };
   const t = limiter.take(c.ip);
   if (!t.ok) throw new HttpError(429, t.reason);
   const out = await svc.buildCard(id, { actor: "sample", onEvent: emit ? (e) => emit({ type: "trail", ...e }) : undefined });

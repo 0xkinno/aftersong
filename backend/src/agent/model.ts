@@ -250,7 +250,11 @@ export function modelFromEnv(env: ModelEnv): Model | null {
     const m = one(name, env, own(name) ?? (p ? undefined : env.MODEL_ID));
     if (m) rest.push(m);
   }
-  const all = primary ? [primary, ...rest] : rest;
+  // a free-tier id (for example ":free" on OpenRouter) hits daily limits, so any credited key goes first and the free model only backs up
+  const freeTier = !!primary && /:free$/i.test(env.MODEL_ID ?? "");
+  const credited = rest.filter((m) => m.provider !== "openrouter" && m.provider !== "nvidia");
+  const others = rest.filter((m) => !credited.includes(m));
+  const all = primary ? (freeTier && credited.length ? [...credited, primary, ...others] : [primary, ...rest]) : rest;
   if (!all.length) return null;
   return all.length === 1 ? all[0] : withFallback(all);
 }

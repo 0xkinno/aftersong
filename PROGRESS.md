@@ -31,7 +31,7 @@ First measured results (2026-10-29, curated forms only): FINDINGS.md F1 to F5 ar
 Not done:
 - `scripts/probe-matrix.mjs` and `scripts/eval.mjs` have not been run. They refuse until `docs/PREREG.md` and `data/eval/PREREG.sha256.json` are committed (commit them first, then run). FACTS.json, FINDINGS.md and the landing discovery sentence stay empty until then.
 - No Vercel production deploy, and no Render service. The backend is a separate Node service (see the architecture note in the session report).
-- harness-check.mjs is written and not run.
+- harness-check.mjs was written first and run on 2026-10-30 (see Session 7).
 - Three older participants recorded on 2026-10-29 (see Session 5); session on 2026-10-29, 1 hour, no measured outcome.
 
 ## Where things stood after session 2, 2026-10-28
@@ -114,9 +114,9 @@ Open:
 - Real-world forms: 3 of 15 recorded, 12 short. Their intake details are not in the repo, so the wild eval set is still 0 forms.
 - Human error review: not carried out before submission; no counts exist. Both directions stay "not recorded". The plain AI false positive rate stays unmeasured.
 - Session date 2026-10-29, length 1 hour (supplied by the project lead).
-- Plain AI arm: needs a working fallback model. The backend `/status` model check reported `gemini 404: error` on 2026-10-29, so the Gemini model id on Render needs checking.
-- `BACKEND_URL` in Vercel still has to point at the Render service, then a redeploy.
-- Groq and Gemini key values were not present in `.env` or `.env.example` on disk when checked.
+- Plain AI arm: done on 2026-10-30, see Session 7.
+- `BACKEND_URL` in Vercel points at the Render service (done).
+- Groq and Gemini keys are now in `.env` (gitignored).
 
 ## Session 6, 2026-10-29 to 2026-10-30
 - Model fix: Gemini and Groq ids were retired. The adapters now ask the provider which models the key can use and try the best few; each model has its own time limit; the fallback that answered is reused for ten minutes. `/status` reports the model as working (gemini-3.6-flash).
@@ -124,3 +124,14 @@ Open:
 - Live end-to-end walk with Playwright Chromium on https://aftersong.vercel.app: `web/e2e-live/live.spec.ts`, 9 of 9 pass. The compare button hit the per-visitor cap in the browser after earlier runs, so the plain AI run was also checked once through the backend with a fresh visitor id (it ran and applied the rules).
 - Red team round 1 (five judges) run; see REDTEAM_LOG.md. Round 2 not run.
 - Participant notes updated: OP-01 easy, OP-02 small early difficulties, OP-03 confused at first and understood by day two. Still open: human error review counts, session date and length, plain AI arm in the eval, 12 more forms.
+
+## Session 7, 2026-10-30
+- Plain AI comparison ran on all 15 curated forms with one model (recorded in docs/eval-summary.json as Groq openai/gpt-oss-120b). Internal comparison: authors' forms, authors' checker.
+- Session recorded as 2026-10-29, 1 hour. Human error review not carried out; no counts. 12 more real forms left for after submission.
+- Planning files moved to the gitignored reference/planning folder.
+- Red team round 2 and a final round run against the live site; fixes and open items are in REDTEAM_LOG.md. Fixed here: proxy path traversal, stale evidence lines, openers must be real questions that name the item, unsuitable tags hidden, validation before a build credit.
+- Model reliability: a free-tier model id (":free") is now tried after any credited key; model notes on cards no longer carry provider error text (it goes to the server log).
+- Sample cards: all five are built with the live model and Qloo, saved, and open at once with a "Saved card, built <date>" line and a "Rebuild live" button. A GitHub Actions job pings the Render backend every ten minutes to keep it warm. deploy-check passes on the web app and the backend.
+- Harness equivalence check run with @qloo/qloo-harness 0.1.26 on our key: same top entity for a lookup, 10 of 10 recommended ids shared. Recorded in SDK_SURFACE.md and PLATFORM_PROBE.md; the surface table has no empty Status cell.
+- README: the measured block says the wild set is not run yet; a line explains that links cross domains.
+- Demo film built in reference/video (gitignored): 1920x1080, 170 s, about 40 MB, voice about 2:40. Not yet uploaded; the README Video row stays "not recorded yet" until a public link exists.

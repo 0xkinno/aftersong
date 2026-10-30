@@ -7,7 +7,7 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Piece | Version |
 |---|---|
 | Qloo API | hackathon host, `https://hackathon.api.qloo.com`, no version string exposed |
-| Qloo harness (`@qloo/qloo-harness`) | 0.1.26, equivalence check written (scripts/harness-check.mjs), not yet run |
+| Qloo harness (`@qloo/qloo-harness`) | 0.1.26, run by scripts/harness-check.mjs on 2026-10-30. Resolve: same top entity id as our REST client. Recommend: 10 of 10 ids shared (100 percent). Production calls use REST for rate-limit reasons. |
 | Node | 22.19 or newer (type stripping) |
 | Next.js | ^15.5.0 |
 | React | ^19.0.0 |
@@ -38,12 +38,12 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Rate discipline | [backend/src/qloo/client.ts:51](backend/src/qloo/client.ts#L51) | built in code | 250 ms spacing, no retry on 429, de-duplication, daily cap |
 
 ## Agent and model
-| Piece | Call site |
-|---|---|
-| Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback) | [backend/src/agent/model.ts:241](backend/src/agent/model.ts#L241) |
-| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:59](backend/src/agent/agent.ts#L59) |
-| Fault switch | [backend/src/agent/agent.ts:309](backend/src/agent/agent.ts#L309) |
-| Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) |
+| Piece | Call site | Status | Note |
+|---|---|---|---|
+| Model adapters (Anthropic, OpenRouter, NVIDIA, Groq, Gemini over HTTP, with fallback) | [backend/src/agent/model.ts:241](backend/src/agent/model.ts#L241) | built in code | Not a Qloo call. A free-tier model id is tried after any credited key |
+| Tool-calling loop with five tools and a write_openers channel | [backend/src/agent/agent.ts:59](backend/src/agent/agent.ts#L59) | built in code | Not a Qloo call. The agent picks tools; rules in code decide the card |
+| Fault switch | [backend/src/agent/agent.ts:310](backend/src/agent/agent.ts#L310) | built in code | Not a Qloo call. Lets a model try an off-card line so the filter can be shown |
+| Opener filter (invariant 5) | [backend/src/core/openers.ts:15](backend/src/core/openers.ts#L15) | built in code | Not a Qloo call. Blocks names Qloo returned elsewhere and listed health claims |
 
 ## Not used, so not claimed
 - The Qloo harness in production. It is used only for the equivalence check above. Reason: the event rate limit and our own spacing, caching and request allowlist are easier to enforce on direct calls. See SPONSOR_INTEL.md.

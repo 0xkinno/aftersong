@@ -23,8 +23,12 @@ test("groq and gemini need only a key, and back up the primary", () => {
   assert.equal(g?.provider, "groq");
   assert.equal(g?.id, "llama-3.3-70b-versatile");
   const both = modelFromEnv({ MODEL_PROVIDER: "openrouter", MODEL_ID: "x/y:free", OPENROUTER_API_KEY: "k", GROQ_API_KEY: "k", GEMINI_API_KEY: "k" });
-  assert.equal(both?.provider, "openrouter");
-  assert.equal(both?.id, "x/y:free");
+  // a free-tier id is demoted: a credited key answers first
+  assert.equal(both?.provider, "groq");
+  const paid = modelFromEnv({ MODEL_PROVIDER: "openrouter", MODEL_ID: "x/y", OPENROUTER_API_KEY: "k", GROQ_API_KEY: "k" });
+  assert.equal(paid?.provider, "openrouter");
+  assert.equal(paid?.id, "x/y");
+  assert.equal(modelFromEnv({ MODEL_PROVIDER: "openrouter", MODEL_ID: "x/y:free", OPENROUTER_API_KEY: "k" })?.id, "x/y:free");
   const gem = modelFromEnv({ MODEL_PROVIDER: "gemini", GEMINI_API_KEY: "k" });
   assert.equal(gem?.id, "gemini-2.5-flash");
 });

@@ -1,0 +1,12 @@
+name: Keep the backend warm
+# The Render service sleeps when idle; a short ping every ten minutes keeps /health answering quickly.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the backend health endpoint
+        run: curl -fsS --max-time 60 https://aftersong-backend.onrender.com/health

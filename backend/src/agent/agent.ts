@@ -266,7 +266,8 @@ export async function runCardAgent(deps: AgentDeps, input: { resident: Resident;
         }
       } catch (e) {
         if ((e as { name?: string }).name === "QlooError") throw e;
-        modelNote = `The model was unavailable (${asText(e)}). Remaining steps ran in fixed order with template openers.`;
+        console.error(`[model] unavailable: ${asText(e)}`);
+        modelNote = "The model was unavailable, so openers are labelled template lines.";
         emit("agent", modelNote);
       }
       if (!state.card) {

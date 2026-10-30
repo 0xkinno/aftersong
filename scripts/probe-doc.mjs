@@ -5,6 +5,16 @@ const s = JSON.parse(readFileSync("docs/probe-summary.json", "utf8"));
 const notes = existsSync("docs/probe-notes.md") ? readFileSync("docs/probe-notes.md", "utf8") : "";
 const rows = s.results.map((r) => `| \`${r.id}\` | ${r.what} | ${r.ok ? "worked" : "failed"} | ${(r.note ?? "").replace(/\|/g, "/")} |`).join("\n");
 const failed = s.results.filter((r) => !r.ok).length;
+const h = existsSync("docs/harness-check.json") ? JSON.parse(readFileSync("docs/harness-check.json", "utf8")) : null;
+const harness = h
+  ? `## Harness equivalence check
+
+Run on ${h.at.slice(0, 10)} with the sponsor harness (@qloo/qloo-harness ${h.harnessVersion}) on our own key, against ${s.host}, by scripts/harness-check.mjs. Resolve: ${h.resolve?.sameTopId ? "the harness and our REST client return the same top entity id for Sam Cooke" : "no match"}. Recommend: ${h.recommend?.shared ?? 0} of our ${h.recommend?.ours ?? 0} ids were also returned by the harness (${h.recommend?.sharePct ?? 0} percent). The product still calls the REST API directly, for the rate limit, spacing and allowlist.
+`
+  : `## Harness equivalence check
+
+Not run.
+`;
 writeFileSync(
   "PLATFORM_PROBE.md",
   `# PLATFORM_PROBE.md (Gate G5)
@@ -24,8 +34,9 @@ ${rows}
 Rate headers seen: ${JSON.stringify(s.rateHeaders)}
 
 ${notes}
+${harness}
 ## Not probed
-Harness MCP tools (used only for the equivalence check, see SDK_SURFACE.md), books, podcasts, brands, video games. \`/v2/trending\` answered but is not used by the product.
+Harness MCP tools (the equivalence check is above), books, podcasts, brands, video games. \`/v2/trending\` answered but is not used by the product.
 `,
 );
 console.log("wrote PLATFORM_PROBE.md");

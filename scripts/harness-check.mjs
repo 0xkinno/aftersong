@@ -20,7 +20,7 @@ if (!existsSync(BIN)) {
 const version = JSON.parse(execFileSync(process.execPath, ["-e", `console.log(JSON.stringify(require("./${DIR}/node_modules/@qloo/qloo-harness/package.json")))`], { encoding: "utf8" })).version;
 
 const exec = (op, input) => {
-  const out = execFileSync(process.execPath, [BIN, "exec", op, "--input", JSON.stringify(input)], { encoding: "utf8", env: { ...process.env, QLOO_HOME: `${process.cwd()}/${DIR}/home` }, timeout: 90000 });
+  const out = execFileSync(process.execPath, [BIN, "exec", op, "--input", JSON.stringify(input)], { encoding: "utf8", env: { ...process.env, QLOO_HOME: `${process.cwd()}/${DIR}/home`, QLOO_BASE_URL: process.env.QLOO_HOST || "https://hackathon.api.qloo.com", QLOO_TRUSTED_BASE_URL: process.env.QLOO_HOST || "https://hackathon.api.qloo.com" }, timeout: 90000 });
   return JSON.parse(out);
 };
 const UUID = /[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/gi;
@@ -33,7 +33,7 @@ const result = { at: new Date().toISOString(), harnessVersion: version, resolve:
 const ours = await client.search("Sam Cooke", "urn:entity:artist", 5);
 const ourTop = ours.entities[0]?.id?.toLowerCase() ?? null;
 try {
-  const h = exec("describe", { entity: "Sam Cooke", type: "urn:entity:artist" });
+  const h = exec("describe", { entity: "Sam Cooke", type: "artist" });
   const hIds = ids(h);
   result.resolve = { ourTopId: ourTop ? "present" : null, harnessReturnedIds: hIds.size, sameTopId: ourTop ? hIds.has(ourTop) : false };
 } catch (e) {
@@ -46,7 +46,7 @@ try {
   const filmId = film.entities[0]?.id;
   const mine = await client.insights({ "filter.type": "urn:entity:movie", "signal.interests.entities": filmId, take: 10 });
   const mineIds = new Set(mine.entities.map((e) => e.id.toLowerCase()));
-  const h = exec("recommend", { target_type: "urn:entity:movie", signals: [filmId], limit: 10 });
+  const h = exec("recommend", { target_type: "movie", signals: [filmId], limit: 10, explain: false });
   const hIds = ids(h);
   const overlap = [...mineIds].filter((x) => hIds.has(x)).length;
   result.recommend = { ours: mineIds.size, harness: hIds.size, shared: overlap, sharePct: mineIds.size ? Math.round((overlap / mineIds.size) * 100) : null };

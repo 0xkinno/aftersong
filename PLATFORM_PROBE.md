@@ -55,5 +55,9 @@ own key. Each one is now a rule in code with a test (`backend/test/phase8.test.t
 13. **A nonsense name still returns near names.** Searching a made-up string returned 5 results, none with that name. "Not found" therefore means "no exact name", and nothing is used until a carer confirms one.
 14. **Food can honestly come back empty.** Places near San Antonio carrying a West African cuisine tag were not found in the first live card, so the food slot abstained instead of showing an unrelated place.
 
+## Harness equivalence check
+
+Run on 2026-10-30 with the sponsor harness (@qloo/qloo-harness 0.1.26) on our own key, against https://hackathon.api.qloo.com, by scripts/harness-check.mjs. Resolve: the harness and our REST client return the same top entity id for Sam Cooke. Recommend: 10 of our 10 ids were also returned by the harness (100 percent). The product still calls the REST API directly, for the rate limit, spacing and allowlist.
+
 ## Not probed
-Harness MCP tools (used only for the equivalence check, see SDK_SURFACE.md), books, podcasts, brands, video games. `/v2/trending` answered but is not used by the product.
+Harness MCP tools (the equivalence check is above), books, podcasts, brands, video games. `/v2/trending` answered but is not used by the product.
