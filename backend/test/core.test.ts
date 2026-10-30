@@ -197,3 +197,13 @@ test("Widely known is calibrated from the pool, because Qloo's popularity is a p
   assert.equal(labelFor(r(0.995)).label, "personal", "0.995 is not widely known when the pool's ceiling is 1.0");
   assert.equal(labelFor(r(1)).label, "widely_known");
 });
+
+test("a model line that is too short or not about the item is replaced by the template line", () => {
+  const item = { name: "Synthetic Singer", domain: "music" as const, year: 1960 };
+  const short = settleOpener(item, "Synthetic Singer?", ctx);
+  assert.equal(short.source, "template");
+  assert.ok(short.blocked?.includes("too_short"));
+  const other = settleOpener(item, "Did you ever hear Synthetic Film on the radio?", { ...ctx, allowedNames: [...ctx.allowedNames, "Synthetic Film"] });
+  assert.ok(other.blocked?.includes("not_about_item"));
+  assert.equal(settleOpener(item, "Does Synthetic Singer ring a bell from the fifties?", ctx).source, "model");
+});

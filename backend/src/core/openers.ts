@@ -58,6 +58,9 @@ export function settleOpener(item: Pick<CardItem, "name" | "domain" | "year">, m
   if (!modelText) return { text: templateOpener(item), source: "template" };
   const cleaned = stripForDisplay(modelText);
   const bad = openerViolations(cleaned, ctx);
+  // a line must be a real question about this item: its own name, at least four words
+  if (cleaned.split(/\s+/).length < 4) bad.push("too_short");
+  if (!mentions(cleaned, item.name)) bad.push("not_about_item");
   if (bad.length === 0) return { text: cleaned, source: "model" };
   return { text: templateOpener(item), source: "template", blocked: bad };
 }
