@@ -2,10 +2,10 @@
   "generatedFrom": {
     "eval": {
       "file": "docs/eval-summary.json",
-      "runAt": "2026-10-30T05:31:16.100Z",
+      "runAt": "2026-10-30T15:46:19.898Z",
       "model": {
-        "provider": "openrouter",
-        "id": "nvidia/nemotron-3.5-super-vl:free"
+        "provider": "groq",
+        "id": "openai/gpt-oss-120b"
       },
       "prereg": {
         "note": "SHA-256 of the pre-registered eval inputs. Commit this file before any eval run.",
@@ -22,36 +22,36 @@
   "note": "Aftersong's own era-fit and connection rates are enforced by rules in code, so they are 100 percent by construction and are not reported as results. The measured comparison is the plain AI list, run through the same rules, three runs per form.",
   "curated": {
     "forms": 15,
-    "cardsBuilt": 6,
+    "cardsBuilt": 15,
     "cardsThin": 0,
-    "errors": 9,
-    "aftersongItems": 44,
-    "personalRatePct": 50,
-    "widelyKnownRatePct": 27.3,
+    "errors": 0,
+    "aftersongItems": 109,
+    "personalRatePct": 54.1,
+    "widelyKnownRatePct": 26.6,
     "commonItemsPct": 0,
     "plainRunsPerForm": 3,
-    "plainAiItems": 144,
-    "plainAiPassingRulesPct": 33.3,
-    "plainAiOutsideYearsPct": 35.4,
-    "plainAiNotInQlooPct": 13.9,
-    "plainAiNotConnectedPct": 37.5,
-    "plainAiWidelyKnownPct": 42.4,
-    "plainAiDistinctItemsPerForm": 13,
-    "plainAiItemsInEveryRunPct": 33.8,
-    "aftersongItemsAlsoSuggestedByPlainPct": 2.3,
-    "personalItemsPerCardAftersong": 3.7,
-    "personalItemsPerRunPlainAi": 1.7,
+    "plainAiItems": 360,
+    "plainAiPassingRulesPct": 31.4,
+    "plainAiOutsideYearsPct": 33.3,
+    "plainAiNotInQlooPct": 21.1,
+    "plainAiNotConnectedPct": 30.8,
+    "plainAiWidelyKnownPct": 41.9,
+    "plainAiDistinctItemsPerForm": 16.5,
+    "plainAiItemsInEveryRunPct": 12.6,
+    "aftersongItemsAlsoSuggestedByPlainPct": 9.2,
+    "personalItemsPerCardAftersong": 3.9,
+    "personalItemsPerRunPlainAi": 1.4,
     "signTestPersonalPerCard": {
-      "n": 6,
-      "positive": 6,
+      "n": 15,
+      "positive": 15,
       "negative": 0,
       "ties": 0,
-      "p": 0.031250000000000014,
+      "p": 0.00006103515625000003,
       "verdict": "significant at 0.05"
     },
-    "meanLiveQlooCallsPerCard": 16,
-    "meanBuildSeconds": 149.6,
-    "meanTokensPerCard": 6974.3
+    "meanLiveQlooCallsPerCard": 15.7,
+    "meanBuildSeconds": 56.9,
+    "meanTokensPerCard": 6840.3
   },
   "wild": {
     "forms": 0,
@@ -434,60 +434,5 @@
     "humanReview": null,
     "humanReviewNote": "No human error review was carried out before submission. No counts exist, and none are claimed."
   },
-  "misses": [
-    {
-      "id": "c07",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    },
-    {
-      "id": "c08",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    },
-    {
-      "id": "c09",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    },
-    {
-      "id": "c10",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    },
-    {
-      "id": "c11",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    },
-    {
-      "id": "c12",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    },
-    {
-      "id": "c13",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    },
-    {
-      "id": "c14",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    },
-    {
-      "id": "c15",
-      "set": "curated",
-      "status": "error",
-      "reason": "ModelError"
-    }
-  ]
+  "misses": []
 }

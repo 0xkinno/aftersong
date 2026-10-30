@@ -1,8 +1,8 @@
 {
- "runAt": "2026-10-30T05:31:16.100Z",
+ "runAt": "2026-10-30T15:46:19.898Z",
  "model": {
-  "provider": "openrouter",
-  "id": "nvidia/nemotron-3.5-super-vl:free"
+  "provider": "groq",
+  "id": "openai/gpt-oss-120b"
  },
  "plainRunsPerForm": 3,
  "prereg": {
@@ -31,108 +31,108 @@
     "7d6b4f9c8e"
    ],
    "liveCalls": 16,
-   "ms": 99911,
-   "tokens": 10645,
+   "ms": 67271,
+   "tokens": 7589,
    "plainRuns": [
     {
      "summary": {
       "total": 8,
-      "passing": 4,
-      "outsideWindow": 3,
+      "passing": 5,
+      "outsideWindow": 2,
       "notInQloo": 1,
-      "notConnected": 2,
-      "widelyKnown": 6
+      "notConnected": 0,
+      "widelyKnown": 3
      },
-     "passNotKnown": 1,
+     "passNotKnown": 3,
      "itemHashes": [
-      "e439cec059",
-      "8764f0de2c",
-      "db59be6640",
-      "fbc7c47456",
-      "57e00dcc6e",
-      "caea5d8cf3",
-      "20b0acdb18"
-     ],
-     "nameHashes": [
-      "9fa90cfc6f",
-      "ddb161ef28",
-      "c4e49b2a3d",
-      "a1c1923041",
-      "c6e2f98103",
-      "c7b436a25e",
-      "b16ceb3f33",
-      "a87b69f444"
-     ],
-     "usage": {
-      "inputTokens": 158,
-      "outputTokens": 3407
-     }
-    },
-    {
-     "summary": {
-      "total": 8,
-      "passing": 4,
-      "outsideWindow": 3,
-      "notInQloo": 1,
-      "notConnected": 2,
-      "widelyKnown": 5
-     },
-     "passNotKnown": 1,
-     "itemHashes": [
-      "e439cec059",
-      "8764f0de2c",
-      "db59be6640",
+      "09b54c538d",
+      "e4d9f2d9f2",
       "fbc7c47456",
       "6ce1008c30",
-      "caea5d8cf3",
-      "e95cbd780b"
+      "57e00dcc6e",
+      "78700f2442",
+      "8e31448c9d"
+     ],
+     "nameHashes": [
+      "97d59a0f57",
+      "0f4bce2255",
+      "a1c1923041",
+      "7873fff1f3",
+      "c6e2f98103",
+      "daaf75625d",
+      "ee3402adf1",
+      "cf42819781"
+     ],
+     "usage": {
+      "inputTokens": 210,
+      "outputTokens": 923
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 3,
+      "notInQloo": 3,
+      "notConnected": 2,
+      "widelyKnown": 4
+     },
+     "passNotKnown": 0,
+     "itemHashes": [
+      "e439cec059",
+      "463e72fa6d",
+      "8764f0de2c",
+      "db59be6640",
+      "1a04323cb0"
      ],
      "nameHashes": [
       "9fa90cfc6f",
+      "0b87afdbf6",
       "ddb161ef28",
       "c4e49b2a3d",
-      "a1c1923041",
-      "7873fff1f3",
-      "c7b436a25e",
-      "b16ceb3f33",
-      "15660fdfca"
+      "5340a33bb9",
+      "99902cb310",
+      "ff2b499b04",
+      "ce5ebcb313"
      ],
      "usage": {
-      "inputTokens": 158,
-      "outputTokens": 2366
+      "inputTokens": 210,
+      "outputTokens": 954
      }
     },
     {
      "summary": {
       "total": 8,
       "passing": 4,
-      "outsideWindow": 2,
-      "notInQloo": 2,
-      "notConnected": 2,
-      "widelyKnown": 5
+      "outsideWindow": 3,
+      "notInQloo": 0,
+      "notConnected": 3,
+      "widelyKnown": 4
      },
-     "passNotKnown": 1,
+     "passNotKnown": 3,
      "itemHashes": [
       "e439cec059",
       "8764f0de2c",
       "db59be6640",
-      "1a04323cb0",
-      "fbc7c47456",
-      "57e00dcc6e"
+      "09b54c538d",
+      "b55adbaf08",
+      "7ea810d512",
+      "57e00dcc6e",
+      "d54fd24f72"
      ],
      "nameHashes": [
       "9fa90cfc6f",
       "ddb161ef28",
       "c4e49b2a3d",
-      "c7b436a25e",
-      "ce5ebcb313",
-      "a1c1923041",
+      "97d59a0f57",
+      "561c1e3ecf",
+      "a2470c9d13",
       "c6e2f98103",
-      "8cafc0978a"
+      "4ae374b6fc"
      ],
      "usage": {
-      "inputTokens": 158,
-      "outputTokens": 1692
+      "inputTokens": 210,
+      "outputTokens": 896
      }
     }
    ]
@@ -157,42 +157,9 @@
     "a72f141ab2"
    ],
    "liveCalls": 16,
-   "ms": 195457,
-   "tokens": 5712,
+   "ms": 38748,
+   "tokens": 4384,
    "plainRuns": [
-    {
-     "summary": {
-      "total": 8,
-      "passing": 3,
-      "outsideWindow": 2,
-      "notInQloo": 2,
-      "notConnected": 3,
-      "widelyKnown": 1
-     },
-     "passNotKnown": 3,
-     "itemHashes": [
-      "29be749842",
-      "f429c0ed11",
-      "45682ef90e",
-      "06abf1b66e",
-      "ac400b979a",
-      "57e00dcc6e"
-     ],
-     "nameHashes": [
-      "062bdfef83",
-      "0aa0466508",
-      "0741560cc1",
-      "12076629c9",
-      "a69f9ab5ec",
-      "c6e2f98103",
-      "0a6f978539",
-      "e0d7168fc3"
-     ],
-     "usage": {
-      "inputTokens": 161,
-      "outputTokens": 1986
-     }
-    },
     {
      "summary": {
       "total": 8,
@@ -206,57 +173,93 @@
      "itemHashes": [
       "29be749842",
       "f429c0ed11",
+      "45682ef90e",
       "06abf1b66e",
-      "ac400b979a",
       "57e00dcc6e",
-      "c68c72f30a"
+      "3ea0cd7edc"
      ],
      "nameHashes": [
       "062bdfef83",
       "0aa0466508",
+      "0741560cc1",
       "12076629c9",
-      "a69f9ab5ec",
       "c6e2f98103",
-      "bc96c86214",
-      "e0d7168fc3",
-      "95c6c2c95e"
+      "fbb1da4aff",
+      "0a6f978539",
+      "d001e0e920"
      ],
      "usage": {
-      "inputTokens": 161,
-      "outputTokens": 4247
+      "inputTokens": 213,
+      "outputTokens": 868
      }
     },
     {
      "summary": {
       "total": 8,
-      "passing": 2,
-      "outsideWindow": 3,
-      "notInQloo": 2,
-      "notConnected": 3,
-      "widelyKnown": 2
+      "passing": 4,
+      "outsideWindow": 2,
+      "notInQloo": 0,
+      "notConnected": 4,
+      "widelyKnown": 1
      },
-     "passNotKnown": 2,
+     "passNotKnown": 4,
      "itemHashes": [
       "29be749842",
       "f429c0ed11",
+      "45682ef90e",
       "06abf1b66e",
-      "ac400b979a",
+      "5316d8deda",
       "57e00dcc6e",
-      "ce2e48a140"
+      "3ea0cd7edc",
+      "3720835c0b"
      ],
      "nameHashes": [
       "062bdfef83",
       "0aa0466508",
+      "0741560cc1",
       "12076629c9",
-      "a69f9ab5ec",
+      "5beedfbc77",
       "c6e2f98103",
-      "0a6f978539",
-      "e0d7168fc3",
-      "a43a98d31d"
+      "fbb1da4aff",
+      "1cb87cb4b0"
      ],
      "usage": {
-      "inputTokens": 161,
-      "outputTokens": 2817
+      "inputTokens": 213,
+      "outputTokens": 817
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 2,
+      "notInQloo": 1,
+      "notConnected": 3,
+      "widelyKnown": 2
+     },
+     "passNotKnown": 3,
+     "itemHashes": [
+      "29be749842",
+      "f429c0ed11",
+      "45682ef90e",
+      "06abf1b66e",
+      "5316d8deda",
+      "7b30734269",
+      "89003fcfba"
+     ],
+     "nameHashes": [
+      "062bdfef83",
+      "0aa0466508",
+      "0741560cc1",
+      "12076629c9",
+      "5beedfbc77",
+      "310dbca7f4",
+      "0a6f978539",
+      "4f8b576b2e"
+     ],
+     "usage": {
+      "inputTokens": 213,
+      "outputTokens": 983
      }
     }
    ]
@@ -281,8 +284,8 @@
     "c692755ae6"
    ],
    "liveCalls": 16,
-   "ms": 102606,
-   "tokens": 6711,
+   "ms": 50186,
+   "tokens": 7870,
    "plainRuns": [
     {
      "summary": {
@@ -296,26 +299,61 @@
      "passNotKnown": 2,
      "itemHashes": [
       "d31efb76e3",
+      "f429c0ed11",
       "b580f2e6a7",
+      "1e8feaa33a",
       "6ce1008c30",
-      "2454a0f8d0",
-      "db59be6640",
-      "f52e9735b0",
-      "8764f0de2c"
+      "57e00dcc6e",
+      "6a759b411e"
      ],
      "nameHashes": [
       "c76c6e60c0",
+      "0aa0466508",
       "2e87581f77",
+      "3a4573eee1",
       "7873fff1f3",
-      "dd07d56b5f",
-      "c4e49b2a3d",
-      "a724581d28",
-      "8796009034",
-      "ddb161ef28"
+      "c6e2f98103",
+      "95a79235c2",
+      "53d85d5108"
      ],
      "usage": {
-      "inputTokens": 161,
-      "outputTokens": 2957
+      "inputTokens": 211,
+      "outputTokens": 848
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 4,
+      "notInQloo": 0,
+      "notConnected": 0,
+      "widelyKnown": 5
+     },
+     "passNotKnown": 2,
+     "itemHashes": [
+      "f429c0ed11",
+      "e4d9f2d9f2",
+      "1e8feaa33a",
+      "8764f0de2c",
+      "db59be6640",
+      "01df10b5e5",
+      "607a9f208b",
+      "0dd65c252c"
+     ],
+     "nameHashes": [
+      "0aa0466508",
+      "0f4bce2255",
+      "3a4573eee1",
+      "ddb161ef28",
+      "c4e49b2a3d",
+      "aa7d453c93",
+      "4efb3030d6",
+      "c0a82b4002"
+     ],
+     "usage": {
+      "inputTokens": 211,
+      "outputTokens": 923
      }
     },
     {
@@ -329,62 +367,27 @@
      },
      "passNotKnown": 1,
      "itemHashes": [
-      "2454a0f8d0",
       "d31efb76e3",
+      "2290624495",
       "b580f2e6a7",
       "1e8feaa33a",
       "6ce1008c30",
       "db59be6640",
-      "6a759b411e"
+      "5dbcb93d3b"
      ],
      "nameHashes": [
-      "dd07d56b5f",
       "c76c6e60c0",
+      "60a328bb10",
       "2e87581f77",
       "3a4573eee1",
       "7873fff1f3",
       "c4e49b2a3d",
-      "a724581d28",
-      "53d85d5108"
+      "95a79235c2",
+      "89ab005d1c"
      ],
      "usage": {
-      "inputTokens": 161,
-      "outputTokens": 3728
-     }
-    },
-    {
-     "summary": {
-      "total": 8,
-      "passing": 4,
-      "outsideWindow": 4,
-      "notInQloo": 0,
-      "notConnected": 2,
-      "widelyKnown": 4
-     },
-     "passNotKnown": 3,
-     "itemHashes": [
-      "d31efb76e3",
-      "b580f2e6a7",
-      "6ce1008c30",
-      "2454a0f8d0",
-      "db59be6640",
-      "9977952512",
-      "df06e08440",
-      "8764f0de2c"
-     ],
-     "nameHashes": [
-      "c76c6e60c0",
-      "2e87581f77",
-      "7873fff1f3",
-      "dd07d56b5f",
-      "c4e49b2a3d",
-      "b3d754d9a5",
-      "97fcb94b95",
-      "ddb161ef28"
-     ],
-     "usage": {
-      "inputTokens": 161,
-      "outputTokens": 3004
+      "inputTokens": 211,
+      "outputTokens": 906
      }
     }
    ]
@@ -409,109 +412,102 @@
     "fe26a22465"
    ],
    "liveCalls": 16,
-   "ms": 115645,
-   "tokens": 5990,
+   "ms": 41265,
+   "tokens": 8020,
    "plainRuns": [
     {
      "summary": {
       "total": 8,
-      "passing": 2,
+      "passing": 1,
       "outsideWindow": 2,
       "notInQloo": 1,
-      "notConnected": 4,
-      "widelyKnown": 3
+      "notConnected": 5,
+      "widelyKnown": 4
      },
-     "passNotKnown": 2,
+     "passNotKnown": 0,
      "itemHashes": [
-      "e50eb86905",
       "eb2531dd2d",
+      "e50eb86905",
       "7fca997443",
-      "43c2d1dfe7",
       "57e00dcc6e",
-      "730e8688d0",
-      "c4169f376e"
+      "77d58edd25",
+      "f1507c5def",
+      "730e8688d0"
      ],
      "nameHashes": [
-      "1fcc550999",
       "66838814cc",
+      "1fcc550999",
       "be58c4b0f5",
-      "ae2f9b8b71",
       "c6e2f98103",
-      "7f53e096ec",
-      "0d5333765f",
-      "14d355dae8"
+      "6b31dd4d68",
+      "929af24cf8",
+      "6b26e80d66",
+      "7f53e096ec"
      ],
      "usage": {
-      "inputTokens": 158,
-      "outputTokens": 2653
+      "inputTokens": 209,
+      "outputTokens": 1092
      }
     },
     {
      "summary": {
       "total": 8,
-      "passing": 2,
-      "outsideWindow": 2,
-      "notInQloo": 1,
-      "notConnected": 4,
-      "widelyKnown": 4
+      "passing": 0,
+      "outsideWindow": 3,
+      "notInQloo": 5,
+      "notConnected": 1,
+      "widelyKnown": 2
      },
-     "passNotKnown": 1,
+     "passNotKnown": 0,
      "itemHashes": [
       "eb2531dd2d",
-      "09b54c538d",
-      "7fca997443",
-      "6d7bcf3c7a",
-      "57e00dcc6e",
-      "730e8688d0",
-      "77d58edd25"
+      "0ef17d0d52",
+      "75216122d7"
      ],
      "nameHashes": [
       "66838814cc",
-      "97d59a0f57",
-      "be58c4b0f5",
-      "a590f9a9c9",
-      "c6e2f98103",
-      "7f53e096ec",
+      "d7dfd10258",
+      "b4073f5948",
+      "40fadbacc6",
+      "c36e7b1dad",
+      "e912ce3a6d",
       "6b31dd4d68",
-      "929af24cf8"
+      "8a4a3c210e"
      ],
      "usage": {
-      "inputTokens": 158,
-      "outputTokens": 3090
+      "inputTokens": 209,
+      "outputTokens": 1052
      }
     },
     {
      "summary": {
       "total": 8,
       "passing": 1,
-      "outsideWindow": 3,
-      "notInQloo": 1,
-      "notConnected": 4,
-      "widelyKnown": 5
+      "outsideWindow": 2,
+      "notInQloo": 4,
+      "notConnected": 2,
+      "widelyKnown": 2
      },
-     "passNotKnown": 0,
+     "passNotKnown": 1,
      "itemHashes": [
       "eb2531dd2d",
-      "09b54c538d",
-      "4b5fa5aea9",
-      "7fca997443",
-      "57e00dcc6e",
+      "e50eb86905",
       "730e8688d0",
       "77d58edd25"
      ],
      "nameHashes": [
       "66838814cc",
-      "97d59a0f57",
-      "eea18b14a5",
-      "be58c4b0f5",
-      "c6e2f98103",
+      "1fcc550999",
+      "4070f04ca4",
+      "6418c772eb",
       "7f53e096ec",
-      "0d5333765f",
-      "929af24cf8"
+      "929af24cf8",
+      "6b31dd4d68",
+      "80ada5a1f8"
      ],
      "usage": {
-      "inputTokens": 158,
-      "outputTokens": 2773
+      "inputTokens": 209,
+      "outputTokens": 868
      }
     }
    ]
@@ -537,108 +533,108 @@
     "88c45ed327"
    ],
    "liveCalls": 16,
-   "ms": 259620,
-   "tokens": 6473,
+   "ms": 37817,
+   "tokens": 2265,
    "plainRuns": [
     {
      "summary": {
       "total": 8,
       "passing": 2,
-      "outsideWindow": 3,
-      "notInQloo": 1,
-      "notConnected": 5,
+      "outsideWindow": 4,
+      "notInQloo": 2,
+      "notConnected": 2,
       "widelyKnown": 2
      },
-     "passNotKnown": 2,
+     "passNotKnown": 1,
      "itemHashes": [
-      "b8f049d7f7",
-      "1e8feaa33a",
-      "3fef31f100",
-      "eff46b280e",
-      "8796153065",
-      "23f93006ac",
-      "31241012ea"
+      "8a2c9113c4",
+      "b336a6a39c",
+      "32d5b6a198",
+      "1b51392b98",
+      "71d44b55fe",
+      "b3569c041c"
      ],
      "nameHashes": [
-      "c403d3be91",
-      "3a4573eee1",
-      "db4068f0d8",
-      "d6e8f58537",
-      "354a8586fd",
-      "ae9ad8e3c7",
-      "c2aa1cb10c",
-      "40a984ade8"
+      "2dab1bdfd6",
+      "e9088dd4bd",
+      "7233e38785",
+      "1e27cf747c",
+      "c7ee38d881",
+      "acb55f12f3",
+      "133c6e83ed",
+      "69d2a95e68"
      ],
      "usage": {
-      "inputTokens": 156,
-      "outputTokens": 2421
+      "inputTokens": 209,
+      "outputTokens": 1203
      }
     },
     {
      "summary": {
       "total": 8,
       "passing": 2,
-      "outsideWindow": 3,
-      "notInQloo": 2,
-      "notConnected": 1,
-      "widelyKnown": 2
+      "outsideWindow": 5,
+      "notInQloo": 1,
+      "notConnected": 2,
+      "widelyKnown": 3
      },
-     "passNotKnown": 2,
+     "passNotKnown": 1,
      "itemHashes": [
       "b336a6a39c",
-      "3504f4f634",
-      "8a7eabdddf",
-      "30ebd4f782",
-      "8796153065",
-      "31241012ea"
+      "43c875430b",
+      "32d5b6a198",
+      "d17a4d43a2",
+      "b10ec106f7",
+      "71d44b55fe",
+      "b3569c041c"
      ],
      "nameHashes": [
       "e9088dd4bd",
-      "dc3e376489",
-      "3d220b5513",
-      "2e715312f5",
-      "354a8586fd",
-      "44b6a440f9",
-      "ae9ad8e3c7",
-      "40a984ade8"
+      "0c01f0fb73",
+      "7233e38785",
+      "403532fbe8",
+      "dba4aea6e0",
+      "acb55f12f3",
+      "f75a5d26bb",
+      "69d2a95e68"
      ],
      "usage": {
-      "inputTokens": 156,
-      "outputTokens": 4553
+      "inputTokens": 209,
+      "outputTokens": 957
      }
     },
     {
      "summary": {
       "total": 8,
-      "passing": 4,
-      "outsideWindow": 3,
+      "passing": 2,
+      "outsideWindow": 5,
       "notInQloo": 1,
-      "notConnected": 2,
+      "notConnected": 3,
       "widelyKnown": 3
      },
-     "passNotKnown": 3,
+     "passNotKnown": 1,
      "itemHashes": [
-      "3fef31f100",
+      "b336a6a39c",
+      "8a2c9113c4",
+      "32d5b6a198",
       "1e8feaa33a",
-      "ef61bc7465",
-      "eff46b280e",
-      "4571852aae",
-      "56869dea3b",
-      "31241012ea"
+      "acdd5b0074",
+      "71d44b55fe",
+      "b3569c041c"
      ],
      "nameHashes": [
-      "db4068f0d8",
+      "e9088dd4bd",
+      "2dab1bdfd6",
+      "7233e38785",
       "3a4573eee1",
-      "facd67e3c3",
-      "d6e8f58537",
       "354a8586fd",
-      "48cd93fa64",
-      "5c64f6e0c1",
-      "40a984ade8"
+      "ecdc075a0e",
+      "acb55f12f3",
+      "69d2a95e68"
      ],
      "usage": {
-      "inputTokens": 156,
-      "outputTokens": 4762
+      "inputTokens": 209,
+      "outputTokens": 1136
      }
     }
    ]
@@ -664,42 +660,1196 @@
     "62c42d35a3"
    ],
    "liveCalls": 16,
-   "ms": 124565,
-   "tokens": 6315,
+   "ms": 49991,
+   "tokens": 2332,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 1,
+      "outsideWindow": 2,
+      "notInQloo": 3,
+      "notConnected": 4,
+      "widelyKnown": 4
+     },
+     "passNotKnown": 0,
+     "itemHashes": [
+      "cf425872cf",
+      "09b54c538d",
+      "e6f5e2a9bb",
+      "536700a247",
+      "beac3cc1da"
+     ],
+     "nameHashes": [
+      "a7007a5367",
+      "97d59a0f57",
+      "94bb6c5350",
+      "9c2e81704a",
+      "b4289ddde3",
+      "19fda23f7b",
+      "62de83b5bb",
+      "a5dce6bedf"
+     ],
+     "usage": {
+      "inputTokens": 207,
+      "outputTokens": 1021
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 2,
+      "notInQloo": 1,
+      "notConnected": 5,
+      "widelyKnown": 5
+     },
+     "passNotKnown": 0,
+     "itemHashes": [
+      "cf425872cf",
+      "09b54c538d",
+      "e6f5e2a9bb",
+      "536700a247",
+      "beac3cc1da",
+      "db59be6640",
+      "be256e82ca"
+     ],
+     "nameHashes": [
+      "a7007a5367",
+      "97d59a0f57",
+      "94bb6c5350",
+      "9c2e81704a",
+      "b4289ddde3",
+      "c4e49b2a3d",
+      "f791c29215",
+      "b437d6971e"
+     ],
+     "usage": {
+      "inputTokens": 207,
+      "outputTokens": 931
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 1,
+      "outsideWindow": 2,
+      "notInQloo": 3,
+      "notConnected": 3,
+      "widelyKnown": 2
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "cf425872cf",
+      "117b942623",
+      "e6f5e2a9bb",
+      "beac3cc1da",
+      "41c3dcab73"
+     ],
+     "nameHashes": [
+      "a7007a5367",
+      "7386c70558",
+      "94bb6c5350",
+      "ef004c556a",
+      "b4289ddde3",
+      "4e8ad091ec",
+      "08d1202cfb",
+      "3f84b935bb"
+     ],
+     "usage": {
+      "inputTokens": 207,
+      "outputTokens": 960
+     }
+    }
+   ]
+  },
+  {
+   "id": "c07",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 8,
+   "personal": 4,
+   "widelyKnown": 2,
+   "rejected": 52,
+   "decisions": 1,
+   "itemHashes": [
+    "c5ad06297f",
+    "2004a3148b",
+    "308bcfec3f",
+    "0fa4a88653",
+    "ea41478787",
+    "db59be6640",
+    "bfdf6a0291",
+    "6a6c34f9a9"
+   ],
+   "liveCalls": 16,
+   "ms": 45863,
+   "tokens": 7360,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 5,
+      "outsideWindow": 3,
+      "notInQloo": 0,
+      "notConnected": 1,
+      "widelyKnown": 6
+     },
+     "passNotKnown": 2,
+     "itemHashes": [
+      "1eaf6f090b",
+      "5c8afd642b",
+      "a6aa3bf05d",
+      "cc3f0349ee",
+      "3eff3d43e1",
+      "dda120a099",
+      "903e64cf91",
+      "803344127c"
+     ],
+     "nameHashes": [
+      "7478b5b7aa",
+      "6e75bf0511",
+      "153effb521",
+      "bc2e0814ea",
+      "b9c5e7f6d6",
+      "fe54c29cae",
+      "4becfdd32d",
+      "b13207e218"
+     ],
+     "usage": {
+      "inputTokens": 206,
+      "outputTokens": 907
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 4,
+      "notInQloo": 0,
+      "notConnected": 1,
+      "widelyKnown": 6
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "1eaf6f090b",
+      "5c8afd642b",
+      "a6aa3bf05d",
+      "06abf1b66e",
+      "3eff3d43e1",
+      "83ff2767d0",
+      "dda120a099",
+      "803344127c"
+     ],
+     "nameHashes": [
+      "7478b5b7aa",
+      "6e75bf0511",
+      "153effb521",
+      "12076629c9",
+      "b9c5e7f6d6",
+      "76c893cee1",
+      "fe54c29cae",
+      "b13207e218"
+     ],
+     "usage": {
+      "inputTokens": 206,
+      "outputTokens": 929
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 3,
+      "notInQloo": 1,
+      "notConnected": 1,
+      "widelyKnown": 4
+     },
+     "passNotKnown": 3,
+     "itemHashes": [
+      "1eaf6f090b",
+      "5c8afd642b",
+      "a6aa3bf05d",
+      "e9291a209f",
+      "3eff3d43e1",
+      "193e630426",
+      "dda120a099"
+     ],
+     "nameHashes": [
+      "7478b5b7aa",
+      "6e75bf0511",
+      "153effb521",
+      "d1af215569",
+      "b9c5e7f6d6",
+      "c7b163fb11",
+      "fe54c29cae",
+      "1d391cc562"
+     ],
+     "usage": {
+      "inputTokens": 206,
+      "outputTokens": 729
+     }
+    }
+   ]
+  },
+  {
+   "id": "c08",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 7,
+   "personal": 4,
+   "widelyKnown": 2,
+   "rejected": 62,
+   "decisions": 1,
+   "itemHashes": [
+    "14c58a7c10",
+    "b2d4f87755",
+    "029f0c78dc",
+    "2bc6ad8a3b",
+    "f2150c7a0f",
+    "d46d5c4118",
+    "f99ce953d0"
+   ],
+   "liveCalls": 15,
+   "ms": 47272,
+   "tokens": 8390,
    "plainRuns": [
     {
      "summary": {
       "total": 8,
       "passing": 2,
+      "outsideWindow": 2,
+      "notInQloo": 3,
+      "notConnected": 2,
+      "widelyKnown": 4
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "d90719fe97",
+      "15940b81a8",
+      "b3f7f6cd82",
+      "3eff3d43e1",
+      "7b30734269"
+     ],
+     "nameHashes": [
+      "aab60e8d01",
+      "48af1f02cd",
+      "d5023be421",
+      "f71a59e619",
+      "b9c5e7f6d6",
+      "310dbca7f4",
+      "ba901499aa",
+      "454ccc9544"
+     ],
+     "usage": {
+      "inputTokens": 211,
+      "outputTokens": 1015
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 1,
       "outsideWindow": 3,
-      "notInQloo": 0,
-      "notConnected": 4,
+      "notInQloo": 4,
+      "notConnected": 1,
+      "widelyKnown": 1
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "4175d7fde0",
+      "029f0c78dc",
+      "5c8afd642b",
+      "d444c6d42e"
+     ],
+     "nameHashes": [
+      "69df1acc95",
+      "4292dd2c8a",
+      "6e75bf0511",
+      "d7beb72429",
+      "ddd7008a63",
+      "ba901499aa",
+      "091c8b59b1",
+      "36e0ba9eba"
+     ],
+     "usage": {
+      "inputTokens": 211,
+      "outputTokens": 1306
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 3,
+      "notInQloo": 2,
+      "notConnected": 2,
       "widelyKnown": 3
      },
      "passNotKnown": 2,
      "itemHashes": [
-      "117b942623",
-      "cf425872cf",
-      "e6f5e2a9bb",
-      "4faebf5293",
-      "beac3cc1da",
-      "41c3dcab73",
-      "1ff58c81fc",
-      "43d6242fd4"
+      "d90719fe97",
+      "029f0c78dc",
+      "5c8afd642b",
+      "15940b81a8",
+      "d444c6d42e",
+      "57e00dcc6e"
      ],
      "nameHashes": [
-      "7386c70558",
-      "a7007a5367",
-      "94bb6c5350",
-      "f605c13ac8",
-      "b4289ddde3",
-      "08d1202cfb",
-      "eadc2f1da1",
-      "0984a0cc4e"
+      "aab60e8d01",
+      "e55f5725af",
+      "6e75bf0511",
+      "d5023be421",
+      "d7beb72429",
+      "c6e2f98103",
+      "ba901499aa",
+      "091c8b59b1"
      ],
      "usage": {
-      "inputTokens": 156,
-      "outputTokens": 5226
+      "inputTokens": 211,
+      "outputTokens": 916
+     }
+    }
+   ]
+  },
+  {
+   "id": "c09",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 7,
+   "personal": 4,
+   "widelyKnown": 2,
+   "rejected": 68,
+   "decisions": 2,
+   "itemHashes": [
+    "0f1fe28884",
+    "cec6dac7b9",
+    "9e41dbd3e0",
+    "4bb43193c7",
+    "db9fe243c8",
+    "e24f8f38e2",
+    "550458c9f0"
+   ],
+   "liveCalls": 16,
+   "ms": 48008,
+   "tokens": 6802,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 0,
+      "outsideWindow": 4,
+      "notInQloo": 1,
+      "notConnected": 7,
+      "widelyKnown": 4
+     },
+     "passNotKnown": 0,
+     "itemHashes": [
+      "4b5fa5aea9",
+      "7f01063281",
+      "e3ec6c809c",
+      "ea4c64a9ea",
+      "4571852aae",
+      "d67f64746c",
+      "a1fc75fe12"
+     ],
+     "nameHashes": [
+      "eea18b14a5",
+      "9514ff29f9",
+      "ab849d6e31",
+      "272cb9a86c",
+      "48cd93fa64",
+      "36c086feec",
+      "c019850509",
+      "22c5562400"
+     ],
+     "usage": {
+      "inputTokens": 206,
+      "outputTokens": 1001
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 0,
+      "outsideWindow": 2,
+      "notInQloo": 1,
+      "notConnected": 7,
+      "widelyKnown": 4
+     },
+     "passNotKnown": 0,
+     "itemHashes": [
+      "4b5fa5aea9",
+      "9d4b8232bb",
+      "4bb43193c7",
+      "89a132471b",
+      "2540b55e0d",
+      "db59be6640",
+      "31c55b2b1d"
+     ],
+     "nameHashes": [
+      "eea18b14a5",
+      "25a427cd71",
+      "b4b568ab61",
+      "6059a52af6",
+      "32bff54920",
+      "c4e49b2a3d",
+      "039aec540c",
+      "22c5562400"
+     ],
+     "usage": {
+      "inputTokens": 206,
+      "outputTokens": 993
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 0,
+      "outsideWindow": 2,
+      "notInQloo": 3,
+      "notConnected": 5,
+      "widelyKnown": 2
+     },
+     "passNotKnown": 0,
+     "itemHashes": [
+      "4b5fa5aea9",
+      "f7a2049fb0",
+      "4bb43193c7",
+      "e24f8f38e2",
+      "f9b7254b14"
+     ],
+     "nameHashes": [
+      "eea18b14a5",
+      "6c07d9faab",
+      "b4b568ab61",
+      "e9a1eb2c23",
+      "e3fea29f24",
+      "6cd8a5b54f",
+      "22c5562400",
+      "324d63b431"
+     ],
+     "usage": {
+      "inputTokens": 206,
+      "outputTokens": 1038
+     }
+    }
+   ]
+  },
+  {
+   "id": "c10",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 8,
+   "personal": 4,
+   "widelyKnown": 2,
+   "rejected": 65,
+   "decisions": 0,
+   "itemHashes": [
+    "62da9ee66c",
+    "e66071981e",
+    "87ce215e88",
+    "66269ee7d3",
+    "6e2420234f",
+    "0c4490a785",
+    "b7797f016b",
+    "d5f4661162"
+   ],
+   "liveCalls": 16,
+   "ms": 42818,
+   "tokens": 7914,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 4,
+      "notInQloo": 0,
+      "notConnected": 5,
+      "widelyKnown": 5
+     },
+     "passNotKnown": 0,
+     "itemHashes": [
+      "0a29a4f6cd",
+      "8d76de099e",
+      "180ef52fa7",
+      "944ebb9487",
+      "b6b270ba95",
+      "8eaaa8f3ca",
+      "08547d9818",
+      "dd3d221595"
+     ],
+     "nameHashes": [
+      "ff06cd4665",
+      "5904dc76e9",
+      "b3111c0de9",
+      "849a030607",
+      "ecf58e0926",
+      "4d375988f2",
+      "82b0fd8b43",
+      "c04092a07d"
+     ],
+     "usage": {
+      "inputTokens": 211,
+      "outputTokens": 1160
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 3,
+      "notInQloo": 2,
+      "notConnected": 2,
+      "widelyKnown": 2
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "62da9ee66c",
+      "87ce215e88",
+      "944ebb9487",
+      "e590d19fd9",
+      "b6b270ba95",
+      "f9043d795f"
+     ],
+     "nameHashes": [
+      "778ea2fd5d",
+      "648461bf64",
+      "849a030607",
+      "66671ced49",
+      "ecf58e0926",
+      "b4b6fc0b1e",
+      "f9b3470cdc",
+      "5f0df971e9"
+     ],
+     "usage": {
+      "inputTokens": 211,
+      "outputTokens": 1004
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 1,
+      "outsideWindow": 3,
+      "notInQloo": 2,
+      "notConnected": 5,
+      "widelyKnown": 3
+     },
+     "passNotKnown": 0,
+     "itemHashes": [
+      "0a29a4f6cd",
+      "8d76de099e",
+      "180ef52fa7",
+      "944ebb9487",
+      "b6b270ba95",
+      "08547d9818"
+     ],
+     "nameHashes": [
+      "ff06cd4665",
+      "5904dc76e9",
+      "b3111c0de9",
+      "849a030607",
+      "ecf58e0926",
+      "82b0fd8b43",
+      "323cc8e3be",
+      "f9b3470cdc"
+     ],
+     "usage": {
+      "inputTokens": 211,
+      "outputTokens": 949
+     }
+    }
+   ]
+  },
+  {
+   "id": "c11",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 7,
+   "personal": 4,
+   "widelyKnown": 2,
+   "rejected": 49,
+   "decisions": 1,
+   "itemHashes": [
+    "7d467b6fc4",
+    "b223291494",
+    "3f47a42004",
+    "5131b3701a",
+    "5a4d2512c6",
+    "8988d8caf2",
+    "641b53eded"
+   ],
+   "liveCalls": 15,
+   "ms": 197951,
+   "tokens": 8112,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 1,
+      "notInQloo": 1,
+      "notConnected": 3,
+      "widelyKnown": 5
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "16abd6e5dc",
+      "672455c713",
+      "f7ecfd1604",
+      "b58cf2ef8e",
+      "01df10b5e5",
+      "eb9df71c7a",
+      "a487f83209"
+     ],
+     "nameHashes": [
+      "3ea586340a",
+      "b9a2d5d5a8",
+      "777aacf190",
+      "e7b3fa8210",
+      "aa7d453c93",
+      "5745734c0a",
+      "2917390ff6",
+      "8232b12d67"
+     ],
+     "usage": {
+      "inputTokens": 210,
+      "outputTokens": 1128
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 3,
+      "notInQloo": 0,
+      "notConnected": 2,
+      "widelyKnown": 5
+     },
+     "passNotKnown": 2,
+     "itemHashes": [
+      "3ac63c3415",
+      "7d467b6fc4",
+      "f7ecfd1604",
+      "d3c0635c90",
+      "7b30734269",
+      "600f63b570",
+      "025d21b3cf",
+      "e112004739"
+     ],
+     "nameHashes": [
+      "73e8968392",
+      "6d418ec4e3",
+      "777aacf190",
+      "b7cdd36f27",
+      "310dbca7f4",
+      "3035027bee",
+      "d5851c284c",
+      "09ac4170a4"
+     ],
+     "usage": {
+      "inputTokens": 210,
+      "outputTokens": 832
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 5,
+      "outsideWindow": 1,
+      "notInQloo": 0,
+      "notConnected": 2,
+      "widelyKnown": 3
+     },
+     "passNotKnown": 3,
+     "itemHashes": [
+      "672455c713",
+      "b223291494",
+      "f7ecfd1604",
+      "b58cf2ef8e",
+      "eb9df71c7a",
+      "671691d3ff",
+      "4a87c1a348",
+      "a487f83209"
+     ],
+     "nameHashes": [
+      "b9a2d5d5a8",
+      "0dc6250534",
+      "777aacf190",
+      "e7b3fa8210",
+      "5745734c0a",
+      "fc2d999024",
+      "bf9da91769",
+      "8232b12d67"
+     ],
+     "usage": {
+      "inputTokens": 210,
+      "outputTokens": 817
+     }
+    }
+   ]
+  },
+  {
+   "id": "c12",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 7,
+   "personal": 4,
+   "widelyKnown": 2,
+   "rejected": 56,
+   "decisions": 4,
+   "itemHashes": [
+    "30639308ba",
+    "a1c42a33b5",
+    "30bfbde4b7",
+    "f5db4fe624",
+    "251b09e832",
+    "c67082a308",
+    "1accd5b480"
+   ],
+   "liveCalls": 16,
+   "ms": 52828,
+   "tokens": 9255,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 2,
+      "notInQloo": 3,
+      "notConnected": 3,
+      "widelyKnown": 3
+     },
+     "passNotKnown": 2,
+     "itemHashes": [
+      "7a12c10b01",
+      "09ddec2a23",
+      "1e8feaa33a",
+      "1ad74b6174",
+      "3207540f7e"
+     ],
+     "nameHashes": [
+      "72dd2f4d5d",
+      "0710ee24ad",
+      "3a4573eee1",
+      "569f6041e1",
+      "ab7bb70bef",
+      "9bd06627c2",
+      "75af4dd509",
+      "23058b629d"
+     ],
+     "usage": {
+      "inputTokens": 210,
+      "outputTokens": 999
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 1,
+      "outsideWindow": 4,
+      "notInQloo": 2,
+      "notConnected": 1,
+      "widelyKnown": 2
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "a1c42a33b5",
+      "30bfbde4b7",
+      "30639308ba",
+      "082637cf69",
+      "a786bda2cb",
+      "0c263eddcc"
+     ],
+     "nameHashes": [
+      "2d42d80761",
+      "b113e26983",
+      "1f3017b47b",
+      "569f6041e1",
+      "d9a25a5be8",
+      "10d9f0966c",
+      "9bd06627c2",
+      "eb9132c289"
+     ],
+     "usage": {
+      "inputTokens": 210,
+      "outputTokens": 1048
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 2,
+      "notInQloo": 3,
+      "notConnected": 3,
+      "widelyKnown": 3
+     },
+     "passNotKnown": 2,
+     "itemHashes": [
+      "7a12c10b01",
+      "09ddec2a23",
+      "1e8feaa33a",
+      "57e00dcc6e",
+      "f2e52d7d08"
+     ],
+     "nameHashes": [
+      "72dd2f4d5d",
+      "0710ee24ad",
+      "3a4573eee1",
+      "569f6041e1",
+      "c6e2f98103",
+      "3a19680a72",
+      "9bd06627c2",
+      "23058b629d"
+     ],
+     "usage": {
+      "inputTokens": 210,
+      "outputTokens": 764
+     }
+    }
+   ]
+  },
+  {
+   "id": "c13",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 7,
+   "personal": 4,
+   "widelyKnown": 2,
+   "rejected": 50,
+   "decisions": 1,
+   "itemHashes": [
+    "09b54c538d",
+    "e95cbd780b",
+    "864e3d121a",
+    "6e999d11e6",
+    "dabbdb3564",
+    "7f638958ea",
+    "ca06ae1eeb"
+   ],
+   "liveCalls": 15,
+   "ms": 44625,
+   "tokens": 6999,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 0,
+      "notInQloo": 6,
+      "notConnected": 0,
+      "widelyKnown": 1
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "d483dae4e7",
+      "7b30734269"
+     ],
+     "nameHashes": [
+      "6d95dbb4c0",
+      "96ca15e98a",
+      "28b7603498",
+      "310dbca7f4",
+      "ba901499aa",
+      "aa59373a7a",
+      "3ca5c71497",
+      "36e194762e"
+     ],
+     "usage": {
+      "inputTokens": 213,
+      "outputTokens": 1047
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 3,
+      "outsideWindow": 3,
+      "notInQloo": 1,
+      "notConnected": 2,
+      "widelyKnown": 2
+     },
+     "passNotKnown": 2,
+     "itemHashes": [
+      "0d0c836fa4",
+      "f429c0ed11",
+      "23cb57caf3",
+      "f97f8fbcf3",
+      "a6270e11c9",
+      "7b30734269",
+      "93c389ec73"
+     ],
+     "nameHashes": [
+      "8043ab6d8e",
+      "0aa0466508",
+      "512b332e2e",
+      "e9b654e858",
+      "3d4535154e",
+      "310dbca7f4",
+      "ba901499aa",
+      "a83a3cbab3"
+     ],
+     "usage": {
+      "inputTokens": 213,
+      "outputTokens": 1111
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 3,
+      "outsideWindow": 1,
+      "notInQloo": 4,
+      "notConnected": 0,
+      "widelyKnown": 0
+     },
+     "passNotKnown": 3,
+     "itemHashes": [
+      "6a11ee30a2",
+      "d483dae4e7",
+      "f97f8fbcf3",
+      "57e00dcc6e"
+     ],
+     "nameHashes": [
+      "6a65dba032",
+      "7bb50b437a",
+      "28b7603498",
+      "e9b654e858",
+      "c6e2f98103",
+      "0feb92a002",
+      "ba901499aa",
+      "3ca5c71497"
+     ],
+     "usage": {
+      "inputTokens": 213,
+      "outputTokens": 1001
+     }
+    }
+   ]
+  },
+  {
+   "id": "c14",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 7,
+   "personal": 5,
+   "widelyKnown": 1,
+   "rejected": 49,
+   "decisions": 1,
+   "itemHashes": [
+    "29be749842",
+    "475b402e46",
+    "e3c58de8aa",
+    "5f6a501d16",
+    "b9049f818f",
+    "98dd494f41",
+    "3d3b768a50"
+   ],
+   "liveCalls": 16,
+   "ms": 43332,
+   "tokens": 7462,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 1,
+      "notInQloo": 3,
+      "notConnected": 0,
+      "widelyKnown": 3
+     },
+     "passNotKnown": 2,
+     "itemHashes": [
+      "4b5fa5aea9",
+      "0cb1d58c06",
+      "1853f9e260",
+      "01df10b5e5",
+      "78b65ae4c3"
+     ],
+     "nameHashes": [
+      "eea18b14a5",
+      "01d1af9491",
+      "2f32df7779",
+      "aa7d453c93",
+      "337e355c6b",
+      "86614e7dfc",
+      "3abe1b6518",
+      "ef8b26ca3d"
+     ],
+     "usage": {
+      "inputTokens": 213,
+      "outputTokens": 721
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 2,
+      "notInQloo": 2,
+      "notConnected": 0,
+      "widelyKnown": 4
+     },
+     "passNotKnown": 2,
+     "itemHashes": [
+      "7f01063281",
+      "0cb1d58c06",
+      "8764f0de2c",
+      "01df10b5e5",
+      "b4faa2cb20",
+      "78b65ae4c3"
+     ],
+     "nameHashes": [
+      "9514ff29f9",
+      "01d1af9491",
+      "ddb161ef28",
+      "aa7d453c93",
+      "d2af50fb0b",
+      "7c97f73ad3",
+      "337e355c6b",
+      "b5d7777439"
+     ],
+     "usage": {
+      "inputTokens": 213,
+      "outputTokens": 686
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 5,
+      "outsideWindow": 2,
+      "notInQloo": 0,
+      "notConnected": 2,
+      "widelyKnown": 4
+     },
+     "passNotKnown": 4,
+     "itemHashes": [
+      "bde8f9a0b2",
+      "fbc7c47456",
+      "e24f8f38e2",
+      "4b5fa5aea9",
+      "1853f9e260",
+      "5030b00144",
+      "b4faa2cb20",
+      "4a2c2b4e1f"
+     ],
+     "nameHashes": [
+      "5a9d7f83cf",
+      "a1c1923041",
+      "e9a1eb2c23",
+      "eea18b14a5",
+      "2f32df7779",
+      "cfd7eba010",
+      "d2af50fb0b",
+      "1dd37ebfb8"
+     ],
+     "usage": {
+      "inputTokens": 213,
+      "outputTokens": 1011
+     }
+    }
+   ]
+  },
+  {
+   "id": "c15",
+   "set": "curated",
+   "status": "built",
+   "reason": null,
+   "items": 7,
+   "personal": 4,
+   "widelyKnown": 2,
+   "rejected": 49,
+   "decisions": 1,
+   "itemHashes": [
+    "ed09f1965a",
+    "2790f5285e",
+    "82b7af6fde",
+    "3ad4f4414a",
+    "74b573cea4",
+    "a20f507dde",
+    "17dcf3c4b9"
+   ],
+   "liveCalls": 15,
+   "ms": 46091,
+   "tokens": 7851,
+   "plainRuns": [
+    {
+     "summary": {
+      "total": 8,
+      "passing": 4,
+      "outsideWindow": 2,
+      "notInQloo": 1,
+      "notConnected": 1,
+      "widelyKnown": 6
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "672455c713",
+      "a6270e11c9",
+      "d3c0635c90",
+      "57e00dcc6e",
+      "db59be6640",
+      "c2f9e68883",
+      "265cca4a44"
+     ],
+     "nameHashes": [
+      "b9a2d5d5a8",
+      "3d4535154e",
+      "b7cdd36f27",
+      "c6e2f98103",
+      "c4e49b2a3d",
+      "8195f5ba43",
+      "fb11d9cd28",
+      "acf07c1701"
+     ],
+     "usage": {
+      "inputTokens": 212,
+      "outputTokens": 1066
+     }
+    },
+    {
+     "summary": {
+      "total": 8,
+      "passing": 2,
+      "outsideWindow": 4,
+      "notInQloo": 1,
+      "notConnected": 1,
+      "widelyKnown": 5
+     },
+     "passNotKnown": 1,
+     "itemHashes": [
+      "3ac63c3415",
+      "2454a0f8d0",
+      "56d877f0c9",
+      "d3c0635c90",
+      "57e00dcc6e",
+      "db59be6640",
+      "27694132a2"
+     ],
+     "nameHashes": [
+      "73e8968392",
+      "dd07d56b5f",
+      "f822dd586a",
+      "b7cdd36f27",
+      "c6e2f98103",
+      "c4e49b2a3d",
+      "0b7fbe0d71",
+      "47adc15453"
+     ],
+     "usage": {
+      "inputTokens": 212,
+      "outputTokens": 898
      }
     },
     {
@@ -709,132 +1859,35 @@
       "outsideWindow": 3,
       "notInQloo": 0,
       "notConnected": 5,
-      "widelyKnown": 4
-     },
-     "passNotKnown": 2,
-     "itemHashes": [
-      "09b54c538d",
-      "cf425872cf",
-      "e6f5e2a9bb",
-      "4faebf5293",
-      "beac3cc1da",
-      "57e00dcc6e",
-      "41c3dcab73",
-      "43d6242fd4"
-     ],
-     "nameHashes": [
-      "97d59a0f57",
-      "a7007a5367",
-      "94bb6c5350",
-      "f605c13ac8",
-      "b4289ddde3",
-      "c6e2f98103",
-      "08d1202cfb",
-      "0984a0cc4e"
-     ],
-     "usage": {
-      "inputTokens": 156,
-      "outputTokens": 2415
-     }
-    },
-    {
-     "summary": {
-      "total": 8,
-      "passing": 2,
-      "outsideWindow": 2,
-      "notInQloo": 1,
-      "notConnected": 3,
-      "widelyKnown": 2
+      "widelyKnown": 5
      },
      "passNotKnown": 1,
      "itemHashes": [
-      "120b43a8f4",
-      "117b942623",
-      "e6f5e2a9bb",
-      "beac3cc1da",
-      "a50c05f574",
-      "41c3dcab73",
-      "7b1d6e60a7"
+      "ab0e099a6b",
+      "bd7cba9c87",
+      "3ac63c3415",
+      "a6270e11c9",
+      "6ce8f592ca",
+      "7f4944ea6c",
+      "27694132a2",
+      "ad05cf659c"
      ],
      "nameHashes": [
-      "51d3440969",
-      "7386c70558",
-      "49eb995da4",
-      "94bb6c5350",
-      "b4289ddde3",
-      "545b6a38a0",
-      "08d1202cfb",
-      "03749f41dc"
+      "82df8cff6c",
+      "c38722fdd9",
+      "73e8968392",
+      "3d4535154e",
+      "6510126aae",
+      "d13accea1a",
+      "0b7fbe0d71",
+      "bb56164102"
      ],
      "usage": {
-      "inputTokens": 156,
-      "outputTokens": 2897
+      "inputTokens": 212,
+      "outputTokens": 1050
      }
     }
    ]
-  },
-  {
-   "id": "c07",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
-  },
-  {
-   "id": "c08",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
-  },
-  {
-   "id": "c09",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
-  },
-  {
-   "id": "c10",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
-  },
-  {
-   "id": "c11",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
-  },
-  {
-   "id": "c12",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
-  },
-  {
-   "id": "c13",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
-  },
-  {
-   "id": "c14",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
-  },
-  {
-   "id": "c15",
-   "set": "curated",
-   "status": "error",
-   "reason": "ModelError",
-   "itemHashes": []
   }
  ]
 }

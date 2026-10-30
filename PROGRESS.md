@@ -26,7 +26,7 @@ What the live run changed (each now a rule with a test):
 - Food abstains when no nearby place carries the hometown cuisine tag, instead of showing an unrelated place.
 - The abstention preset uses birth year 1900: even 1925 still returned a full card. Abstention happens per domain.
 
-First measured results (2026-10-29, curated forms only): FINDINGS.md F1 to F5 are generated and docs/FACTS.json is filled for the Aftersong arm. The plain AI arm ran on 2026-10-30 for 6 of 15 curated forms (9 stopped on the free model's daily limit), see EVIDENCE.md.
+First measured results (2026-10-29, curated forms only): FINDINGS.md F1 to F5 are generated and docs/FACTS.json is filled for the Aftersong arm. The plain AI arm ran on 2026-10-30 for all 15 curated forms with Gemini, see EVIDENCE.md.
 
 Not done:
 - `scripts/probe-matrix.mjs` and `scripts/eval.mjs` have not been run. They refuse until `docs/PREREG.md` and `data/eval/PREREG.sha256.json` are committed (commit them first, then run). FACTS.json, FINDINGS.md and the landing discovery sentence stay empty until then.
