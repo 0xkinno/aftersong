@@ -11,7 +11,7 @@ Status says "live" only when `docs/probe-summary.json` shows the matching probe 
 | Node | 22.19 or newer (type stripping) |
 | Next.js | ^15.5.0 |
 | React | ^19.0.0 |
-| Model | {"provider":"openrouter","id":"nvidia/nemotron-3.5-super-vl:free"} |
+| Model | {"provider":"groq","id":"openai/gpt-oss-120b"} |
 
 ## Qloo features used
 | Feature | Call site | Status | Note |
